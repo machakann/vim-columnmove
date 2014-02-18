@@ -1,0 +1,489 @@
+*verticalmove.txt*	Last change:18-Feb-2014.
+
+カーソルを、縦に、動かします。
+
+書いた人   : machakann <mckn@outlook.com>
+ライセンス : NYSL license
+          Japanese <http://www.kmonos.net/nysl/>
+          English (Unofficial) <http://www.kmonos.net/nysl/index.en.html>
+
+==============================================================================
+CONTENTS					*verticalmove-contents*
+
+INTRODUCTION		|verticalmove-introduction|
+KEYMAPPINGS		|verticalmove-keymappings|
+CONFIGURATION		|verticalmove-configuration|
+FUNCTIONS		|verticalmove-functions|
+
+==============================================================================
+INTRODUCTION					*verticalmove-introduction*
+
+verticalmove はカーソルを縦方向に動かすためのキーマッピングを提供します。
+
+verticalmove-f とその仲間達~
+verticalmove-f とその仲間達は、同じ桁の中で指定された文字を探してその位置まで
+カーソルを運びます。このグループには六種類のキーマッピングがあります、すなわち
+|verticalmove-f| 、 |verticalmove-t| 、 |verticalmove-F| 、 |verticalmove-T|
+、 |verticalmove-semicolon| 、 |verticalmove-comma| です。それぞれが vim に標
+準で存在するコマンド |f| 、 |t| 、 |F| 、 |T| 、 |;| 、 |,| の縦方向の模倣です
+。
+
+注意していただきたいのは、提供されるキーマッピングが画面に表示されている範囲内
+からしか移動先を探さないという点です。なぜなら画面外まで同じ桁に存在する文字を
+、正確に覚えていることは容易ではない、と考えられるためです。しかし、もし画面外
+も検索範囲に含めたいと思われる方は、画面外へ拡張する行数を
+|g:verticalmove_expand_range| に指定してください。例えばもし十行ほど画面外の行
+も検索範囲としたい場合、次のように vimrc へ書いてください。
+>
+	let g:verticalmove_expand_range = 10
+<
+
+これらのコマンドは移動先文字の指定があるまで、候補文字を |hl-IncSearch| を使っ
+てハイライトします。もしこれがお気に召さなければ |g:verticalmove_highlight| に
+0を指定してください。
+>
+	let g:verticalmove_highlight = 0
+<
+
+これは私の好みなのですが、これらのコマンドは標準では行の折り畳み |folding|を無
+視します。折り畳まれた部分には空行があるものとして判定しスキップするでしょう。
+もし折り畳みを開いて、その内部も検索してほしい場合は
+|g:verticalmove_open_fold| に正、もしくは負の値を指定してください。すなわちゼ
+ロ以外の値です。これらの値はそれぞれ違う意味を持ちます、詳しくは
+|g:verticalmove_open_fold| の項をご覧ください。常にすべての折り畳みを開きたい
+場合は |g:verticalmove_open_fold| に-1を指定してください。
+>
+	let g:verticalmove_open_fold = -1
+<
+
+
+------------------------------------------------------------------------------
+verticalmove-wとその仲間達~
+verticalmove-wとその仲間達は、縦方向に単語単位でカーソルを運びます。このグルー
+プには四種のキーマッピングが存在します、すなわち |verticalmove-w|、
+|verticalmove-b| 、 |verticalmove-e| 、 |verticalmove-ge| です。それぞれが vim
+標準の |w| 、 |b| 、 |e| 、 |ge| の縦方向の模倣です。これらのコマンドはカーソ
+ルのある列を行とみなして、単語の先頭および末尾へカーソルを動かします。列の文字
+のない部分は空白と見なし、スキップします。例えば、次のような vimscript を考え
+てみましょう。
+>
+	let foo = 1
+	let bar = 2
+
+	" addition
+	let addition = foo + bar
+
+	echo foo
+	echo bar
+	echo addition
+<
+最初の列を切り取ります。
+>
+	l
+	l
+
+	"
+	l
+
+	e
+	e
+	e
+<
+これを行として考えてみます。
+>
+	ll "l eee
+<
+空行は空白に置き換えられていますね。この場合、単語というのは 'iskeyword' オプ
+ションによって制御されます。通常、 '"' という文字はvimscript において keyword
+文字に含まれませんので、カーソルが先頭文字にある時 |w| コマンドは
+'"' -> 'l' -> 'e' のようにカーソルを動かすでしょう。これに倣い、
+|verticalmove-w| は第4、5、7行目の同じ桁へカーソルを動かします。
+
+さて、です。実際にはほとんどすべてのプログラミング言語は行方向にその意味を持ち
+ます。なにが言いたいかというと、列方向に意味的に文字が並ぶことはほとんどないの
+です。そして、そのような状況下では紹介したような忠実な動作はあまり便利とは言え
+ないかもしれません。もしそのように感じた場合、判定を甘くした |w| コマンドの「
+ような」動作を試してみてください。次の設定をすることで有効になります。
+>
+	let g:verticalmove_strict_wbege = 0
+<
+この設定により、 |verticalmove-w| とその仲間達は 'iskeyword' オプションを気に
+しなくなります。それどころか文字が存在するかどうかしか気にしません。ここでもう
+一度先のサンプルコードを見てみましょう。
+>
+	l
+	l
+
+	"
+	l
+
+	e
+	e
+	e
+<
+|w| コマンドの「ような」判定基準ではカーソルを第4、第7行へ移動します。なぜなら
+""l" と "eee" は文字の存在しない部分によって区切られた単語とみなすからです。こ
+のため、もし空白であっても存在すればそこでカーソルは止まります。
+
+
+==============================================================================
+KEYMAPPINGS					*verticalmove-keymappings*
+
+このプラグインは次に掲げるキーマッピングを提供します。
+
+機能				キーマッピング			デフォルト
+--------------------------------------------------------------------------
+|verticalmove-f|		<Plug>(verticalmove-f)		<M-f>
+|verticalmove-t|		<Plug>(verticalmove-t)		<M-t>
+|verticalmove-F|		<Plug>(verticalmove-F)		<M-F>
+|verticalmove-T|		<Plug>(verticalmove-T)		<M-T>
+|verticalmove-semicolon|	<Plug>(verticalmove-;)		<M-;>
+|verticalmove-comma|		<Plug>(verticalmove-,)		<M-,>
+
+|verticalmove-w|		<Plug>(verticalmove-w)		<M-w>
+|verticalmove-b|		<Plug>(verticalmove-b)		<M-b>
+|verticalmove-e|		<Plug>(verticalmove-e)		<M-e>
+|verticalmove-ge|		<Plug>(verticalmove-ge)		<M-g>e
+								 and
+								<M-g><M-e>
+--------------------------------------------------------------------------
+
+				     *g:verticalmove_no_default_key_mappings*
+もしデフォルトのマッピングがお気に召されなければ、
+|g:verticalmove_no_default_key_mappings| という変数を vimrc で定義して下さい。
+>
+	let g:verticalmove_no_default_key_mappings = 1
+<
+これでデフォルトキーマッピングは適用されません。好きなキーにマップしなおして使
+ってください。
+
+これらのキーマッピングは {count} に対応しています。指定された場合 {count} 番目
+の候補へカーソルを動かします。
+
+これらのキーマップは |nmap|, |xmap|, |omap|, |imap| によって使用可能で
+す。
+
+
+------------------------------------------------------------------------------
+キーマッピング~
+<Plug>(verticalmove-f)					*verticalmove-f*
+	このキーマッピングは |f| コマンドを列方向に模倣した機能を提供します。
+	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
+	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
+	ありません。ただの例です。)
+>
+	nmap <M-f> <Plug>(verticalmove-f)
+<
+
+<Plug>(verticalmove-t)					*verticalmove-t*
+	このキーマッピングは |t| コマンドを列方向に模倣した機能を提供します。
+	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
+	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
+	ありません。ただの例です。)
+>
+	nmap <M-t> <Plug>(verticalmove-t)
+<
+
+<Plug>(verticalmove-F)					*verticalmove-F*
+	このキーマッピングは |F| コマンドを列方向に模倣した機能を提供します。
+	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
+	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
+	ありません。ただの例です。)
+>
+	nmap <M-F> <Plug>(verticalmove-F)
+<
+
+<Plug>(verticalmove-T)					*verticalmove-T*
+	このキーマッピングは |T| コマンドを列方向に模倣した機能を提供します。
+	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
+	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
+	ありません。ただの例です。)
+>
+	nmap <M-T> <Plug>(verticalmove-T)
+<
+
+<Plug>(verticalmove-;)				*verticalmove-semicolon*
+	このキーマッピングは |;| コマンドを列方向に模倣した機能を提供します。
+	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
+	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
+	ありません。ただの例です。)
+>
+	nmap <M-;> <Plug>(verticalmove-;)
+<
+
+<Plug>(verticalmove-,)					*verticalmove-comma*
+	このキーマッピングは |,| コマンドを列方向に模倣した機能を提供します。
+	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
+	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
+	ありません。ただの例です。)
+>
+	nmap <M-,> <Plug>(verticalmove-,)
+<
+
+<Plug>(verticalmove-w)					*verticalmove-w*
+	このキーマッピングは |w| コマンドを列方向に模倣した機能を提供します。
+	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
+	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
+	ありません。ただの例です。)
+>
+	nmap <M-w> <Plug>(verticalmove-w)
+<
+
+<Plug>(verticalmove-b)					*verticalmove-b*
+	このキーマッピングは |b| コマンドを列方向に模倣した機能を提供します。
+	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
+	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
+	ありません。ただの例です。)
+>
+	nmap <M-b> <Plug>(verticalmove-b)
+<
+
+<Plug>(verticalmove-e)					*verticalmove-e*
+	このキーマッピングは |e| コマンドを列方向に模倣した機能を提供します。
+	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
+	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
+	ありません。ただの例です。)
+>
+	nmap <M-e> <Plug>(verticalmove-e)
+<
+
+<Plug>(verticalmove-ge)					*verticalmove-ge*
+	このキーマッピングは |ge| コマンドを列方向に模倣した機能を提供します。
+	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
+	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
+	ありません。ただの例です。)
+>
+	nmap <M-g>e <Plug>(verticalmove-ge)
+<
+
+
+==============================================================================
+CONFIGURATION					*verticalmove-configuration*
+
+キーマッピングの挙動を制御するための変数がいくつかあります。これらは g: のグロ
+ーバルスコープで紹介されますが同じ名前の変数を別のスコープで指定しても構いませ
+ん。バッファーローカル b: 、ウィンドウローカル w: 、タブページローカル t: 、グ
+ローバル g: の四種のスコープが利用可能であり、使い分ければその有効範囲を制御で
+きるでしょう。複数のこれらの変数が同時にバッファに影響可能な場合、 b: スコープ
+が最優先され、次に w: 、次いで t: 、最後が g: スコープになります。
+
+すべてのグループに影響するもの~
+
+g:verticalmove_open_fold			*g:verticalmove_open_fold*
+	移動の際、折り畳みを開くかどうかの挙動を制御します。値にはどの深さまで
+	の折り畳みを開くかを指定します。正の値が指定された場合は、指定の値と等
+	しいか、より浅い折り畳みのみを開きます。負の値が指定された場合は単純に
+	すべての折り畳みを開きます。もし0が指定された場合、折り畳みは無視され
+	開かれません。デフォルト値は0です。
+
+verticalmove-fとその仲間達に影響するもの~
+
+g:verticalmove_ignore_case			*g:verticalmove_ignore_case*
+	値が1の場合大文字小文字を無視します。値が0の場合大文字小文字を区別しま
+	す。デフォルト値は &ignorecase によって決定されます。すなわち
+	'ignorecase' オプションと同じになります。
+
+g:verticalmove_highlight			*g:verticalmove_highlight*
+	値が0以外の場合、移動先候補のハイライトを行います。値が0の場合ハイライ
+	トは行いません。デフォルト値は1です。
+
+g:verticalmove_expand_range			*g:verticalmove_expand_range*
+	画面外まで検索範囲に含めるための変数です。値には画面外へ拡張する行数を
+	指定します。例えば10が指定された場合、候補は画面に映っている範囲と画面
+	外へ10行ほど拡張した範囲から検索されます。もし値が0なら候補は見えてい
+	る範囲に限定されます。デフォルト値は0です。
+
+g:verticalmove_update_history		*g:verticalmove_update_history*
+	値が0の場合 |verticalmove-semicolon| と |verticalmove-comma| で使用さ
+	れる履歴が更新されません。デフォルト値は1です。
+
+g:verticalmove_auto_scroll			*g:verticalmove_auto_scroll*
+	値が0以外の場合、候補を探す前に検索範囲をできるだけ大きくするようにス
+	クロールします。この挙動は 'scrolloff' オプションにも影響されます。デ
+	フォルト値は0です。
+
+verticalmove-w とその仲間たちに影響するもの~
+g:verticalmove_strict_wbege			*g:verticalmove_strict_wbege*
+	値が0以外の場合、 vim 標準のコマンドを忠実に模倣した動作をします。値が
+	0なら、判定を甘くした動作にします。デフォルト値は1です。
+
+
+==============================================================================
+FUNCTIONS					*verticalmove-functions*
+
+verticalmove-f とその仲間達~
+verticalmove-f とその仲間達はそのキーマッピングに対応する関数を持ちます。それ
+らは次のようなインターフェイスを持ちます。
+
+verticalmove#xxx(mode[, target[, count[, options_dictionary]]])
+
+xxx と書いてある部分はそれぞれのオリジナルコマンドの一文字、すなわち 'f' 、
+'t' 、 'F' 、 'T' 、 ';' 、 ',' です。
+
+第一引数の "mode" の指定は必須です。これはどのモードにマッピングされているかを
+関数に伝えるために使われます。関数は |nmap|, |xmap|, |omap|, |imap| にマップす
+ることができるので、 "mode" には 'n', 'x', 'o', 'i' のどれかが指定されることに
+なります。
+
+第二引数の "target" は検索対象となる一文字です。検索する文字が限られるような場
+合に使います。空文字 '' が指定された場合は通常と同じように、検索対象の入力を求
+めます。
+
+三つめの引数 "count" には数字が使えます。もし正の数が指定された場合、関数は常
+に {count} 指定を無視し、引数に与えられた数字を使います。もしゼロおよび負数が
+指定された場合は通常と同じように {count} を参照します。
+
+四つ目の引数 "options_dict" にはオプションの使用を強制するための辞書が与えられ
+ます。例えば 'ignorecase' オプションにかかわらず常に大文字小文字を無視したい場
+合は、この引数を次のように使います。
+>
+	nmap <silent> <M-f> :<C-u>call verticalmove#f('n', '', 0,
+		\					{'ignore_case' : 1})
+<
+|imap| する場合には次のように書きます。
+>
+	imap <silent> <M-w> <C-r>=verticalmove#f('n', '', 0,
+		\					{'ignore_case' : 1})
+<
+|cmap| の場合は注意が必要です。 <silent> を使うとコマンドラインが正しく更新さ
+れないためカーソルが動いたように見えません。 <silent> は使わないでください。
+>
+	cmap <M-w> <C-r>=verticalmove#f('n', '', 0, {'ignore_case' : 1})
+<
+キーの名前は |verticalmove-configuration| にある挙動制御用の変数名から
+"g:verticalmove_" を取り除いたものが使用されます。つまり、 "open_fold" 、
+"ignorecase" 、 "highlight" 、 "expand_range" 、 "update_history" が使用できま
+す。 |verticalmove-configuration| の項もご覧ください。
+
+加えて、特別なキー "raw" も使用できます。値に1が指定されている場合、関数はカー
+ソルを動かさず、かわりに三つの情報を収めた辞書を返します。一つ目は
+"displacement" キーに与えられた情報で、移動先までの画面上での距離が入っていま
+す。二つ目は"distination" キーに与えられた情報で、移動先の行番号と桁番号が入っ
+ています。三つめは "opened_fold" キーに与えられた情報で、開いて候補を検索した
+折り畳みの開始行と終了行の番号のリスト群が収められています。移動する際にはこれ
+らの折り畳みを開き、移動後に必要のない部分を閉じています。 "distination" の数
+はこの通りに折り畳みを開いた場合のみ正しいです。
+
+>
+	let output = verticalmove#f('n', 'a', 1, {'raw' : 1})
+
+	" 移動先までの距離、例えば 10 など
+	echo output.displacement
+
+	" 移動先の行番号と桁番号、例えば [11, 1] など
+	echo output.distination
+
+	" 開いた折り畳み、例えば [[3, 5], [6, 9]] など
+	echo output.open_fold
+<
+
+
+						*verticalmove#f()*
+verticalmove#f(mode[, target[, count[, options_dictionary]]])
+	|verticalmove-f| の機能に対応する関数です。
+
+						*verticalmove#t()*
+verticalmove#t(mode[, target[, count[, options_dictionary]]])
+	|verticalmove-t| の機能に対応する関数です。
+
+						*verticalmove#F()*
+verticalmove#F(mode[, target[, count[, options_dictionary]]])
+	|verticalmove-F| の機能に対応する関数です。
+
+						*verticalmove#T()*
+verticalmove#T(mode[, target[, count[, options_dictionary]]])
+	|verticalmove-T| の機能に対応する関数です。
+
+
+次の二つのコマンドについては、その特性上第二引数 "target" が省略されます。
+
+						*verticalmove#semicolon()*
+verticalmove#semicolon(mode[, count[, options_dictionary]])
+	|verticalmove-semicolon| の機能に対応する関数です。
+
+						*verticalmove#comma()*
+verticalmove#comma(mode[, count[, options_dictionary]])
+	|verticalmove-comma| の機能に対応する関数です。
+
+
+------------------------------------------------------------------------------
+verticalmove-w とその仲間達~
+verticalmove-w とその仲間達はそのキーマッピングに対応した関数を持っています。
+それらは次のようなインターフェイスを持ちます。
+
+verticalmove#xxx(mode[, count[, options_dictionary]])
+
+xxx と書いてある部分はそれぞれのオリジナルコマンドの名前、すなわち 'w' 、
+'b' 、 'e' 、 "ge" です。
+
+第一引数の "mode" の指定は必須です。これはどのモードにマッピングされているかを
+関数に伝えるために使われます。関数は |nmap|, |xmap|, |omap|, |imap| にマップす
+ることができるので、 "mode" には 'n', 'x', 'o', 'i' のどれかが指定されることに
+なります。
+
+第二引数 "count" には数字が使えます。もし正の数が指定された場合、関数は常
+に {count} 指定を無視し、引数に与えられた数字を使います。もしゼロおよび負数が
+指定された場合は通常と同じように {count} を参照します。
+
+三つ目の引数 "options_dict" にはオプションの使用を強制するための辞書が与えられ
+ます。例えば常に折り畳みを開きたい場合には、この引数を次のように使います。
+>
+	nmap <silent> <M-w> :<C-u>call verticalmove#w('n', 0,
+		\					{'fold_open' : -1})
+<
+|imap| する場合には次のように書きます。
+>
+	imap <silent> <M-w> <C-r>=verticalmove#w('n', 0, {'fold_open' : -1})
+<
+|cmap| の場合は注意が必要です。 <silent> を使うとコマンドラインが正しく更新さ
+れないためカーソルが動いたように見えません。 <silent> は使わないでください。
+>
+	cmap <M-w> <C-r>=verticalmove#w('n', 0, {'fold_open' : -1})
+<
+キーの名前は |verticalmove-configuration| にある挙動制御用の変数名から
+"g:verticalmove_" を取り除いたものが使用されます。つまり、 "open_fold" 、
+"strict_wbege" が使用できます。 |verticalmove-configuration| の項もご覧くださ
+い。
+
+加えて、特別なキー "raw" も使用できます。値に1が指定されている場合、関数はカー
+ソルを動かさず、かわりに三つの情報を収めた辞書を返します。一つ目は
+"displacement" キーに与えられた情報で、移動先までの画面上での距離が入っていま
+す。二つ目は"distination" キーに与えられた情報で、移動先の行番号と桁番号が入っ
+ています。三つめは "opened_fold" キーに与えられた情報で、開いて候補を検索した
+折り畳みの開始行と終了行の番号のリスト群が収められています。移動する際にはこれ
+らの折り畳みを開き、移動後に必要のない部分を閉じています。 "distination" の数
+はこの通りに折り畳みを開いた場合のみ正しいです。
+
+>
+	let output = verticalmove#w('n', 1, {'raw' : 1})
+
+	" 移動先までの距離、例えば 10 など
+	echo output.displacement
+
+	" 移動先の行番号と桁番号、例えば [11, 20] など
+	echo output.distination
+
+	" 開いた折り畳み、例えば [[3, 5], [6, 9]] など
+	echo output.open_fold
+<
+
+
+						*verticalmove#w()*
+verticalmove#w(mode[, target[, count[, options_dictionary]]])
+	|verticalmove-w| に対応する関数です。
+
+						*verticalmove#b()*
+verticalmove#b(mode[, target[, count[, options_dictionary]]])
+	|verticalmove-b| に対応する関数です。
+
+						*verticalmove#e()*
+verticalmove#e(mode[, target[, count[, options_dictionary]]])
+	|verticalmove-e| に対応する関数です。
+
+						*verticalmove#ge()*
+verticalmove#ge(mode[, target[, count[, options_dictionary]]])
+	|verticalmove-ge| に対応する関数です。
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:noet:
