@@ -1,4 +1,4 @@
-*verticalmove.txt*	Last change:18-Feb-2014.
+﻿*verticalmove.txt*	Last change:18-Feb-2014.
 
 Bring cursor vertically in similar ways as line-wise commands.
 

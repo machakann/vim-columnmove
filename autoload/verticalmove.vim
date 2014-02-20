@@ -1,4 +1,4 @@
-" verticalmove.vim - bring cursor vertically in similar ways as line-wise
+﻿" verticalmove.vim - bring cursor vertically in similar ways as line-wise
 "                    commands
 
 " Because of my preference these commands ignore folded lines in default.
@@ -287,13 +287,17 @@ function! s:fold_opener(line, level)  "{{{
 
   let opened_fold = []
   if a:level < 0
-    execute a:line . 'foldopen!'
-    let opened_fold += [[fold_start, fold_end, 1]]
+    let nth = a:level
+    while nth > 0
+      execute a:line . 'foldopen'
+      let opened_fold += [[fold_start, fold_end]]
+      let nth -= 1
+    endwhile
   elseif foldlevel <= a:level
     let nth = a:level - foldlevel + 1
     while nth > 0
       execute a:line . 'foldopen'
-      let opened_fold += [[fold_start, fold_end, 0]]
+      let opened_fold += [[fold_start, fold_end]]
       let nth -= 1
     endwhile
   endif
