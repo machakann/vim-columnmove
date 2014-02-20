@@ -279,28 +279,26 @@ function! s:check_raw(arg)    "{{{
 endfunction
 "}}}
 function! s:fold_opener(line, level)  "{{{
-  let fold_start = foldclosed(a:line)
-  if fold_start < 0 | return [] | endif
-
-  let fold_end   = foldclosedend(a:line)
   let foldlevel  = foldlevel(a:line)
 
-  let opened_fold = []
   if a:level < 0
     let nth = a:level
-    while nth > 0
-      execute a:line . 'foldopen'
-      let opened_fold += [[fold_start, fold_end]]
-      let nth -= 1
-    endwhile
   elseif foldlevel <= a:level
     let nth = a:level - foldlevel + 1
-    while nth > 0
-      execute a:line . 'foldopen'
-      let opened_fold += [[fold_start, fold_end]]
-      let nth -= 1
-    endwhile
+  else
+    return []
   endif
+
+  let opened_fold = []
+  while nth > 0
+    let fold_start = foldclosed(a:line)
+    if fold_start < 0 | return opened_fold | endif
+    let fold_end   = foldclosedend(a:line)
+
+    execute a:line . 'foldopen'
+    let opened_fold += [[fold_start, fold_end]]
+    let nth -= 1
+  endwhile
 
   return opened_fold
 endfunction
@@ -308,11 +306,7 @@ endfunction
 function! s:fold_closer(line, opened_fold)  "{{{
   for fold in reverse(a:opened_fold)
     if a:line < fold[0] || a:line > fold[1]
-      if fold[2] == 0
-        execute fold[0] . 'foldclose'
-      elseif fold[2] == 1
-        execute fold[0] . 'foldclose!'
-      endif
+      execute fold[0] . 'foldclose'
     endif
   endfor
 endfunction
