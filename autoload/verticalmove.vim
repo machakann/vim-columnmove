@@ -460,7 +460,7 @@ function! s:get_dest_ftFT(kind, currentline, col, count, options_dict)  "{{{
       else
         let chars += ['']
         let lines += [line]
-        let idx   += (fold_{edge} - line) * inc
+        let idx   += (fold_{edge} - line) * inc + 1
         let line   = fold_{edge} + inc
         let aim   -= 1
       endif
@@ -629,7 +629,7 @@ function! s:get_dest_ftFT_with_char(kind, c, currentline, col, count, options_di
       if fold_start < 0
         continue
       else
-        let idx   += (fold_{edge} - line) * inc
+        let idx   += (fold_{edge} - line) * inc + 1
         let line   = fold_{edge} + inc
         let aim   -= 1
       endif
