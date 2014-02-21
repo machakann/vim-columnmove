@@ -278,11 +278,22 @@ function! s:check_raw(arg)    "{{{
   return 0
 endfunction
 "}}}
-function! s:fold_opener(line, level)  "{{{
-  let foldlevel  = foldlevel(a:line)
+function! s:fold_opener(line, currentline, level)  "{{{
+  let foldlevel   = foldlevel(a:line)
+  if foldlevel < 0 | return [] | endif
 
   if a:level < 0
-    let nth = a:level
+    let currentlevel = foldlevel(a:currentline)
+    if currentlevel < 0 | return [] | endif
+    let rel_depth   = foldlevel - currentlevel
+
+    if rel_depth < 0
+      let nth = foldlevel
+    elseif rel_depth <= (-1)*a:level
+      let nth = rel_depth
+    else
+      let nth = 0
+    endif
   elseif foldlevel <= a:level
     let nth = a:level - foldlevel + 1
   else
@@ -433,7 +444,7 @@ function! s:get_dest_ftFT(kind, currentline, col, count, options_dict)  "{{{
       let aim   -= 1
     else
       if opt_fold_open != 0
-        let opened_fold += s:fold_opener(line, opt_fold_open)
+        let opened_fold += s:fold_opener(line, a:currentline, opt_fold_open)
         let fold_start   = foldclosed(line)
         let fold_end     = foldclosedend(line)
 
@@ -604,7 +615,7 @@ function! s:get_dest_ftFT_with_char(kind, c, currentline, col, count, options_di
       let aim   -= 1
     else
       if opt_fold_open != 0
-        let opened_fold += s:fold_opener(line, opt_fold_open)
+        let opened_fold += s:fold_opener(line, a:currentline, opt_fold_open)
         let fold_start   = foldclosed(line)
         let fold_end     = foldclosedend(line)
 
@@ -742,7 +753,7 @@ function! s:get_dest_wge(kind, col, currentline, count, level)  "{{{
 
   if a:level != 0
     " folded opening
-    let opened_fold += s:fold_opener(a:currentline, a:level)
+    let opened_fold += s:fold_opener(a:currentline, a:currentline, a:level)
   endif
 
   let fold_start = foldclosed(a:currentline)
@@ -771,7 +782,7 @@ function! s:get_dest_wge(kind, col, currentline, count, level)  "{{{
 
     if a:level != 0
       " folded opening
-      let opened_fold += s:fold_opener(line, a:level)
+      let opened_fold += s:fold_opener(line, a:currentline, a:level)
     endif
 
     let fold_start = foldclosed(line)
@@ -831,7 +842,7 @@ function! s:get_dest_be(kind, col, currentline, count, level)  "{{{
 
   if a:level != 0
     " folded opening
-    let opened_fold += s:fold_opener(a:currentline, a:level)
+    let opened_fold += s:fold_opener(a:currentline, a:currentline, a:level)
   endif
 
   let fold_start = foldclosed(a:currentline)
@@ -860,7 +871,7 @@ function! s:get_dest_be(kind, col, currentline, count, level)  "{{{
 
     if a:level != 0
       " folded opening
-      let opened_fold += s:fold_opener(line, a:level)
+      let opened_fold += s:fold_opener(line, a:currentline, a:level)
     endif
 
     let fold_start = foldclosed(line)
@@ -924,7 +935,7 @@ function! s:get_dest_lineblock_wge(kind, col, currentline, count, level)  "{{{
 
   if a:level != 0
     " folded opening
-    let opened_fold += s:fold_opener(a:currentline, a:level)
+    let opened_fold += s:fold_opener(a:currentline, a:currentline, a:level)
   endif
 
   let fold_start = foldclosed(a:currentline)
@@ -953,7 +964,7 @@ function! s:get_dest_lineblock_wge(kind, col, currentline, count, level)  "{{{
 
     if a:level != 0
       " folded opening
-      let opened_fold += s:fold_opener(line, a:level)
+      let opened_fold += s:fold_opener(line, a:currentline, a:level)
     endif
 
     let fold_start = foldclosed(line)
@@ -1004,7 +1015,7 @@ function! s:get_dest_lineblock_be(kind, col, currentline, count, level)  "{{{
 
   if a:level != 0
     " folded opening
-    let opened_fold += s:fold_opener(a:currentline, a:level)
+    let opened_fold += s:fold_opener(a:currentline, a:currentline, a:level)
   endif
 
   let fold_start = foldclosed(a:currentline)
@@ -1033,7 +1044,7 @@ function! s:get_dest_lineblock_be(kind, col, currentline, count, level)  "{{{
 
     if a:level != 0
       " folded opening
-      let opened_fold += s:fold_opener(line, a:level)
+      let opened_fold += s:fold_opener(line, a:currentline, a:level)
     endif
 
     let fold_start = foldclosed(line)

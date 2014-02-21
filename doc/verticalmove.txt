@@ -1,4 +1,4 @@
-﻿*verticalmove.txt*	Last change:18-Feb-2014.
+﻿*verticalmove.txt*	Last change:21-Feb-2014.
 
 Bring cursor vertically in similar ways as line-wise commands.
 
@@ -52,10 +52,15 @@ default. Folded lines would be considered that there is a empty line. If you
 want to search the destination with opening folds, please set
 |g:verticalmove_open_fold| to positive or negative value, I mean not zero
 number. Those numbers has different roles, please refer the description of
-|g:verticalmove_open_fold|. If you just want to open all folds, simply assign
-|g:verticalmove_open_fold| to -1 as following.
+|g:verticalmove_open_fold|. If you just want to open all folds, please assign
+|g:verticalmove_open_fold| to &foldnestmax as following.
 >
-	let g:verticalmove_open_fold = -1
+	let g:verticalmove_open_fold = &foldnestmax
+<
+Or you can simply set 20, because of the intrinsic restriction of Vim. Please
+refer 'foldnestmax'.
+>
+	let g:verticalmove_open_fold = 20
 <
 
 
