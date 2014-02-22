@@ -425,6 +425,11 @@ function! s:get_dest_ftFT(kind, currentline, col, count, options_dict)  "{{{
     let whole_lines = reverse(getline(endline, startline))
   endif
 
+  if (opt_fold_open != 0) && (a:kind =~# '[tT]')
+    " folded opening
+    let opened_fold += s:fold_opener(a:currentline + inc, a:currentline, opt_fold_open)
+  endif
+
   " collecting characters in same column as cursor
   let idx         = 0
   let line        = startline
@@ -433,6 +438,7 @@ function! s:get_dest_ftFT(kind, currentline, col, count, options_dict)  "{{{
   let chars       = []
   let lines       = []
   let opened_fold = []
+
   while aim >= 0
     let fold_start = foldclosed(line)
     let fold_end   = foldclosedend(line)
@@ -595,6 +601,10 @@ function! s:get_dest_ftFT_with_char(kind, c, currentline, col, count, options_di
     let whole_lines = reverse(getline(endline, startline))
   endif
 
+  if (opt_fold_open != 0) && (a:kind =~# '[tT]')
+    " folded opening
+    let opened_fold += s:fold_opener(a:currentline + inc, a:currentline, opt_fold_open)
+  endif
 
   " searching for the destination
   let idx      = 0
