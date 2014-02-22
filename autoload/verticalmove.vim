@@ -472,7 +472,8 @@ function! s:get_dest_ftFT(kind, currentline, col, count, options_dict)  "{{{
       endif
     endif
 
-    " There is the case even if the folds would be opened, still not enough to fill window height
+    " There is the case even if the folds would be opened,
+    " still not enough to fill window height
     if idx > line_num | break | endif
   endwhile
 
@@ -548,7 +549,7 @@ function! s:get_dest_ftFT_with_char(kind, c, currentline, col, count, options_di
   if a:kind =~# '[ft]'
     " down
     if opt_auto_scroll
-      let los       = s:line_position_on_the_screen(currentline)
+      let los       = s:line_position_on_the_screen(a:currentline)
       let room      = los - &scrolloff - 1
 
       if room > 0
@@ -609,6 +610,7 @@ function! s:get_dest_ftFT_with_char(kind, c, currentline, col, count, options_di
   " searching for the destination
   let idx      = 0
   let line     = startline
+  let displ    = 1
   let prefix   = opt_ignore_case ? '\c' : '\C'
   let pattern  = prefix . s:s.escape_pattern(a:c)
   let line_num = len(whole_lines) - 1
@@ -623,6 +625,7 @@ function! s:get_dest_ftFT_with_char(kind, c, currentline, col, count, options_di
       let idx   += 1
       let line  += inc
       let aim   -= 1
+      let displ += 1
     else
       if opt_fold_open != 0
         let opened_fold += s:fold_opener(line, a:currentline, opt_fold_open)
@@ -642,23 +645,24 @@ function! s:get_dest_ftFT_with_char(kind, c, currentline, col, count, options_di
         let idx   += (fold_{edge} - line) * inc + 1
         let line   = fold_{edge} + inc
         let aim   -= 1
+        let displ += 1
       endif
     endif
 
     " There is the case even if the folds would be opened,
     " still not enough to fill window height
-    if idx > line_num | break | endif
+    if idx > line_num | return [-1, [], opened_fold] | endif
   endwhile
 
   " could not find
-  if aim < 0 | return [-1, -1, opened_fold] | endif
+  if aim < 0 | return [-1, [], opened_fold] | endif
 
   if a:kind ==# 't'
-    let output = [idx + 1, [line - 1, a:col], opened_fold]
+    let output = [displ, [line - 1, a:col], opened_fold]
   elseif a:kind ==# 'T'
-    let output = [idx + 1, [line + 1, a:col], opened_fold]
+    let output = [displ, [line + 1, a:col], opened_fold]
   else
-    let output = [idx + 1, [line, a:col], opened_fold]
+    let output = [displ, [line, a:col], opened_fold]
   endif
 
   return output
