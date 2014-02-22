@@ -132,6 +132,9 @@ function! verticalmove#semicolon(mode, ...)
     " for the user configuration
     let options_dict = (a:0 > 1) ? a:2 : {}
 
+    " do not update history
+    call extend(options_dict, {'update_history' : 0})
+
     " call well-suited command
     let output = verticalmove#{kind}(a:mode, char, l:count, options_dict)
   else
