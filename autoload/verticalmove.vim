@@ -396,7 +396,6 @@ function! s:get_dest_ftFT(kind, currentline, col, count, options_dict)  "{{{
 
     let inc  = 1
     let edge = 'end'
-    let aim  = line('w$') - startline
 
     let whole_lines = getline(startline, endline)
   elseif a:kind =~# '[FT]'
@@ -423,7 +422,6 @@ function! s:get_dest_ftFT(kind, currentline, col, count, options_dict)  "{{{
 
     let inc  = -1
     let edge = 'start'
-    let aim  = startline - line('w0')
 
     let whole_lines = reverse(getline(endline, startline))
   endif
@@ -442,7 +440,7 @@ function! s:get_dest_ftFT(kind, currentline, col, count, options_dict)  "{{{
     let opened_fold += s:fold_opener(a:currentline + inc, a:currentline, opt_fold_open)
   endif
 
-  while aim >= 0
+  while idx <= line_num
     let fold_start = foldclosed(line)
     let fold_end   = foldclosedend(line)
     if fold_start < 0
@@ -450,18 +448,11 @@ function! s:get_dest_ftFT(kind, currentline, col, count, options_dict)  "{{{
       let lines += [line]
       let idx   += 1
       let line  += inc
-      let aim   -= 1
     else
       if opt_fold_open != 0
         let opened_fold += s:fold_opener(line, a:currentline, opt_fold_open)
         let fold_start   = foldclosed(line)
         let fold_end     = foldclosedend(line)
-
-        if a:kind =~# '[FT]'
-          let aim = line - line('w0')
-        elseif a:kind =~# '[ft]'
-          let aim = line('w$') - line
-        endif
       endif
 
       if fold_start < 0
@@ -471,13 +462,8 @@ function! s:get_dest_ftFT(kind, currentline, col, count, options_dict)  "{{{
         let lines += [line]
         let idx   += (fold_{edge} - line) * inc + 1
         let line   = fold_{edge} + inc
-        let aim   -= 1
       endif
     endif
-
-    " There is the case even if the folds would be opened,
-    " still not enough to fill window height
-    if idx > line_num | break | endif
   endwhile
 
   " picking up candidates
@@ -573,7 +559,6 @@ function! s:get_dest_ftFT_with_char(kind, c, currentline, col, count, options_di
 
     let inc  = 1
     let edge = 'end'
-    let aim  = line('w$') - startline
 
     let whole_lines = getline(startline, endline)
   elseif a:kind =~# '[FT]'
@@ -600,7 +585,6 @@ function! s:get_dest_ftFT_with_char(kind, c, currentline, col, count, options_di
 
     let inc  = -1
     let edge = 'start'
-    let aim  = startline - line('w0')
 
     let whole_lines = reverse(getline(endline, startline))
   endif
@@ -620,7 +604,7 @@ function! s:get_dest_ftFT_with_char(kind, c, currentline, col, count, options_di
     let opened_fold += s:fold_opener(a:currentline + inc, a:currentline, opt_fold_open)
   endif
 
-  while aim >= 0
+  while idx <= line_num
     let fold_start = foldclosed(line)
     let fold_end   = foldclosedend(line)
     if fold_start < 0
@@ -628,19 +612,12 @@ function! s:get_dest_ftFT_with_char(kind, c, currentline, col, count, options_di
       if c =~ pattern | break | endif " found!
       let idx   += 1
       let line  += inc
-      let aim   -= 1
       let displ += 1
     else
       if opt_fold_open != 0
         let opened_fold += s:fold_opener(line, a:currentline, opt_fold_open)
         let fold_start   = foldclosed(line)
         let fold_end     = foldclosedend(line)
-
-        if a:kind =~# '[FT]'
-          let aim = line - line('w0')
-        elseif a:kind =~# '[ft]'
-          let aim = line('w$') - line
-        endif
       endif
 
       if fold_start < 0
@@ -648,18 +625,13 @@ function! s:get_dest_ftFT_with_char(kind, c, currentline, col, count, options_di
       else
         let idx   += (fold_{edge} - line) * inc + 1
         let line   = fold_{edge} + inc
-        let aim   -= 1
         let displ += 1
       endif
     endif
-
-    " There is the case even if the folds would be opened,
-    " still not enough to fill window height
-    if idx > line_num | return [-1, [], opened_fold] | endif
   endwhile
 
   " could not find
-  if aim < 0 | return [-1, [], opened_fold] | endif
+  if idx > line_num | return [-1, [], opened_fold] | endif
 
   if a:kind ==# 't'
     let output = [displ, [line - 1, a:col], opened_fold]
