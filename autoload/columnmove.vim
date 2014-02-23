@@ -1,4 +1,4 @@
-﻿" verticalmove.vim - bring cursor vertically in similar ways as line-wise
+﻿" columnmove.vim - bring cursor vertically in similar ways as line-wise
 "                    commands
 
 " Because of my preference these commands ignore folded lines in default.
@@ -30,14 +30,14 @@ let s:type_dict = type({})
 let s:search_history = ['', '']
 
 " load vital
-let s:V  = vital#of('verticalmove')
+let s:V  = vital#of('columnmove')
 let s:Sl = s:V.import('Data.List')
 let s:s  = s:V.import('Prelude')
 unlet s:V
 
 """ mapping functions
 " vertical 'f' commands "{{{
-function! verticalmove#f(mode, ...)
+function! columnmove#f(mode, ...)
   " count assginment
   let l:count = (a:0 > 1 && a:2 > 0) ? a:2 : v:count1
 
@@ -52,13 +52,13 @@ function! verticalmove#f(mode, ...)
   " target character assignment
   let char = (a:0 > 0) ? a:1 : ''
 
-  let output = s:verticalmove_ftFT('f', a:mode, char, l:count, options_dict, 'j')
+  let output = s:columnmove_ftFT('f', a:mode, char, l:count, options_dict, 'j')
 
   return output
 endfunction
 "}}}
 " vertical 't' commands "{{{
-function! verticalmove#t(mode, ...)
+function! columnmove#t(mode, ...)
   " count assginment
   let l:count = (a:0 > 1 && a:2 > 0) ? a:2 : v:count1
 
@@ -73,13 +73,13 @@ function! verticalmove#t(mode, ...)
   " target character assignment
   let char = (a:0 > 0) ? a:1 : ''
 
-  let output = s:verticalmove_ftFT('t', a:mode, char, l:count, options_dict, 'j')
+  let output = s:columnmove_ftFT('t', a:mode, char, l:count, options_dict, 'j')
 
   return output
 endfunction
 "}}}
 " vertical 'F' commands "{{{
-function! verticalmove#F(mode, ...)
+function! columnmove#F(mode, ...)
   " count assginment
   let l:count = (a:0 > 1 && a:2 > 0) ? a:2 : v:count1
 
@@ -94,13 +94,13 @@ function! verticalmove#F(mode, ...)
   " target character assignment
   let char = (a:0 > 0) ? a:1 : ''
 
-  let output = s:verticalmove_ftFT('F', a:mode, char, l:count, options_dict, 'k')
+  let output = s:columnmove_ftFT('F', a:mode, char, l:count, options_dict, 'k')
 
   return output
 endfunction
 "}}}
 " vertical 'T' commands "{{{
-function! verticalmove#T(mode, ...)
+function! columnmove#T(mode, ...)
   " count assginment
   let l:count = (a:0 > 1 && a:2 > 0) ? a:2 : v:count1
 
@@ -115,13 +115,13 @@ function! verticalmove#T(mode, ...)
   " target character assignment
   let char = (a:0 > 0) ? a:1 : ''
 
-  let output = s:verticalmove_ftFT('T', a:mode, char, l:count, options_dict, 'k')
+  let output = s:columnmove_ftFT('T', a:mode, char, l:count, options_dict, 'k')
 
   return output
 endfunction
 "}}}
 " vertical ';' commands "{{{
-function! verticalmove#semicolon(mode, ...)
+function! columnmove#semicolon(mode, ...)
   let kind   = s:search_history[0]
   let char   = s:search_history[1]
 
@@ -136,7 +136,7 @@ function! verticalmove#semicolon(mode, ...)
     call extend(options_dict, {'update_history' : 0})
 
     " call well-suited command
-    let output = verticalmove#{kind}(a:mode, char, l:count, options_dict)
+    let output = columnmove#{kind}(a:mode, char, l:count, options_dict)
   else
     let output = ''
   endif
@@ -145,7 +145,7 @@ function! verticalmove#semicolon(mode, ...)
 endfunction
 "}}}
 " vertical ',' commands "{{{
-function! verticalmove#comma(mode, ...)
+function! columnmove#comma(mode, ...)
   let kind = s:search_history[0]
   let char = s:search_history[1]
 
@@ -160,7 +160,7 @@ function! verticalmove#comma(mode, ...)
     call extend(options_dict, {'update_history' : 0})
 
     " call well-suited command
-    let output = verticalmove#{tr(kind, 'ftFT', 'FTft')}(a:mode, char, l:count, options_dict)
+    let output = columnmove#{tr(kind, 'ftFT', 'FTft')}(a:mode, char, l:count, options_dict)
   else
     let output = ''
   endif
@@ -169,7 +169,7 @@ function! verticalmove#comma(mode, ...)
 endfunction
 "}}}
 " vertical 'w' commands "{{{
-function! verticalmove#w(mode, ...)
+function! columnmove#w(mode, ...)
   " count assginment
   let l:count = (a:0 > 0 && a:1 > 0) ? a:1 : v:count1
 
@@ -181,13 +181,13 @@ function! verticalmove#w(mode, ...)
   " searching for the user configuration
   let options_dict = (a:0 > 1) ? a:2 : {}
 
-  let output = s:verticalmove_wbege('w', a:mode, l:count, options_dict, 'j')
+  let output = s:columnmove_wbege('w', a:mode, l:count, options_dict, 'j')
 
   return output
 endfunction
 "}}}
 " vertical 'b' commands "{{{
-function! verticalmove#b(mode, ...)
+function! columnmove#b(mode, ...)
   " count assginment
   let l:count = (a:0 > 0 && a:1 > 0) ? a:1 : v:count1
 
@@ -199,13 +199,13 @@ function! verticalmove#b(mode, ...)
   " searching for the user configuration
   let options_dict = (a:0 > 1) ? a:2 : {}
 
-  let output = s:verticalmove_wbege('b', a:mode, l:count, options_dict, 'k')
+  let output = s:columnmove_wbege('b', a:mode, l:count, options_dict, 'k')
 
   return output
 endfunction
 "}}}
 " vertical 'e' commands "{{{
-function! verticalmove#e(mode, ...)
+function! columnmove#e(mode, ...)
   " count assginment
   let l:count = (a:0 > 0 && a:1 > 0) ? a:1 : v:count1
 
@@ -217,13 +217,13 @@ function! verticalmove#e(mode, ...)
   " searching for the user configuration
   let options_dict = (a:0 > 1) ? a:2 : {}
 
-  let output = s:verticalmove_wbege('e', a:mode, l:count, options_dict, 'j')
+  let output = s:columnmove_wbege('e', a:mode, l:count, options_dict, 'j')
 
   return output
 endfunction
 "}}}
 " vertical 'ge' commands  "{{{
-function! verticalmove#ge(mode, ...)
+function! columnmove#ge(mode, ...)
   " count assginment
   let l:count = (a:0 > 0 && a:1 > 0) ? a:1 : v:count1
 
@@ -235,7 +235,7 @@ function! verticalmove#ge(mode, ...)
   " searching for the user configuration
   let options_dict = (a:0 > 1) ? a:2 : {}
 
-  let output = s:verticalmove_wbege('ge', a:mode, l:count, options_dict, 'k')
+  let output = s:columnmove_wbege('ge', a:mode, l:count, options_dict, 'k')
 
   return output
 endfunction
@@ -254,20 +254,20 @@ function! s:user_conf(name, arg, default)    "{{{
     endif
   endif
 
-  if exists('g:verticalmove_' . a:name)
-    let user_conf = g:verticalmove_{a:name}
+  if exists('g:columnmove_' . a:name)
+    let user_conf = g:columnmove_{a:name}
   endif
 
-  if exists('t:verticalmove_' . a:name)
-    let user_conf = t:verticalmove_{a:name}
+  if exists('t:columnmove_' . a:name)
+    let user_conf = t:columnmove_{a:name}
   endif
 
-  if exists('w:verticalmove_' . a:name)
-    let user_conf = w:verticalmove_{a:name}
+  if exists('w:columnmove_' . a:name)
+    let user_conf = w:columnmove_{a:name}
   endif
 
-  if exists('b:verticalmove_' . a:name)
-    let user_conf = b:verticalmove_{a:name}
+  if exists('b:columnmove_' . a:name)
+    let user_conf = b:columnmove_{a:name}
   endif
 
   return user_conf
@@ -327,7 +327,7 @@ endfunction
 "}}}
 
 " vertical f, t, F, T
-function! s:verticalmove_ftFT(kind, mode, char, count, options_dict, command) "{{{
+function! s:columnmove_ftFT(kind, mode, char, count, options_dict, command) "{{{
   " searching for destinations
   let col         = col(".")
   let currentline = line(".")
@@ -686,7 +686,7 @@ endfunction
 "}}}
 
 " vertical w, b, e, ge
-function! s:verticalmove_wbege(kind, mode, count, options_dict, command) "{{{
+function! s:columnmove_wbege(kind, mode, count, options_dict, command) "{{{
   " searching for the destination
   let col         = col(".")
   let currentline = line(".")

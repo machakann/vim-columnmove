@@ -1,4 +1,4 @@
-﻿*verticalmove.txt*	Last change:21-Feb-2014.
+﻿*columnmove.txt*	Last change:24-Feb-2014.
 
 カーソルを、縦に、動かします。
 
@@ -8,23 +8,23 @@
           English (Unofficial) <http://www.kmonos.net/nysl/index.en.html>
 
 ==============================================================================
-CONTENTS					*verticalmove-contents*
+CONTENTS					*columnmove-contents*
 
-INTRODUCTION		|verticalmove-introduction|
-KEYMAPPINGS		|verticalmove-keymappings|
-CONFIGURATION		|verticalmove-configuration|
-FUNCTIONS		|verticalmove-functions|
+INTRODUCTION		|columnmove-introduction|
+KEYMAPPINGS		|columnmove-keymappings|
+CONFIGURATION		|columnmove-configuration|
+FUNCTIONS		|columnmove-functions|
 
 ==============================================================================
-INTRODUCTION					*verticalmove-introduction*
+INTRODUCTION					*columnmove-introduction*
 
-verticalmove はカーソルを縦方向に動かすためのキーマッピングを提供します。
+columnmove はカーソルを縦方向に動かすためのキーマッピングを提供します。
 
-verticalmove-f とその仲間達~
-verticalmove-f とその仲間達は、同じ桁の中で指定された文字を探してその位置まで
+columnmove-f とその仲間達~
+columnmove-f とその仲間達は、同じ桁の中で指定された文字を探してその位置まで
 カーソルを運びます。このグループには六種類のキーマッピングがあります、すなわち
-|verticalmove-f| 、 |verticalmove-t| 、 |verticalmove-F| 、 |verticalmove-T|
-、 |verticalmove-semicolon| 、 |verticalmove-comma| です。それぞれが Vim に標
+|columnmove-f| 、 |columnmove-t| 、 |columnmove-F| 、 |columnmove-T|
+、 |columnmove-semicolon| 、 |columnmove-comma| です。それぞれが Vim に標
 準で存在するコマンド |f| 、 |t| 、 |F| 、 |T| 、 |;| 、 |,| の縦方向の模倣です
 。
 
@@ -32,41 +32,41 @@ verticalmove-f とその仲間達は、同じ桁の中で指定された文字�
 からしか移動先を探さないという点です。なぜなら画面外まで同じ桁に存在する文字を
 、正確に覚えていることは容易ではない、と考えられるためです。しかし、もし画面外
 も検索範囲に含めたいと思われる方は、画面外へ拡張する行数を
-|g:verticalmove_expand_range| に指定してください。例えばもし十行ほど画面外の行
+|g:columnmove_expand_range| に指定してください。例えばもし十行ほど画面外の行
 も検索範囲としたい場合、次のように vimrc へ書いてください。
 >
-	let g:verticalmove_expand_range = 10
+	let g:columnmove_expand_range = 10
 <
 
 これらのコマンドは移動先文字の指定があるまで、候補文字を |hl-IncSearch| を使っ
-てハイライトします。もしこれがお気に召さなければ |g:verticalmove_highlight| に
+てハイライトします。もしこれがお気に召さなければ |g:columnmove_highlight| に
 0を指定してください。
 >
-	let g:verticalmove_highlight = 0
+	let g:columnmove_highlight = 0
 <
 
 これは私の好みなのですが、これらのコマンドは標準では行の折り畳み |folding|を無
 視します。折り畳まれた部分には空行があるものとして判定しスキップするでしょう。
 もし折り畳みを開いて、その内部も検索してほしい場合は
-|g:verticalmove_open_fold| に正、もしくは負の値を指定してください。すなわちゼ
+|g:columnmove_open_fold| に正、もしくは負の値を指定してください。すなわちゼ
 ロ以外の値です。これらの値はそれぞれ違う意味を持ちます、詳しくは
-|g:verticalmove_open_fold| の項をご覧ください。常にすべての折り畳みを開きたい
-場合は |g:verticalmove_open_fold| に &foldnestmax を指定してください。
+|g:columnmove_open_fold| の項をご覧ください。常にすべての折り畳みを開きたい
+場合は |g:columnmove_open_fold| に &foldnestmax を指定してください。
 >
-	let g:verticalmove_open_fold = &foldnestmax
+	let g:columnmove_open_fold = &foldnestmax
 <
 あるいは単純に20でもよいでしょう。これは Vim の内部的な制限でこれよりも深いネ
 ストを作れないためです。 'foldnestmax' の項をご覧ください。
 >
-	let g:verticalmove_open_fold = 20
+	let g:columnmove_open_fold = 20
 <
 
 
 ------------------------------------------------------------------------------
-verticalmove-wとその仲間達~
-verticalmove-wとその仲間達は、縦方向に単語単位でカーソルを運びます。このグルー
-プには四種のキーマッピングが存在します、すなわち |verticalmove-w|、
-|verticalmove-b| 、 |verticalmove-e| 、 |verticalmove-ge| です。それぞれが Vim
+columnmove-wとその仲間達~
+columnmove-wとその仲間達は、縦方向に単語単位でカーソルを運びます。このグルー
+プには四種のキーマッピングが存在します、すなわち |columnmove-w|、
+|columnmove-b| 、 |columnmove-e| 、 |columnmove-ge| です。それぞれが Vim
 標準の |w| 、 |b| 、 |e| 、 |ge| の縦方向の模倣です。これらのコマンドはカーソ
 ルのある列を行とみなして、単語の先頭および末尾へカーソルを動かします。列の文字
 のない部分は空白と見なし、スキップします。例えば、次のような vimscript を考え
@@ -100,9 +100,9 @@ verticalmove-wとその仲間達は、縦方向に単語単位でカーソルを
 <
 空行は空白に置き換えられていますね。この場合、単語というのは 'iskeyword' オプ
 ションによって制御されます。通常、 '"' という文字はvimscript において keyword
-文字に含まれませんので、カーソルが先頭文字にある時 |w| コマンドは
-'"' -> 'l' -> 'e' のようにカーソルを動かすでしょう。これに倣い、
-|verticalmove-w| は第4、5、7行目の同じ桁へカーソルを動かします。
+文字に含まれませんので、カーソルが先頭文字にある時 |w| コマンドは'"' -> 'l' ->
+'e' のようにカーソルを動かすでしょう。これに倣い、|columnmove-w| は第4、5、7行
+目の同じ桁へカーソルを動かします。
 
 さて、です。実際にはほとんどすべてのプログラミング言語は行方向にその意味を持ち
 ます。なにが言いたいかというと、列方向に意味的に文字が並ぶことはほとんどないの
@@ -110,9 +110,9 @@ verticalmove-wとその仲間達は、縦方向に単語単位でカーソルを
 ないかもしれません。もしそのように感じた場合、判定を甘くした |w| コマンドの「
 ような」動作を試してみてください。次の設定をすることで有効になります。
 >
-	let g:verticalmove_strict_wbege = 0
+	let g:columnmove_strict_wbege = 0
 <
-この設定により、 |verticalmove-w| とその仲間達は 'iskeyword' オプションを気に
+この設定により、 |columnmove-w| とその仲間達は 'iskeyword' オプションを気に
 しなくなります。それどころか文字が存在するかどうかしか気にしません。ここでもう
 一度先のサンプルコードを見てみましょう。
 >
@@ -132,32 +132,32 @@ verticalmove-wとその仲間達は、縦方向に単語単位でカーソルを
 
 
 ==============================================================================
-KEYMAPPINGS					*verticalmove-keymappings*
+KEYMAPPINGS					*columnmove-keymappings*
 
 このプラグインは次に掲げるキーマッピングを提供します。
 
 機能				キーマッピング			デフォルト
 --------------------------------------------------------------------------
-|verticalmove-f|		<Plug>(verticalmove-f)		<M-f>
-|verticalmove-t|		<Plug>(verticalmove-t)		<M-t>
-|verticalmove-F|		<Plug>(verticalmove-F)		<M-F>
-|verticalmove-T|		<Plug>(verticalmove-T)		<M-T>
-|verticalmove-semicolon|	<Plug>(verticalmove-;)		<M-;>
-|verticalmove-comma|		<Plug>(verticalmove-,)		<M-,>
+|columnmove-f|		<Plug>(columnmove-f)		<M-f>
+|columnmove-t|		<Plug>(columnmove-t)		<M-t>
+|columnmove-F|		<Plug>(columnmove-F)		<M-F>
+|columnmove-T|		<Plug>(columnmove-T)		<M-T>
+|columnmove-semicolon|	<Plug>(columnmove-;)		<M-;>
+|columnmove-comma|		<Plug>(columnmove-,)		<M-,>
 
-|verticalmove-w|		<Plug>(verticalmove-w)		<M-w>
-|verticalmove-b|		<Plug>(verticalmove-b)		<M-b>
-|verticalmove-e|		<Plug>(verticalmove-e)		<M-e>
-|verticalmove-ge|		<Plug>(verticalmove-ge)		<M-g>e
+|columnmove-w|		<Plug>(columnmove-w)		<M-w>
+|columnmove-b|		<Plug>(columnmove-b)		<M-b>
+|columnmove-e|		<Plug>(columnmove-e)		<M-e>
+|columnmove-ge|		<Plug>(columnmove-ge)		<M-g>e
 								 and
 								<M-g><M-e>
 --------------------------------------------------------------------------
 
-				     *g:verticalmove_no_default_key_mappings*
+				     *g:columnmove_no_default_key_mappings*
 もしデフォルトのマッピングがお気に召されなければ、
-|g:verticalmove_no_default_key_mappings| という変数を vimrc で定義して下さい。
+|g:columnmove_no_default_key_mappings| という変数を vimrc で定義して下さい。
 >
-	let g:verticalmove_no_default_key_mappings = 1
+	let g:columnmove_no_default_key_mappings = 1
 <
 これでデフォルトキーマッピングは適用されません。好きなキーにマップしなおして使
 ってください。
@@ -165,105 +165,104 @@ KEYMAPPINGS					*verticalmove-keymappings*
 これらのキーマッピングは {count} に対応しています。指定された場合 {count} 番目
 の候補へカーソルを動かします。
 
-これらのキーマップは |nmap|, |xmap|, |omap|, |imap| によって使用可能で
-す。
+これらのキーマップは |nmap|, |xmap|, |omap|, |imap| によって使用可能です。
 
 
 ------------------------------------------------------------------------------
 キーマッピング~
-<Plug>(verticalmove-f)					*verticalmove-f*
+<Plug>(columnmove-f)					*columnmove-f*
 	このキーマッピングは |f| コマンドを列方向に模倣した機能を提供します。
 	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
 	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
 	ありません。ただの例です。)
 >
-	nmap <M-f> <Plug>(verticalmove-f)
+	nmap <M-f> <Plug>(columnmove-f)
 <
 
-<Plug>(verticalmove-t)					*verticalmove-t*
+<Plug>(columnmove-t)					*columnmove-t*
 	このキーマッピングは |t| コマンドを列方向に模倣した機能を提供します。
 	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
 	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
 	ありません。ただの例です。)
 >
-	nmap <M-t> <Plug>(verticalmove-t)
+	nmap <M-t> <Plug>(columnmove-t)
 <
 
-<Plug>(verticalmove-F)					*verticalmove-F*
+<Plug>(columnmove-F)					*columnmove-F*
 	このキーマッピングは |F| コマンドを列方向に模倣した機能を提供します。
 	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
 	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
 	ありません。ただの例です。)
 >
-	nmap <M-F> <Plug>(verticalmove-F)
+	nmap <M-F> <Plug>(columnmove-F)
 <
 
-<Plug>(verticalmove-T)					*verticalmove-T*
+<Plug>(columnmove-T)					*columnmove-T*
 	このキーマッピングは |T| コマンドを列方向に模倣した機能を提供します。
 	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
 	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
 	ありません。ただの例です。)
 >
-	nmap <M-T> <Plug>(verticalmove-T)
+	nmap <M-T> <Plug>(columnmove-T)
 <
 
-<Plug>(verticalmove-;)				*verticalmove-semicolon*
+<Plug>(columnmove-;)				*columnmove-semicolon*
 	このキーマッピングは |;| コマンドを列方向に模倣した機能を提供します。
 	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
 	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
 	ありません。ただの例です。)
 >
-	nmap <M-;> <Plug>(verticalmove-;)
+	nmap <M-;> <Plug>(columnmove-;)
 <
 
-<Plug>(verticalmove-,)					*verticalmove-comma*
+<Plug>(columnmove-,)					*columnmove-comma*
 	このキーマッピングは |,| コマンドを列方向に模倣した機能を提供します。
 	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
 	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
 	ありません。ただの例です。)
 >
-	nmap <M-,> <Plug>(verticalmove-,)
+	nmap <M-,> <Plug>(columnmove-,)
 <
 
-<Plug>(verticalmove-w)					*verticalmove-w*
+<Plug>(columnmove-w)					*columnmove-w*
 	このキーマッピングは |w| コマンドを列方向に模倣した機能を提供します。
 	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
 	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
 	ありません。ただの例です。)
 >
-	nmap <M-w> <Plug>(verticalmove-w)
+	nmap <M-w> <Plug>(columnmove-w)
 <
 
-<Plug>(verticalmove-b)					*verticalmove-b*
+<Plug>(columnmove-b)					*columnmove-b*
 	このキーマッピングは |b| コマンドを列方向に模倣した機能を提供します。
 	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
 	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
 	ありません。ただの例です。)
 >
-	nmap <M-b> <Plug>(verticalmove-b)
+	nmap <M-b> <Plug>(columnmove-b)
 <
 
-<Plug>(verticalmove-e)					*verticalmove-e*
+<Plug>(columnmove-e)					*columnmove-e*
 	このキーマッピングは |e| コマンドを列方向に模倣した機能を提供します。
 	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
 	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
 	ありません。ただの例です。)
 >
-	nmap <M-e> <Plug>(verticalmove-e)
+	nmap <M-e> <Plug>(columnmove-e)
 <
 
-<Plug>(verticalmove-ge)					*verticalmove-ge*
+<Plug>(columnmove-ge)					*columnmove-ge*
 	このキーマッピングは |ge| コマンドを列方向に模倣した機能を提供します。
 	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
 	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
 	ありません。ただの例です。)
 >
-	nmap <M-g>e <Plug>(verticalmove-ge)
+	nmap <M-g>e <Plug>(columnmove-ge)
 <
 
 
 ==============================================================================
-CONFIGURATION					*verticalmove-configuration*
+CONFIGURATION					*columnmove-configuration*
 
 キーマッピングの挙動を制御するための変数がいくつかあります。これらは g: のグロ
 ーバルスコープで紹介されますが同じ名前の変数を別のスコープで指定しても構いませ
@@ -274,56 +273,56 @@ CONFIGURATION					*verticalmove-configuration*
 
 すべてのグループに影響するもの~
 
-g:verticalmove_open_fold			*g:verticalmove_open_fold*
+g:columnmove_open_fold			*g:columnmove_open_fold*
 	移動の際、折り畳みを開くかどうかの挙動を制御します。値にはどの深さまで
 	の折り畳みを開くかを指定します。正の値が指定された場合は、指定の値と等
 	しいか、より浅い折り畳みのみを開きます。負の値を指定すると、現在のカー
 	ソル位置の折り畳みの階層に対して、開く折り畳みの深さを相対的に指定する
-	ことができます。つまり g:verticalmove_open_fold が-2のとき、カーソルが
+	ことができます。つまり g:columnmove_open_fold が-2のとき、カーソルが
 	深さ1の折り畳みの中にある場合、深さ3 ( = 1-(-2)) の折り畳みまで開きま
 	す。もし0が指定された場合、折り畳みは無視され開かれません。デフォルト
 	値は0です。
 
-verticalmove-fとその仲間達に影響するもの~
+columnmove-fとその仲間達に影響するもの~
 
-g:verticalmove_ignore_case			*g:verticalmove_ignore_case*
+g:columnmove_ignore_case			*g:columnmove_ignore_case*
 	値が1の場合大文字小文字を無視します。値が0の場合大文字小文字を区別しま
 	す。デフォルト値は &ignorecase によって決定されます。すなわち
 	'ignorecase' オプションと同じになります。
 
-g:verticalmove_highlight			*g:verticalmove_highlight*
+g:columnmove_highlight			*g:columnmove_highlight*
 	値が0以外の場合、移動先候補のハイライトを行います。値が0の場合ハイライ
 	トは行いません。デフォルト値は1です。
 
-g:verticalmove_expand_range			*g:verticalmove_expand_range*
+g:columnmove_expand_range			*g:columnmove_expand_range*
 	画面外まで検索範囲に含めるための変数です。値には画面外へ拡張する行数を
 	指定します。例えば10が指定された場合、候補は画面に映っている範囲と画面
 	外へ10行ほど拡張した範囲から検索されます。もし値が0なら候補は見えてい
 	る範囲に限定されます。デフォルト値は0です。
 
-g:verticalmove_update_history		*g:verticalmove_update_history*
-	値が0の場合 |verticalmove-semicolon| と |verticalmove-comma| で使用さ
+g:columnmove_update_history		*g:columnmove_update_history*
+	値が0の場合 |columnmove-semicolon| と |columnmove-comma| で使用さ
 	れる履歴が更新されません。デフォルト値は1です。
 
-g:verticalmove_auto_scroll			*g:verticalmove_auto_scroll*
+g:columnmove_auto_scroll			*g:columnmove_auto_scroll*
 	値が0以外の場合、候補を探す前に検索範囲をできるだけ大きくするようにス
 	クロールします。この挙動は 'scrolloff' オプションにも影響されます。デ
 	フォルト値は0です。
 
-verticalmove-w とその仲間たちに影響するもの~
-g:verticalmove_strict_wbege			*g:verticalmove_strict_wbege*
+columnmove-w とその仲間たちに影響するもの~
+g:columnmove_strict_wbege			*g:columnmove_strict_wbege*
 	値が0以外の場合、 Vim 標準のコマンドを忠実に模倣した動作をします。値が
 	0なら、判定を甘くした動作にします。デフォルト値は1です。
 
 
 ==============================================================================
-FUNCTIONS					*verticalmove-functions*
+FUNCTIONS					*columnmove-functions*
 
-verticalmove-f とその仲間達~
-verticalmove-f とその仲間達はそのキーマッピングに対応する関数を持ちます。それ
+columnmove-f とその仲間達~
+columnmove-f とその仲間達はそのキーマッピングに対応する関数を持ちます。それ
 らは次のようなインターフェイスを持ちます。
 
-verticalmove#xxx(mode[, target[, count[, options_dictionary]]])
+columnmove#xxx(mode[, target[, count[, options_dictionary]]])
 
 xxx と書いてある部分はそれぞれのオリジナルコマンドの一文字、すなわち 'f' 、
 't' 、 'F' 、 'T' 、 ';' 、 ',' です。
@@ -345,23 +344,23 @@ xxx と書いてある部分はそれぞれのオリジナルコマンドの一�
 ます。例えば 'ignorecase' オプションにかかわらず常に大文字小文字を無視したい場
 合は、この引数を次のように使います。
 >
-	nmap <silent> <M-f> :<C-u>call verticalmove#f('n', '', 0,
+	nmap <silent> <M-f> :<C-u>call columnmove#f('n', '', 0,
 		\					{'ignore_case' : 1})
 <
 |imap| する場合には次のように書きます。
 >
-	imap <silent> <M-w> <C-r>=verticalmove#f('n', '', 0,
+	imap <silent> <M-w> <C-r>=columnmove#f('n', '', 0,
 		\					{'ignore_case' : 1})
 <
 |cmap| の場合は注意が必要です。 <silent> を使うとコマンドラインが正しく更新さ
 れないためカーソルが動いたように見えません。 <silent> は使わないでください。
 >
-	cmap <M-w> <C-r>=verticalmove#f('n', '', 0, {'ignore_case' : 1})
+	cmap <M-w> <C-r>=columnmove#f('n', '', 0, {'ignore_case' : 1})
 <
-キーの名前は |verticalmove-configuration| にある挙動制御用の変数名から
-"g:verticalmove_" を取り除いたものが使用されます。つまり、 "open_fold" 、
+キーの名前は |columnmove-configuration| にある挙動制御用の変数名から
+"g:columnmove_" を取り除いたものが使用されます。つまり、 "open_fold" 、
 "ignorecase" 、 "highlight" 、 "expand_range" 、 "update_history" が使用できま
-す。 |verticalmove-configuration| の項もご覧ください。
+す。 |columnmove-configuration| の項もご覧ください。
 
 加えて、特別なキー "raw" も使用できます。値に1が指定されている場合、関数はカー
 ソルを動かさず、かわりに三つの情報を収めた辞書を返します。一つ目は
@@ -373,7 +372,7 @@ xxx と書いてある部分はそれぞれのオリジナルコマンドの一�
 はこの通りに折り畳みを開いた場合のみ正しいです。
 
 >
-	let output = verticalmove#f('n', 'a', 1, {'raw' : 1})
+	let output = columnmove#f('n', 'a', 1, {'raw' : 1})
 
 	" 移動先までの距離、例えば 10 など
 	echo output.displacement
@@ -386,40 +385,40 @@ xxx と書いてある部分はそれぞれのオリジナルコマンドの一�
 <
 
 
-						*verticalmove#f()*
-verticalmove#f(mode[, target[, count[, options_dictionary]]])
-	|verticalmove-f| の機能に対応する関数です。
+						*columnmove#f()*
+columnmove#f(mode[, target[, count[, options_dictionary]]])
+	|columnmove-f| の機能に対応する関数です。
 
-						*verticalmove#t()*
-verticalmove#t(mode[, target[, count[, options_dictionary]]])
-	|verticalmove-t| の機能に対応する関数です。
+						*columnmove#t()*
+columnmove#t(mode[, target[, count[, options_dictionary]]])
+	|columnmove-t| の機能に対応する関数です。
 
-						*verticalmove#F()*
-verticalmove#F(mode[, target[, count[, options_dictionary]]])
-	|verticalmove-F| の機能に対応する関数です。
+						*columnmove#F()*
+columnmove#F(mode[, target[, count[, options_dictionary]]])
+	|columnmove-F| の機能に対応する関数です。
 
-						*verticalmove#T()*
-verticalmove#T(mode[, target[, count[, options_dictionary]]])
-	|verticalmove-T| の機能に対応する関数です。
+						*columnmove#T()*
+columnmove#T(mode[, target[, count[, options_dictionary]]])
+	|columnmove-T| の機能に対応する関数です。
 
 
 次の二つのコマンドについては、その特性上第二引数 "target" が省略されます。
 
-						*verticalmove#semicolon()*
-verticalmove#semicolon(mode[, count[, options_dictionary]])
-	|verticalmove-semicolon| の機能に対応する関数です。
+						*columnmove#semicolon()*
+columnmove#semicolon(mode[, count[, options_dictionary]])
+	|columnmove-semicolon| の機能に対応する関数です。
 
-						*verticalmove#comma()*
-verticalmove#comma(mode[, count[, options_dictionary]])
-	|verticalmove-comma| の機能に対応する関数です。
+						*columnmove#comma()*
+columnmove#comma(mode[, count[, options_dictionary]])
+	|columnmove-comma| の機能に対応する関数です。
 
 
 ------------------------------------------------------------------------------
-verticalmove-w とその仲間達~
-verticalmove-w とその仲間達はそのキーマッピングに対応した関数を持っています。
+columnmove-w とその仲間達~
+columnmove-w とその仲間達はそのキーマッピングに対応した関数を持っています。
 それらは次のようなインターフェイスを持ちます。
 
-verticalmove#xxx(mode[, count[, options_dictionary]])
+columnmove#xxx(mode[, count[, options_dictionary]])
 
 xxx と書いてある部分はそれぞれのオリジナルコマンドの名前、すなわち 'w' 、
 'b' 、 'e' 、 "ge" です。
@@ -436,21 +435,21 @@ xxx と書いてある部分はそれぞれのオリジナルコマンドの名�
 三つ目の引数 "options_dict" にはオプションの使用を強制するための辞書が与えられ
 ます。例えば常に折り畳みを開きたい場合には、この引数を次のように使います。
 >
-	nmap <silent> <M-w> :<C-u>call verticalmove#w('n', 0,
+	nmap <silent> <M-w> :<C-u>call columnmove#w('n', 0,
 		\					{'fold_open' : -1})
 <
 |imap| する場合には次のように書きます。
 >
-	imap <silent> <M-w> <C-r>=verticalmove#w('n', 0, {'fold_open' : -1})
+	imap <silent> <M-w> <C-r>=columnmove#w('n', 0, {'fold_open' : -1})
 <
 |cmap| の場合は注意が必要です。 <silent> を使うとコマンドラインが正しく更新さ
 れないためカーソルが動いたように見えません。 <silent> は使わないでください。
 >
-	cmap <M-w> <C-r>=verticalmove#w('n', 0, {'fold_open' : -1})
+	cmap <M-w> <C-r>=columnmove#w('n', 0, {'fold_open' : -1})
 <
-キーの名前は |verticalmove-configuration| にある挙動制御用の変数名から
-"g:verticalmove_" を取り除いたものが使用されます。つまり、 "open_fold" 、
-"strict_wbege" が使用できます。 |verticalmove-configuration| の項もご覧くださ
+キーの名前は |columnmove-configuration| にある挙動制御用の変数名から
+"g:columnmove_" を取り除いたものが使用されます。つまり、 "open_fold" 、
+"strict_wbege" が使用できます。 |columnmove-configuration| の項もご覧くださ
 い。
 
 加えて、特別なキー "raw" も使用できます。値に1が指定されている場合、関数はカー
@@ -463,7 +462,7 @@ xxx と書いてある部分はそれぞれのオリジナルコマンドの名�
 はこの通りに折り畳みを開いた場合のみ正しいです。
 
 >
-	let output = verticalmove#w('n', 1, {'raw' : 1})
+	let output = columnmove#w('n', 1, {'raw' : 1})
 
 	" 移動先までの距離、例えば 10 など
 	echo output.displacement
@@ -476,21 +475,21 @@ xxx と書いてある部分はそれぞれのオリジナルコマンドの名�
 <
 
 
-						*verticalmove#w()*
-verticalmove#w(mode[, target[, count[, options_dictionary]]])
-	|verticalmove-w| に対応する関数です。
+						*columnmove#w()*
+columnmove#w(mode[, target[, count[, options_dictionary]]])
+	|columnmove-w| に対応する関数です。
 
-						*verticalmove#b()*
-verticalmove#b(mode[, target[, count[, options_dictionary]]])
-	|verticalmove-b| に対応する関数です。
+						*columnmove#b()*
+columnmove#b(mode[, target[, count[, options_dictionary]]])
+	|columnmove-b| に対応する関数です。
 
-						*verticalmove#e()*
-verticalmove#e(mode[, target[, count[, options_dictionary]]])
-	|verticalmove-e| に対応する関数です。
+						*columnmove#e()*
+columnmove#e(mode[, target[, count[, options_dictionary]]])
+	|columnmove-e| に対応する関数です。
 
-						*verticalmove#ge()*
-verticalmove#ge(mode[, target[, count[, options_dictionary]]])
-	|verticalmove-ge| に対応する関数です。
+						*columnmove#ge()*
+columnmove#ge(mode[, target[, count[, options_dictionary]]])
+	|columnmove-ge| に対応する関数です。
 
 
 ==============================================================================
