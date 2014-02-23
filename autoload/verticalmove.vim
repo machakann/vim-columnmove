@@ -390,7 +390,6 @@ function! s:get_dest_ftFT(kind, currentline, col, count, options_dict)  "{{{
     else
       let fileend = line("$")
       let endline = line("w$") + opt_expand_range
-
       let endline = (endline > fileend) ? fileend : endline
     endif
 
@@ -398,6 +397,7 @@ function! s:get_dest_ftFT(kind, currentline, col, count, options_dict)  "{{{
     let edge = 'end'
 
     let whole_lines = getline(startline, endline)
+    let line_num    = endline - startline
   elseif a:kind =~# '[FT]'
     " up
     if opt_auto_scroll
@@ -416,7 +416,6 @@ function! s:get_dest_ftFT(kind, currentline, col, count, options_dict)  "{{{
       let endline = 1
     else
       let endline = line("w0") - opt_expand_range
-
       let endline = (endline < 1) ? 1 : endline
     endif
 
@@ -424,12 +423,12 @@ function! s:get_dest_ftFT(kind, currentline, col, count, options_dict)  "{{{
     let edge = 'start'
 
     let whole_lines = reverse(getline(endline, startline))
+    let line_num    = startline - endline
   endif
 
   " collecting characters in same column as cursor
   let idx         = 0
   let line        = startline
-  let line_num    = len(whole_lines) - 1
 
   let chars       = []
   let lines       = []
@@ -453,6 +452,18 @@ function! s:get_dest_ftFT(kind, currentline, col, count, options_dict)  "{{{
         let opened_fold += s:fold_opener(line, a:currentline, opt_fold_open)
         let fold_start   = foldclosed(line)
         let fold_end     = foldclosedend(line)
+      endif
+
+      if opt_expand_range >= 0
+        if a:kind =~# '[ft]'
+          let endline  = line("w$") + opt_expand_range
+          let endline  = (endline > fileend) ? fileend : endline
+          let line_num = endline - startline
+        elseif a:kind =~# '[FT]'
+          let endline  = line("w0") - opt_expand_range
+          let endline  = (endline < 1) ? 1 : endline
+          let line_num = startline - endline
+        endif
       endif
 
       if fold_start < 0
