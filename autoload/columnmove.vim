@@ -631,6 +631,18 @@ function! s:get_dest_ftFT_with_char(kind, c, currentline, col, count, options_di
         let fold_end     = foldclosedend(line)
       endif
 
+      if opt_expand_range >= 0
+        if a:kind =~# '[ft]'
+          let endline  = line("w$") + opt_expand_range
+          let endline  = (endline > fileend) ? fileend : endline
+          let line_num = endline - startline
+        elseif a:kind =~# '[FT]'
+          let endline  = line("w0") - opt_expand_range
+          let endline  = (endline < 1) ? 1 : endline
+          let line_num = startline - endline
+        endif
+      endif
+
       if fold_start < 0
         continue
       else
