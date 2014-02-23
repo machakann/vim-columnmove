@@ -297,8 +297,9 @@ g:columnmove_highlight			*g:columnmove_highlight*
 g:columnmove_expand_range			*g:columnmove_expand_range*
 	画面外まで検索範囲に含めるための変数です。値には画面外へ拡張する行数を
 	指定します。例えば10が指定された場合、候補は画面に映っている範囲と画面
-	外へ10行ほど拡張した範囲から検索されます。もし値が0なら候補は見えてい
-	る範囲に限定されます。デフォルト値は0です。
+	外へ10行ほど拡張した範囲から検索されます。もし負の値が指定された場合は
+	、ファイルの先頭あるいは終端までのすべての範囲から検索されます。もし値
+	が0なら候補は見えている範囲に限定されます。デフォルト値は0です。
 
 g:columnmove_update_history		*g:columnmove_update_history*
 	値が0の場合 |columnmove-semicolon| と |columnmove-comma| で使用さ

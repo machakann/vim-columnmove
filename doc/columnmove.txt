@@ -294,8 +294,9 @@ g:columnmove_expand_range			*g:columnmove_expand_range*
 	candidates. For example, If ten is assigned, candidates would be
 	listed up from the range between the current line to the top (or
 	bottom) line of the window plus ten lines out of displayed range. If
-	the value is 0, candidates are listed up from the range displayed.
-	Default value is 0.
+	the value is 0, candidates are listed up from the range displayed. If
+	a negative value is assigned, the range until the file head/end is
+	included to the searching range.  Default value is 0.
 
 g:columnmove_update_history		*g:columnmove_update_history*
 	If the value is 0, do not update the history for |columnmove-;| and
