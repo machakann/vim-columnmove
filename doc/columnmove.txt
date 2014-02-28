@@ -1,4 +1,4 @@
-﻿*columnmove.txt*	Last change:24-Feb-2014.
+﻿*columnmove.txt*	Last change:28-Feb-2014.
 
 Bring cursor vertically in similar ways as line-wise commands.
 
@@ -130,6 +130,48 @@ empty or a character. Here, write again the first column of the example code.
 "spoiled" commands would stop cursor on the fourth and seventh line since
 ""l" and "eee" are strings which are separated by empty line. It means that if
 there is a space, still stops cursor there.
+
+these commands also ignore folded lines. it means that commands think that
+there is nothing for folded parts. if |g:columnmove_fold_treatment| is set as
+1, commands regard folded lines as a empty line.
+>
+	let g:columnmove_fold_treatment = 1
+<
+it sounds like same, but actually slightly different in some cases. assume
+the code like this:
+>
+	first line
+	second line
+	---folded lines---
+	third line
+	fourth line
+	
+	fifth line
+	sixth line
+<
+if cursor is on the first line and columnmove-w is used, cursor will move to
+fifth line. Because these commands ignore folded lines.
+>
+	first line
+	second line
+	third line
+	fourth line
+	
+	fifth line
+	sixth line
+<
+however |g:columnmove_fold_treatment| is set as 1, cursor will move to third
+line. Because these commands regard folded lines as a empty line.
+>
+	first line
+	second line
+	
+	third line
+	fourth line
+	
+	fifth line
+	sixth line
+<
 
 
 ==============================================================================
@@ -311,6 +353,10 @@ Related to columnmove-w command and its variants~
 g:columnmove_strict_wbege			*g:columnmove_strict_wbege*
 	If the value is not 0, apply the strict rule to move cursor. If the
 	value is 0, the spoiled rule would be used. Default value is 1.
+
+g:columnmove_fold_treatment			*g:columnmove_fold_treatment*
+	If the value is 0, commands ignore folded lines. If the value is 1,
+	commands regard folded lines as a empty line. Default value is 0.
 
 
 ==============================================================================
