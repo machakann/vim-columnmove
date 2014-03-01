@@ -814,6 +814,11 @@ function! s:get_dest_wge(kind, col, currentline, count, level, opt_fold_treatmen
           if (line < 1) | return [-1, [], opened_fold] | endif
         endif
 
+        if a:level != 0
+          " fold opening
+          let opened_fold += s:fold_opener(line, a:currentline, a:level)
+        endif
+
         let fold_start = foldclosed(line)
         let fold_end   = foldclosedend(line)
 
@@ -923,6 +928,11 @@ function! s:get_dest_be(kind, col, currentline, count, level, opt_fold_treatment
           if (line > endline) | return [-1, [], opened_fold] | endif
         elseif a:kind ==# 'b'
           if (line < 1) | return [-1, [], opened_fold] | endif
+        endif
+
+        if a:level != 0
+          " fold opening
+          let opened_fold += s:fold_opener(line, a:currentline, a:level)
         endif
 
         let fold_start = foldclosed(line)
@@ -1041,6 +1051,11 @@ function! s:get_dest_spoiled_wge(kind, col, currentline, count, level, opt_fold_
           if (line < 1) | return [-1, [], opened_fold] | endif
         endif
 
+        if a:level != 0
+          " fold opening
+          let opened_fold += s:fold_opener(line, a:currentline, a:level)
+        endif
+
         let fold_start = foldclosed(line)
         let fold_end   = foldclosedend(line)
 
@@ -1141,6 +1156,11 @@ function! s:get_dest_spoiled_be(kind, col, currentline, count, level, opt_fold_t
           if (line > endline) | return [-1, [], opened_fold] | endif
         elseif a:kind ==# 'b'
           if (line < 1) | return [-1, [], opened_fold] | endif
+        endif
+
+        if a:level != 0
+          " fold opening
+          let opened_fold += s:fold_opener(line, a:currentline, a:level)
         endif
 
         let fold_start = foldclosed(line)
