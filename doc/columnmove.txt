@@ -1,4 +1,4 @@
-﻿*columnmove.txt*	Last change:28-Feb-2014.
+﻿*columnmove.txt*	Last change:02-Mar-2014.
 
 Bring cursor vertically in similar ways as line-wise commands.
 
@@ -23,7 +23,7 @@ vertical direction.
 
 columnmove-f and its variants~
 columnmove-f and its variants are the commands for bringing cursor to the
-position assigned by a character in same column. This group has six
+position assigned by a character in the same column. This group has six
 keymappings, that is, |columnmove-f|, |columnmove-t|, |columnmove-F|,
 |columnmove-T|, |columnmove-;|, |columnmove-,|.  Each of them are the
 imitations of |f|, |t|, |F|, |T|, |;|, |,| command, but work in vertical
@@ -69,10 +69,10 @@ columnmove-w and its variants~
 columnmove-w and its variants are the commands for moving cursor in word-wise.
 This group has four keymappings, that is, |columnmove-w|, |columnmove-b|,
 |columnmove-e|, |columnmove-ge|. Each of them are the imitations of |w|, |b|,
-|e|, |ge|, but work in vertical direction. These commands regard a column
-which the cursor is on as a line and search for the head or tail of word to
-move. These commands regard a empty part of the column (like empty lines) as a
-space to skip it. For example, assume a vimscript code like this:
+|e|, |ge|, but work in vertical direction. These commands regard the column
+which cursor is on as a line and search for the head or tail of word to move.
+These commands regard a empty part of the column (like empty lines) as a space
+to skip it. For example, assume a vimscript code like this:
 >
 	let foo = 1
 	let bar = 2
@@ -108,7 +108,7 @@ fifth, and, seventh lines from the first column of first line.
 
 However, actually, almost all the programming languages are semantic in
 line-wise. It means hardly to align characters vertically in semantic way, and
-these "strict" commands might not always useful. If you find that, why don't
+these "strict" commands might not useful always. If you find that, why don't
 you try "spoiled" commands with following configuration?
 >
 	let g:columnmove_strict_wbege = 0
@@ -316,9 +316,12 @@ Related to all the mappings~
 g:columnmove_open_fold			*g:columnmove_open_fold*
 	The number of levels to open the fold when cursor is moved. If a
 	positive value is assigned, opens folds which fold level is equal to
-	or below the value. If a negative value is assigned, simply open all
-	the folds.  If 0 is assigned, do not open any fold and just skip them.
-	Default value is 0.
+	or below the value. If a negative value is assigned, the opening level
+	is determined relative to the level of the current cursor position.
+	For instance, when g:columnmove_open_fold is -2 and cursor is on the
+	line which fold level is 1, then commands would open folds up to the
+	level 3 (= 1-(-2)). If 0 is assigned, do not open any fold and just
+	skip them. Default value is 0.
 
 Related to columnmove-f command and its variants~
 g:columnmove_ignore_case			*g:columnmove_ignore_case*
@@ -334,11 +337,11 @@ g:columnmove_highlight			*g:columnmove_highlight*
 g:columnmove_expand_range			*g:columnmove_expand_range*
 	The line number to add to the searching range of destination
 	candidates. For example, If ten is assigned, candidates would be
-	listed up from the range between the current line to the top (or
-	bottom) line of the window plus ten lines out of displayed range. If
-	the value is 0, candidates are listed up from the range displayed. If
-	a negative value is assigned, the range until the file head/end is
-	included to the searching range.  Default value is 0.
+	listed up from the range between the current line to the bottom (or
+	top) line of the window plus ten lines out of displayed range. If the
+	value is 0, candidates are listed up from the range displayed. If a
+	negative value is assigned, the range until the file head/end is
+	included to the searching range. Default value is 0.
 
 g:columnmove_update_history		*g:columnmove_update_history*
 	If the value is 0, do not update the history for |columnmove-;| and
@@ -346,13 +349,14 @@ g:columnmove_update_history		*g:columnmove_update_history*
 
 g:columnmove_auto_scroll			*g:columnmove_auto_scroll*
 	If the value is 1, automatically scroll to upper or lower side as far
-	as possible to extend the searching (displayed) range. This option is
-	take into account 'scrolloff' option. Default value is 0.
+	as possible to extend the searching (displayed) range. Default value
+	is 0.
+	This option takes into account 'scrolloff' option.
 
 Related to columnmove-w command and its variants~
 g:columnmove_strict_wbege			*g:columnmove_strict_wbege*
 	If the value is not 0, apply the strict rule to move cursor. If the
-	value is 0, the spoiled rule would be used. Default value is 1.
+	value is 0, the spoiled rule is used. Default value is 1.
 
 g:columnmove_fold_treatment			*g:columnmove_fold_treatment*
 	If the value is 0, commands ignore folded lines. If the value is 1,
