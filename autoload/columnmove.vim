@@ -344,7 +344,12 @@ function! s:columnmove_ftFT(kind, mode, char, count, options_dict, command) "{{{
     let output = ''
     if dest[0] > 0
       if a:mode =~# '[nxo]'
-        let columnfix = ((col != col('$') - 1) || (foldclosed(currentline) >= 0)) ? '' : (col == 1) ? '0' : 'hl'
+        if foldclosed(currentline) < 0
+          let columnfix = ((col == col('$')) && (col == 1)) ? '0' : ((col == col('$') - 1) ? 'hl' : '')
+        else
+          let columnfix = ''
+        endif
+
         execute 'normal! ' . columnfix . dest[0] . a:command
       elseif a:mode ==# 'i'
         call cursor(dest[1])
@@ -727,7 +732,12 @@ function! s:columnmove_wbege(kind, mode, count, options_dict, command) "{{{
     let output = ''
     if dest[0] > 0
       if a:mode =~# '[nxo]'
-        let columnfix = ((col != col('$') - 1) || (foldclosed(currentline) >= 0)) ? '' : ((col == 1) ? '0' : 'hl')
+        if foldclosed(currentline) < 0
+          let columnfix = ((col == col('$')) && (col == 1)) ? '0' : ((col == col('$') - 1) ? 'hl' : '')
+        else
+          let columnfix = ''
+        endif
+
         execute 'normal! ' . columnfix . dest[0] . a:command
       elseif a:mode ==# 'i'
         call cursor(dest[1])
