@@ -380,8 +380,8 @@ function! s:get_dest_ftFT(kind, currentline, col, count, options_dict)  "{{{
   if a:kind =~# '[ft]'
     " down
     if opt_auto_scroll
-      let los       = s:line_position_on_the_screen(a:currentline)
-      let room      = los - &scrolloff - 1
+      let los  = screenrow()
+      let room = los - &scrolloff - 1
 
       if room > 0
         execute "normal! " . room . "\<C-e>"
@@ -407,7 +407,7 @@ function! s:get_dest_ftFT(kind, currentline, col, count, options_dict)  "{{{
     " up
     if opt_auto_scroll
       let winheight = winheight(0)
-      let los       = s:line_position_on_the_screen(a:currentline)
+      let los       = screenrow()
       let room      = winheight - los - &scrolloff
 
       if room > 0
@@ -554,8 +554,8 @@ function! s:get_dest_ftFT_with_char(kind, c, currentline, col, count, options_di
   if a:kind =~# '[ft]'
     " down
     if opt_auto_scroll
-      let los       = s:line_position_on_the_screen(a:currentline)
-      let room      = los - &scrolloff - 1
+      let los  = screenrow()
+      let room = los - &scrolloff - 1
 
       if room > 0
         execute "normal! " . room . "\<C-e>"
@@ -581,7 +581,7 @@ function! s:get_dest_ftFT_with_char(kind, c, currentline, col, count, options_di
     " up
     if opt_auto_scroll
       let winheight = winheight(0)
-      let los       = s:line_position_on_the_screen(a:currentline)
+      let los       = screenrow()
       let room      = winheight - los - &scrolloff
 
       if room > 0
@@ -682,23 +682,6 @@ function! s:highlight_del(id) "{{{
   call matchdelete(a:id)
 
   return
-endfunction
-"}}}
-function! s:line_position_on_the_screen(line)  "{{{
-  let current = line('w0')
-  let pos = 1
-
-  while current < a:line
-    let closed_end  = foldclosedend(current)
-    let pos += 1
-    if closed_end < 0
-      let current += 1
-    else
-      let current = closed_end + 1
-    endif
-  endwhile
-
-  return pos
 endfunction
 "}}}
 
