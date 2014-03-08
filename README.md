@@ -58,7 +58,7 @@ Consider it as a line.
 ll "l eee
 `
 
-Empty columns are converted to spaces. Words are defined by using the option 'iskeyword'. Usually `"` is not keyword in vimscript code. Thus if the cursor is placed on the first 'l', w command brings cursor like, `"` ¨ `l` ¨ `e`.  Hence `columnmove-w` command bring cursor to the first column of fourth, fifth, and, seventh lines from the first column of first line.
+Empty columns are converted to spaces. Words are defined by using the option 'iskeyword'. Usually `"` is not keyword in vimscript code. Thus if the cursor is placed on the first `l`, w command brings cursor like, `"` -> `l` -> `e`.  Hence `columnmove-w` command bring cursor to the first column of fourth, fifth, and, seventh lines from the first column of first line.
 
 ![columnmove-w:strict](http://kura2.photozou.jp/pub/986/3080986/photo/199164951_org.v1394286992.gif)
 
