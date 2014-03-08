@@ -1,4 +1,4 @@
-﻿*columnmove.txt*	Last change:02-Mar-2014.
+﻿*columnmove.txt*	Last change:08-Mar-2014.
 
 Bring cursor vertically in similar ways as line-wise commands.
 
@@ -108,8 +108,8 @@ fifth, and, seventh lines from the first column of first line.
 
 However, actually, almost all the programming languages are semantic in
 line-wise. It means hardly to align characters vertically in semantic way, and
-these "strict" commands might not useful always. If you find that, why don't
-you try "spoiled" commands with following configuration?
+these "strict" commands might not be useful always. If you find that, why
+don't you try "spoiled" commands with following configuration?
 >
 	let g:columnmove_strict_wbege = 0
 <

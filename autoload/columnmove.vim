@@ -42,7 +42,7 @@ function! columnmove#f(mode, ...)
   let l:count = (a:0 > 1 && a:2 > 0) ? a:2 : v:count1
 
   " re-entering to the visual mode (if necessary)
-  if a:mode ==# 'x'
+  if (a:mode ==# 'x') && ((mode() !=? 'v') && (mode() != "\<C-v>"))
     normal! gv
   endif
 
@@ -63,7 +63,7 @@ function! columnmove#t(mode, ...)
   let l:count = (a:0 > 1 && a:2 > 0) ? a:2 : v:count1
 
   " re-entering to the visual mode (if necessary)
-  if a:mode ==# 'x'
+  if (a:mode ==# 'x') && ((mode() !=? 'v') && (mode() != "\<C-v>"))
     normal! gv
   endif
 
@@ -84,7 +84,7 @@ function! columnmove#F(mode, ...)
   let l:count = (a:0 > 1 && a:2 > 0) ? a:2 : v:count1
 
   " re-entering to the visual mode (if necessary)
-  if a:mode ==# 'x'
+  if (a:mode ==# 'x') && ((mode() !=? 'v') && (mode() != "\<C-v>"))
     normal! gv
   endif
 
@@ -105,7 +105,7 @@ function! columnmove#T(mode, ...)
   let l:count = (a:0 > 1 && a:2 > 0) ? a:2 : v:count1
 
   " re-entering to the visual mode (if necessary)
-  if a:mode ==# 'x'
+  if (a:mode ==# 'x') && ((mode() !=? 'v') && (mode() != "\<C-v>"))
     normal! gv
   endif
 
@@ -174,7 +174,7 @@ function! columnmove#w(mode, ...)
   let l:count = (a:0 > 0 && a:1 > 0) ? a:1 : v:count1
 
   " re-entering to the visual mode (if necessary)
-  if a:mode ==# 'x'
+  if (a:mode ==# 'x') && ((mode() !=? 'v') && (mode() != "\<C-v>"))
     normal! gv
   endif
 
@@ -192,7 +192,7 @@ function! columnmove#b(mode, ...)
   let l:count = (a:0 > 0 && a:1 > 0) ? a:1 : v:count1
 
   " re-entering to the visual mode (if necessary)
-  if a:mode ==# 'x'
+  if (a:mode ==# 'x') && ((mode() !=? 'v') && (mode() != "\<C-v>"))
     normal! gv
   endif
 
@@ -210,7 +210,7 @@ function! columnmove#e(mode, ...)
   let l:count = (a:0 > 0 && a:1 > 0) ? a:1 : v:count1
 
   " re-entering to the visual mode (if necessary)
-  if a:mode ==# 'x'
+  if (a:mode ==# 'x') && ((mode() !=? 'v') && (mode() != "\<C-v>"))
     normal! gv
   endif
 
@@ -228,7 +228,7 @@ function! columnmove#ge(mode, ...)
   let l:count = (a:0 > 0 && a:1 > 0) ? a:1 : v:count1
 
   " re-entering to the visual mode (if necessary)
-  if a:mode ==# 'x'
+  if (a:mode ==# 'x') && ((mode() !=? 'v') && (mode() != "\<C-v>"))
     normal! gv
   endif
 
