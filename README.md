@@ -76,7 +76,7 @@ However, actually, almost all the programming languages are semantic in line-wis
 	let g:columnmove_strict_wbege = 0
 `
 
-With this configuration, `columnmove-w` and its variants do not think whether characters are included in 'iskeyword' or not. Just judge whether there is a empty or a character. Here, write again the first column of the example code.
+With this configuration, `columnmove-w` and its variants do not think whether characters are included in 'iskeyword' or not. Just judge whether there is a empty or a character. Here, write again the example code.
 
 ```
 f
