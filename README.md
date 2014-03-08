@@ -14,7 +14,7 @@ Please remember that these commands would search for the candidates of destinati
 	let g:columnmove_expand_range = 10
 `
 
-Or you just want to expand to the whole file, give the negative number to `g:columnmove_expand_range`.
+Or you just want to expand to a whole file, give the negative number to `g:columnmove_expand_range`.
 
 `
 	let g:columnmove_expand_range = -1
@@ -24,7 +24,7 @@ Or you just want to expand to the whole file, give the negative number to `g:col
 # columnmove-w
 columnmove-w and its variants are the commands for moving cursor in word-wise.  This group has four keymappings, that is, `columnmove-w`, `columnmove-b`, `columnmove-e`, `columnmove-ge`. Each of them are the imitations of `w`, `b`, `e`, `ge` commands, but work in vertical direction. These commands regard the column which cursor is on as a line and search for the head or tail of word to move.  These commands regard a empty part of the column (like empty lines) as a space to skip it. For example, assume a vimscript code like this:
 
-`
+```vim
 	let foo = 1
 	let bar = 2
 
@@ -34,11 +34,11 @@ columnmove-w and its variants are the commands for moving cursor in word-wise.  
 	echo foo
 	echo bar
 	echo addition
-`
+```
 
 Cut out the first column.
 
-`
+```
 	l
 	l
 
@@ -48,7 +48,7 @@ Cut out the first column.
 	e
 	e
 	e
-`
+```
 
 Consider it as a line.
 
