@@ -58,7 +58,9 @@ Consider it as a line.
 ll "l eee
 `
 
-Empty columns are converted to spaces. Words are defined by using the option 'iskeyword'. Usually `"` is not keyword in vimscript code. Thus if the cursor is placed on the first 'l', w command brings cursor like, `"` -> `l` -> `e`.  Hence `columnmove-w` command bring cursor to the first column of fourth, fifth, and, seventh lines from the first column of first line.
+Empty columns are converted to spaces. Words are defined by using the option 'iskeyword'. Usually `"` is not keyword in vimscript code. Thus if the cursor is placed on the first 'l', w command brings cursor like, `"` Å® `l` Å® `e`.  Hence `columnmove-w` command bring cursor to the first column of fourth, fifth, and, seventh lines from the first column of first line.
+
+![columnmove-w:strict](http://kura2.photozou.jp/pub/986/3080986/photo/199164951_org.v1394286992.gif)
 
 However, actually, almost all the programming languages are semantic in line-wise. It means hardly to align characters vertically in semantic way, and these "strict" commands might not be useful always. If you find that, why don't you try "spoiled" commands with following configuration?
 
@@ -81,3 +83,6 @@ With this configuration, `columnmove-w` and its variants do not think whether ch
 ```
 
 "spoiled" commands would stop cursor on the fourth and seventh line since `"l` and `eee` are strings which are separated by empty line. It means that if there is a space, still stops cursor there.
+
+![columnmove-w:spoiled](http://kura2.photozou.jp/pub/986/3080986/photo/199165599_org.v1394287362.gif)
+
