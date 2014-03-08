@@ -340,7 +340,7 @@ function! s:columnmove_ftFT(kind, mode, char, count, options_dict, command) "{{{
 
   let opt_raw = s:check_raw(a:options_dict)
 
-  if !opt_raw
+  if opt_raw != 1
     let output = ''
     if dest[0] > 0
       if a:mode =~# '[nxo]'
@@ -355,7 +355,9 @@ function! s:columnmove_ftFT(kind, mode, char, count, options_dict, command) "{{{
         call cursor(dest[1])
       endif
     endif
-  else
+  endif
+
+  if opt_raw
     let output = {'displacement' : dest[0], 'destination' : dest[1], 'opened_fold' : dest[2]}
   endif
 
@@ -375,6 +377,10 @@ function! s:get_dest_ftFT(kind, currentline, col, count, options_dict)  "{{{
   let opt_update_history = s:user_conf('update_history', a:options_dict, 1)
   let opt_expand_range   = s:user_conf(  'expand_range', a:options_dict, 0)
   let opt_auto_scroll    = s:user_conf(   'auto_scroll', a:options_dict, 0)
+
+  if type(opt_fold_open) == s:type_dict
+    let opt_fold_open = get(opt_fold_open, a:mode, 0)
+  endif
 
   " gather buffer lines
   if a:kind =~# '[ft]'
@@ -545,6 +551,10 @@ function! s:get_dest_ftFT_with_char(kind, c, currentline, col, count, options_di
   let opt_expand_range   = s:user_conf(  'expand_range', a:options_dict, 0)
   let opt_auto_scroll    = s:user_conf(   'auto_scroll', a:options_dict, 0)
 
+  if type(opt_fold_open) == s:type_dict
+    let opt_fold_open = get(opt_fold_open, a:mode, 0)
+  endif
+
   " update history
   if opt_update_history
     let s:search_history = [a:kind, a:c]
@@ -697,6 +707,10 @@ function! s:columnmove_wbege(kind, mode, count, options_dict, command) "{{{
   let opt_fold_treatment = s:user_conf('fold_treatment', a:options_dict, 0)
   let opt_raw            = s:check_raw(a:options_dict)
 
+  if type(opt_fold_open) == s:type_dict
+    let opt_fold_open = get(opt_fold_open, a:mode, 0)
+  endif
+
   if opt_strict_wbege
     if a:kind =~# '\%(w\|ge\)'
       let dest = s:get_dest_wge(a:kind, col, currentline, a:count, opt_fold_open, opt_fold_treatment)
@@ -711,7 +725,7 @@ function! s:columnmove_wbege(kind, mode, count, options_dict, command) "{{{
     endif
   endif
 
-  if !opt_raw
+  if opt_raw != 1
     let output = ''
     if dest[0] > 0
       if a:mode =~# '[nxo]'
@@ -726,7 +740,9 @@ function! s:columnmove_wbege(kind, mode, count, options_dict, command) "{{{
         call cursor(dest[1])
       endif
     endif
-  else
+  endif
+
+  if opt_raw
     let output = {'displacement' : dest[0], 'destination' : dest[1], 'opened_fold' : dest[2]}
   endif
 

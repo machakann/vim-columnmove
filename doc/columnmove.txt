@@ -1,4 +1,4 @@
-﻿*columnmove.txt*	Last change:08-Mar-2014.
+﻿*columnmove.txt*	Last change:09-Mar-2014.
 
 Bring cursor vertically in similar ways as line-wise commands.
 
@@ -323,6 +323,19 @@ g:columnmove_open_fold			*g:columnmove_open_fold*
 	level 3 (= 1-(-2)). If 0 is assigned, do not open any fold and just
 	skip them. Default value is 0.
 
+	Or this option can accept a dictionary instead of a number like this:
+>
+	let g:columnmove_fold_open = {'x' : &foldnestmax, 'i' : -1}
+<
+	This description allows to assign different rules to different
+	|vim-modes|. Following characters can be used to assign each modes as
+	a key name of the dictionary.
+
+	'n' : normal mode
+	'x' : visual mode
+	'o' : operator-pending mode
+	'i' : insert mode
+
 Related to columnmove-f command and its variants~
 g:columnmove_ignore_case			*g:columnmove_ignore_case*
 	If the value is 1, ignore case in search the target character. If the
@@ -505,15 +518,17 @@ The key names are the name of configuration variables removing first
 "g:columnmove_". That is "open_fold", "strict_wbege" can be used.
 Please refer |columnmove-configuration|.
 
-Besides, a special key "raw" can be also used. If the value is 1, these
+Besides, a special key "raw" can be also used. If the value is 1 or 2, these
 function returns a dictionary variable which has keys named "displacement",
 "distination", "opened_fold". The key displacement has a number which
 represents a distance from the current line to the destination line, this
 number is correct only when folds has been opened in order written in
 "opened_fold". "opened_fold" has a list which contains lists holding beginning
 and ending line number of folds. When these commands work, those folds would
-be opened, and closed if necessary.  "distination" is a list including the
-line number and column number of distination.
+be opened, and closed if necessary. "distination" is a list including the line
+number and column number of distination.
+If the value is 1, these functions do not move cursor. But if the value is 2,
+these functions do.
 
 >
 	let output = columnmove#w('n', 1, {'raw' : 1})

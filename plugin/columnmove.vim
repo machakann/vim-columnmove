@@ -1,5 +1,5 @@
 ﻿" Vim global plugin for moving cursor in vertical direction
-" Last Change: 24-Feb-2014.
+" Last Change: 08-Mar-2014.
 " Maintainer : Masaaki Nakamura <mckn@outlook.com>
 
 " License    : NYSL
