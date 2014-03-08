@@ -6,7 +6,9 @@ This plugin serves you several keymappings to move cursor in vertical direction.
 # columnmove-f
 columnmove-f and its variants are the commands for bringing cursor to the position assigned by a character in the same column.
 
-This group has six keymappings, that is, `columnmove-f`, `columnmove-t`, `columnmove-F`, `columnmove-T`, `columnmove-;`, `columnmove-,`.  Each of them are the imitations of `f`, `t`, `F`, `T`, `;`, `,` commands, but work in vertical direction. Those commands are mapped to `<M-f>`, `<M-t>`, `<M-F>`, `<M-T>`, `<M-;>`, `<M-,>` in default.
+This group has six keymappings, that is, `columnmove-f`, `columnmove-t`, `columnmove-F`, `columnmove-T`, `columnmove-;`, `columnmove-,`.  Each of them are the imitations of `f`, `t`, `F`, `T`, `;`, `,` commands, but work in vertical direction.
+
+Those commands are mapped to `<M-f>`, `<M-t>`, `<M-F>`, `<M-T>`, `<M-;>`, `<M-,>` in default.
 
 ![columnmove-f](http://kura2.photozou.jp/pub/986/3080986/photo/199161494_org.v1394284952.gif)
 
