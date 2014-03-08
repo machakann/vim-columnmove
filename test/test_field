@@ -1,0 +1,3190 @@
+" *** Test field ***
+
+0t
+#s
+
+" Test 1
+" vertical-f
+"-----------------------
+" 1.1 line head
+a1
+b2
+c3
+d4
+e5
+f6
+
+" 1.2 inside a line
+1ag
+2bh
+3ci
+4dj
+5ek
+6fl
+
+" 1.3 line end
+1a
+2b
+3c
+4d
+5e
+6f
+
+" 1.4 skip fold
+" let g:columnmove_fold_open = 0
+1a
+2b
+3c "{{{
+4f:skipped
+5d "}}}
+6e
+7f
+
+" 1.5 open fold
+" let g:columnmove_fold_open = 1
+1a
+2b
+3c "{{{
+4f:do not skipped
+5d "}}}
+6e
+7f
+
+" 1.6 open fold (beyond a fold)
+" let g:columnmove_fold_open = 1
+1a
+2b "{{{
+3c "{{{
+5d "}}}
+6e "}}}
+7f
+
+" 1.7 open fold (deep fold)
+" let g:columnmove_fold_open = 1
+1a
+2b "{{{
+3c "{{{
+4f:skipped
+5d "}}}
+6e
+7f "}}}
+
+" 1.8 open fold (deep fold)
+" let g:columnmove_fold_open = 2
+1a
+2b "{{{
+3c "{{{
+4f: do not skipped
+5d "}}}
+6e
+7f "}}}
+
+" 1.9 open fold (relatively)
+" let g:columnmove_fold_open = -1
+1a "{{{
+2b "{{{
+3c "{{{
+4f: skipped "}}}
+5f: do not skipped
+6d "}}}
+7e
+8f "}}}
+
+" 1.10 open fold (relatively)
+" let g:columnmove_fold_open = -2
+1a "{{{
+2b "{{{
+3c "{{{
+4f: do not skipped "}}}
+5f: ignored
+6d "}}}
+7e
+8f "}}}
+
+" 1.11 expand range
+" let g:columnmove_expand_range = -1
+1a
+2b
+3c
+4d
+5e
+6f
+
+" 1.12 expand range
+" let g:columnmove_expand_range = 1
+
+
+" 1.13 expand range
+" let g:columnmove_expand_range = 1
+
+
+" 1.14 expand range
+" let g:columnmove_expand_range = 1
+
+
+" 1.15 count
+1a
+2b
+3c
+4d
+5e
+6f
+7a
+8b
+
+" 1.16 preserved column position at line end
+abcde
+fgh
+
+ijklm
+
+
+
+" Test 2
+" vertical-t
+"-----------------------
+" 2.1 line head
+a1
+b2
+c3
+d4
+e5
+f6
+
+" 2.2 inside a line
+1ag
+2bh
+3ci
+4dj
+5ek
+6fl
+
+" 2.3 line end
+1a
+2b
+3c
+4d
+5e
+6f
+
+" 2.4 skip fold
+" let g:columnmove_fold_open = 0
+1a
+2b
+3c "{{{
+4f:skipped
+5d "}}}
+6e
+7f
+
+" 2.5 open fold
+" let g:columnmove_fold_open = 1
+1a
+2b
+3c "{{{
+4f:do not skipped
+5d "}}}
+6e
+7f
+
+" 2.6 open fold (beyond a fold)
+" let g:columnmove_fold_open = 1
+1a
+2b "{{{
+3c "{{{
+5d "}}}
+6e "}}}
+7f
+8g
+
+" 2.7 open fold (deep fold)
+" let g:columnmove_fold_open = 1
+1a
+2b "{{{
+3c "{{{
+4f:skipped
+5d "}}}
+6e
+7f "}}}
+
+" 2.8 open fold (deep fold)
+" let g:columnmove_fold_open = 2
+1a
+2b "{{{
+3c "{{{
+4f: do not skipped
+5d "}}}
+6e
+7f "}}}
+
+" 2.9 open fold (relatively)
+" let g:columnmove_fold_open = -1
+1a "{{{
+2b "{{{
+3c "{{{
+4f: skipped "}}}
+5d
+6f: do not skipped
+7e "}}}
+8f "}}}
+
+" 2.10 open fold (relatively)
+" let g:columnmove_fold_open = -2
+1a "{{{
+2b "{{{
+3c "{{{
+4f: do not skipped "}}}
+5f: ignored
+6d "}}}
+7e
+8f "}}}
+
+" 2.11 expand range
+" let g:columnmove_expand_range = -1
+1a
+2b
+3c
+4d
+5e
+6f
+
+" 2.12 expand range
+" let g:columnmove_expand_range = 1
+
+
+" 2.13 expand range
+" let g:columnmove_expand_range = 1
+
+
+" 2.14 expand range
+" let g:columnmove_expand_range = 2
+
+
+" 2.15 count
+1a
+2b
+3c
+4d
+5e
+6f
+7a
+8b
+9c
+
+" 2.16 preserved column position at line end
+abcde
+fgh
+
+ijklm
+nop
+
+" 2.17 preserved column position at line end
+abcde
+fgh
+
+ijklm
+
+
+
+" Test 3
+" vertical-F
+"-----------------------
+" 3.1 line head
+a1
+b2
+c3
+d4
+e5
+f6
+
+" 3.2 inside a line
+1ag
+2bh
+3ci
+4dj
+5ek
+6fl
+
+" 3.3 line end
+1a
+2b
+3c
+4d
+5e
+6f
+
+" 3.4 skip fold
+" let g:columnmove_fold_open = 0
+1a
+2b
+3c "{{{
+4a:skipped
+5d "}}}
+6e
+7f
+
+" 3.5 open fold
+" let g:columnmove_fold_open = 1
+1a
+2b
+3c "{{{
+4a:do not skipped
+5d "}}}
+6e
+7f
+
+" 3.6 open fold (beyond a fold)
+" let g:columnmove_fold_open = 1
+1a
+2b "{{{
+3c "{{{
+5d "}}}
+6e "}}}
+7f
+
+" 3.7 open fold (deep fold)
+" let g:columnmove_fold_open = 1
+1a"{{{
+2b
+3c "{{{
+4a:skipped
+5d "}}}
+6e"}}}
+7f
+
+" 3.8 open fold (deep fold)
+" let g:columnmove_fold_open = 2
+1a"{{{
+2b
+3c "{{{
+4a: do not skipped
+5d "}}}
+6e"}}}
+7f
+
+" 3.9 open fold (relatively)
+" let g:columnmove_fold_open = -1
+1a "{{{
+2b
+3c "{{{
+4a: do not skipped
+5a: skipped "{{{
+6d "}}}
+7e "}}}
+8f "}}}
+
+" 3.10 open fold (relatively)
+" let g:columnmove_fold_open = -2
+1a "{{{
+2b
+3c "{{{
+4a: ignored
+5a: do not skipped "{{{
+6d "}}}
+7e "}}}
+8f "}}}
+
+" 3.11 expand range
+" let g:columnmove_expand_range = -1
+1a
+2b
+3c
+4d
+5e
+6f
+
+" 3.12 expand range
+" let g:columnmove_expand_range = 1
+
+
+" 3.13 expand range
+" let g:columnmove_expand_range = 1
+
+
+" 3.14 expand range
+" let g:columnmove_expand_range = 2
+
+
+" 3.15 count
+1a
+2b
+3c
+4d
+5e
+6f
+7a
+8b
+
+" 3.16 preserved column position at line end
+abcde
+
+fgh
+ijklm
+
+
+
+" Test 4
+" vertical-F
+"-----------------------
+" 4.1 line head
+a1
+b2
+c3
+d4
+e5
+f6
+
+" 4.2 inside a line
+1ag
+2bh
+3ci
+4dj
+5ek
+6fl
+
+" 4.3 line end
+1a
+2b
+3c
+4d
+5e
+6f
+
+" 4.4 skip fold
+" let g:columnmove_fold_open = 0
+1a
+2b
+3c "{{{
+4a:skipped
+5d "}}}
+6e
+7f
+
+" 4.5 open fold
+" let g:columnmove_fold_open = 1
+1a
+2b
+3c "{{{
+4a:do not skipped
+5d "}}}
+6e
+7f
+
+" 4.6 open fold (beyond a fold)
+" let g:columnmove_fold_open = 1
+1a
+2b "{{{
+3c "{{{
+5d "}}}
+6e "}}}
+7f
+
+" 4.7 open fold (deep fold)
+" let g:columnmove_fold_open = 1
+1a"{{{
+2b
+3c "{{{
+4a:skipped
+5d "}}}
+6e"}}}
+7f
+
+" 4.8 open fold (deep fold)
+" let g:columnmove_fold_open = 2
+1a"{{{
+2b
+3c "{{{
+4a: do not skipped
+5d "}}}
+6e"}}}
+7f
+
+" 4.9 open fold (relatively)
+" let g:columnmove_fold_open = -1
+1a "{{{
+2b
+3c "{{{
+4a: do not skipped
+5a: skipped "{{{
+6d "}}}
+7e "}}}
+8f "}}}
+
+" 4.10 open fold (relatively)
+" let g:columnmove_fold_open = -2
+1a "{{{
+2b
+3c "{{{
+4a: ignored
+5a: do not skipped "{{{
+6d "}}}
+7e "}}}
+8f "}}}
+
+" 4.11 expand range
+" let g:columnmove_expand_range = -1
+1a
+2b
+3c
+4d
+5e
+6f
+
+" 4.12 expand range
+" let g:columnmove_expand_range = 1
+
+
+" 4.13 expand range
+" let g:columnmove_expand_range = 1
+
+
+" 4.14 expand range
+" let g:columnmove_expand_range = 2
+
+
+" 4.15 count
+1a
+2b
+3c
+4d
+5e
+6f
+7a
+8b
+9c
+
+" 4.16 preserved column position at line end
+abc
+defgh
+
+ijk
+lmnop
+
+" 4.17 preserved column position at line end
+abcde
+
+fgh
+ijklm
+
+
+
+" Test 5
+" columnmove-;
+"-----------------------
+" 5.1 After the columnmove-f
+1a
+2b
+3c
+4d
+5e
+6d
+7c
+8b
+9a
+
+" 5.2 After the columnmove-t
+1a
+2b
+3c
+4d
+5e
+6d
+7c
+8b
+9a
+
+" 5.3 After the columnmove-F
+1a
+2b
+3c
+4d
+5e
+6d
+7c
+8b
+9a
+
+" 5.4 After the columnmove-T
+1a
+2b
+3c
+4d
+5e
+6d
+7c
+8b
+9a
+
+
+" Test 6
+" columnmove-,
+"-----------------------
+" 6.1 After the columnmove-f
+1a
+2b
+3c
+4d
+5e
+6d
+7c
+8b
+9a
+
+" 6.2 After the columnmove-t
+1a
+2b
+3c
+4d
+5e
+6d
+7c
+8b
+9a
+
+" 6.3 After the columnmove-F
+1a
+2b
+3c
+4d
+5e
+6d
+7c
+8b
+9a
+
+" 6.4 After the columnmove-T
+1a
+2b
+3c
+4d
+5e
+6d
+7c
+8b
+9a
+
+
+" Test 7
+" columnmove-w
+"-----------------------
+" 7.1 iskeyword, space
+a
+b
+c
+ 
+d
+e
+
+" 7.2 iskeyword, not-iskeyword
+a
+b
+c
+;
+d
+e
+
+" 7.3 iskeyword, empty
+a
+b
+c
+
+d
+e
+
+" 7.4 not-iskeyword, space
+;
+:
+]
+ 
+/
+\
+
+" 7.5 not-iskeyword, iskeyword
+;
+:
+]
+a
+/
+\
+
+" 7.6 not-iskeyword, empty
+;
+:
+]
+
+/
+\
+
+" 7.7 space, iskeyword
+ 
+ 
+ 
+a
+ 
+ 
+
+" 7.8 space, not-iskeyword
+ 
+ 
+ 
+;
+ 
+ 
+
+" 7.9 space, empty
+ 
+ 
+ 
+
+ 
+ 
+a
+
+" 7.10 iskeyword, space, folded lines
+a
+b "{{{
+c "}}}
+d
+ 
+e
+f
+
+" 7.11 iskeyword, not-iskeyword, folded lines
+a
+b "{{{
+c "}}}
+d
+;
+e
+f
+
+" 7.12 iskeyword, empty, folded lines
+a
+b "{{{
+c "}}}
+d
+
+e
+f
+
+" 7.13 not-iskeyword, space, folded lines
+;
+: "{{{
+] "}}}
+/
+ 
+\
+;
+
+" 7.14 not-iskeyword, iskeyword, folded lines
+;
+: "{{{
+] "}}}
+/
+a
+\
+;
+
+" 7.15 not-iskeyword, empty, folded lines
+;
+: "{{{
+] "}}}
+/
+
+\
+;
+
+" 7.16 space, iskeyword, folded lines
+ 
+  "{{{
+  "}}}
+ 
+a
+ 
+ 
+
+" 7.17 space, not-iskeyword, folded lines
+ 
+  "{{{
+  "}}}
+ 
+;
+ 
+ 
+
+" 7.18 space, empty, folded lines
+ 
+  "{{{
+  "}}}
+ 
+
+ 
+a
+
+" 7.19 iskeyword, space, folded lines
+" let g:columnmove_fold_treatment=1
+a
+b "{{{
+c "}}}
+d
+ 
+e
+f
+
+" 7.20 iskeyword, not-iskeyword, folded lines
+" let g:columnmove_fold_treatment=1
+a
+b "{{{
+c "}}}
+d
+;
+e
+f
+
+" 7.21 iskeyword, empty, folded lines
+" let g:columnmove_fold_treatment=1
+a
+b "{{{
+c "}}}
+d
+
+e
+f
+
+" 7.22 not-iskeyword, space, folded lines
+" let g:columnmove_fold_treatment=1
+;
+: "{{{
+] "}}}
+/
+ 
+\
+;
+
+" 7.23 not-iskeyword, iskeyword, folded lines
+" let g:columnmove_fold_treatment=1
+;
+: "{{{
+] "}}}
+/
+a
+\
+;
+
+" 7.24 not-iskeyword, empty, folded lines
+" let g:columnmove_fold_treatment=1
+;
+: "{{{
+] "}}}
+/
+
+\
+;
+
+" 7.25 space, iskeyword, folded lines
+" let g:columnmove_fold_treatment=1
+ 
+  "{{{
+  "}}}
+ 
+a
+ 
+ 
+
+" 7.26 space, not-iskeyword, folded lines
+" let g:columnmove_fold_treatment=1
+ 
+  "{{{
+  "}}}
+ 
+;
+ 
+ 
+
+" 7.27 space, empty, folded lines
+" let g:columnmove_fold_treatment=1
+ 
+  "{{{
+  "}}}
+ 
+
+ 
+a
+
+" 7.28 iskeyword, space
+" let g:columnmove_strict_wbege=0
+a
+b
+c
+ 
+d
+e
+
+f
+g
+
+" 7.29 iskeyword, not-iskeyword
+" let g:columnmove_strict_wbege=0
+a
+b
+c
+;
+d
+e
+
+f
+g
+
+" 7.30 iskeyword, empty
+" let g:columnmove_strict_wbege=0
+a
+b
+c
+
+d
+e
+
+" 7.31 not-iskeyword, space
+" let g:columnmove_strict_wbege=0
+;
+:
+]
+ 
+/
+\
+
+;
+:
+
+" 7.32 not-iskeyword, iskeyword
+" let g:columnmove_strict_wbege=0
+;
+:
+]
+a
+/
+\
+
+;
+:
+
+" 7.33 not-iskeyword, empty
+" let g:columnmove_strict_wbege=0
+;
+:
+]
+
+/
+\
+
+" 7.34 space, iskeyword
+" let g:columnmove_strict_wbege=0
+ 
+ 
+ 
+a
+ 
+ 
+
+ 
+a
+
+" 7.35 space, not-iskeyword
+" let g:columnmove_strict_wbege=0
+ 
+ 
+ 
+;
+ 
+ 
+
+ 
+;
+
+" 7.36 space, empty
+" let g:columnmove_strict_wbege=0
+ 
+ 
+ 
+
+ 
+ 
+a
+
+" 7.37 iskeyword, space, folded lines
+" let g:columnmove_strict_wbege=0
+a
+b "{{{
+c "}}}
+d
+ 
+e
+f
+
+g
+ 
+
+" 7.38 iskeyword, not-iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+a
+b "{{{
+c "}}}
+d
+;
+e
+f
+
+g
+;
+
+" 7.39 iskeyword, empty, folded lines
+" let g:columnmove_strict_wbege=0
+a
+b "{{{
+c "}}}
+d
+
+e
+
+" 7.40 not-iskeyword, space, folded lines
+" let g:columnmove_strict_wbege=0
+;
+: "{{{
+] "}}}
+/
+ 
+\
+;
+
+;
+ 
+
+" 7.41 not-iskeyword, iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+;
+: "{{{
+] "}}}
+/
+a
+\
+;
+
+;
+a
+
+" 7.42 not-iskeyword, empty, folded lines
+" let g:columnmove_strict_wbege=0
+;
+: "{{{
+] "}}}
+/
+
+\
+;
+
+" 7.43 space, iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+ 
+  "{{{
+  "}}}
+ 
+a
+ 
+ 
+
+ 
+a
+
+" 7.44 space, not-iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+ 
+  "{{{
+  "}}}
+ 
+;
+ 
+ 
+
+ 
+;
+
+" 7.45 space, empty, folded lines
+" let g:columnmove_strict_wbege=0
+ 
+  "{{{
+  "}}}
+ 
+
+ 
+a
+
+" 7.46 iskeyword, space, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+a
+b "{{{
+c "}}}
+d
+ 
+e
+f
+
+" 7.47 iskeyword, not-iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+a
+b "{{{
+c "}}}
+d
+;
+e
+f
+
+" 7.48 iskeyword, empty, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+a
+b "{{{
+c "}}}
+d
+
+e
+f
+
+" 7.49 not-iskeyword, space, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+;
+: "{{{
+] "}}}
+/
+ 
+\
+;
+
+" 7.50 not-iskeyword, iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+;
+: "{{{
+] "}}}
+/
+a
+\
+;
+
+" 7.51 not-iskeyword, empty, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+;
+: "{{{
+] "}}}
+/
+
+\
+;
+
+" 7.52 space, iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+ 
+  "{{{
+  "}}}
+ 
+a
+ 
+ 
+
+" 7.53 space, not-iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+ 
+  "{{{
+  "}}}
+ 
+;
+ 
+ 
+
+" 7.54 space, empty, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+ 
+  "{{{
+  "}}}
+ 
+
+ 
+a
+
+" 7.55 fold opening
+" let g:columnmove_strict_wbege=1
+" let g:columnmove_fold_open=1
+a
+b "{{{
+:
+c "}}}
+d
+;
+e
+f
+
+" 7.56 fold opening
+" let g:columnmove_strict_wbege=1
+" let g:columnmove_fold_open=1
+a
+b "{{{
+
+c "}}}
+d
+
+e
+f
+
+" 7.57 fold opening
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_open=1
+a
+b "{{{
+
+c "}}}
+d
+
+e
+f
+
+" 7.58 folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=0
+" let g:columnmove_fold_open=1
+a
+b "{{{ "{{{
+c "}}}
+d "{{{
+e "}}}
+f "{{{
+g "}}} "}}}
+h "{{{
+
+i "}}}
+
+j
+k
+
+" 7.59 preserved column position at line end
+abcde
+fgh
+
+ijklm
+
+" 7.60 preserved column position at line end
+abcde
+fgh
+
+ijklm
+
+" Test 8
+" columnmove-b
+"-----------------------
+" 8.1 iskeyword, space
+a
+b
+ 
+c
+d
+e
+
+" 8.2 iskeyword, not-iskeyword
+a
+b
+c
+;
+d
+e
+
+" 8.3 iskeyword, empty
+a
+b
+c
+
+d
+e
+
+" 8.4 not-iskeyword, space
+;
+:
+]
+ 
+/
+\
+
+" 8.5 not-iskeyword, iskeyword
+;
+:
+]
+a
+/
+\
+
+" 8.6 not-iskeyword, empty
+;
+:
+]
+
+/
+\
+
+" 8.7 space, iskeyword
+b
+ 
+ 
+a
+ 
+ 
+
+" 8.8 space, not-iskeyword
+:
+ 
+ 
+;
+ 
+ 
+
+" 8.9 space, empty
+a
+ 
+ 
+ 
+
+ 
+ 
+
+" 8.10 iskeyword, space, folded lines
+a
+b
+ 
+c
+d "{{{
+e "}}}
+f
+
+" 8.11 iskeyword, not-iskeyword, folded lines
+a
+b
+;
+c
+d "{{{
+e "}}}
+f
+
+" 8.12 iskeyword, empty, folded lines
+a
+b
+
+c "{{{
+d
+e "}}}
+f
+
+" 8.13 not-iskeyword, space, folded lines
+;
+:
+ 
+]
+/ "{{{
+\ "}}}
+;
+
+" 8.14 not-iskeyword, iskeyword, folded lines
+;
+:
+a
+]
+/ "{{{
+\ "}}}
+;
+
+" 8.15 not-iskeyword, empty, folded lines
+;
+:
+
+]
+/ "{{{
+\ "}}}
+;
+
+" 8.16 space, iskeyword, folded lines
+ 
+ 
+a
+ 
+  "{{{
+  "}}}
+ 
+
+" 8.17 space, not-iskeyword, folded lines
+ 
+ 
+;
+ 
+  "{{{
+  "}}}
+ 
+
+" 8.18 space, empty, folded lines
+a
+ 
+  "{{{
+  "}}}
+ 
+
+ 
+
+" 8.19 iskeyword, space, folded lines
+" let g:columnmove_fold_treatment=1
+a
+b
+ 
+d "{{{
+e "}}}
+f
+g
+
+" 8.20 iskeyword, not-iskeyword, folded lines
+" let g:columnmove_fold_treatment=1
+a
+b
+;
+c "{{{
+d "}}}
+e
+f
+
+" 8.21 iskeyword, empty, folded lines
+" let g:columnmove_fold_treatment=1
+a
+b
+
+c "{{{
+d "}}}
+e
+f
+
+" 8.22 not-iskeyword, space, folded lines
+" let g:columnmove_fold_treatment=1
+;
+:
+ 
+] "{{{
+/ "}}}
+\
+;
+
+" 8.23 not-iskeyword, iskeyword, folded lines
+" let g:columnmove_fold_treatment=1
+;
+:
+a
+] "{{{
+/ "}}}
+\
+;
+
+" 8.24 not-iskeyword, empty, folded lines
+" let g:columnmove_fold_treatment=1
+;
+:
+
+] "{{{
+/ "}}}
+\
+;
+
+" 8.25 space, iskeyword, folded lines
+" let g:columnmove_fold_treatment=1
+ 
+ 
+a
+  "{{{
+  "}}}
+ 
+ 
+
+" 8.26 space, not-iskeyword, folded lines
+" let g:columnmove_fold_treatment=1
+
+ 
+;
+  "{{{
+  "}}}
+ 
+ 
+
+" 8.27 space, empty, folded lines
+" let g:columnmove_fold_treatment=1
+ 
+
+a
+  "{{{
+  "}}}
+ 
+ 
+
+" 8.28 iskeyword, space
+" let g:columnmove_strict_wbege=0
+a
+b
+
+c
+ 
+d
+e
+f
+g
+
+" 8.29 iskeyword, not-iskeyword
+" let g:columnmove_strict_wbege=0
+a
+b
+
+c
+d
+e
+;
+f
+g
+
+" 8.30 iskeyword, empty
+" let g:columnmove_strict_wbege=0
+a
+b
+
+c
+d
+e
+
+" 8.31 not-iskeyword, space
+" let g:columnmove_strict_wbege=0
+;
+:
+
+;
+:
+ 
+]
+/
+\
+
+" 8.32 not-iskeyword, iskeyword
+" let g:columnmove_strict_wbege=0
+;
+:
+]
+a
+/
+\
+
+;
+:
+
+" 8.33 not-iskeyword, empty
+" let g:columnmove_strict_wbege=0
+;
+:
+
+]
+/
+\
+
+" 8.34 space, iskeyword
+" let g:columnmove_strict_wbege=0
+ 
+ 
+ 
+a
+
+ 
+ 
+ 
+a
+
+" 8.35 space, not-iskeyword
+" let g:columnmove_strict_wbege=0
+ 
+ 
+ 
+;
+
+ 
+ 
+ 
+;
+
+" 8.36 space, empty
+" let g:columnmove_strict_wbege=0
+ 
+ 
+a
+
+ 
+ 
+a
+
+" 8.37 iskeyword, space, folded lines
+" let g:columnmove_strict_wbege=0
+a
+b
+
+c
+d "{{{
+ 
+e "}}}
+f
+g
+ 
+
+" 8.38 iskeyword, not-iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+a
+b
+
+c "{{{
+d
+;
+e "}}}
+f
+g
+;
+
+" 8.39 iskeyword, empty, folded lines
+" let g:columnmove_strict_wbege=0
+
+a
+b
+
+c "{{{
+d "}}}
+e
+
+" 8.40 not-iskeyword, space, folded lines
+" let g:columnmove_strict_wbege=0
+;
+ 
+
+;
+: "{{{
+] "}}}
+/
+ 
+\
+;
+
+" 8.41 not-iskeyword, iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+;
+a
+
+;
+: "{{{
+] "}}}
+/
+a
+\
+;
+
+" 8.42 not-iskeyword, empty, folded lines
+" let g:columnmove_strict_wbege=0
+;
+
+\
+; "{{{
+: "}}}
+]
+/
+
+" 8.43 space, iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+ 
+a
+
+ 
+  "{{{
+ 
+  "}}}
+a
+ 
+ 
+
+" 8.44 space, not-iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+ 
+;
+
+ 
+  "{{{
+ 
+  "}}}
+;
+ 
+ 
+
+" 8.45 space, empty, folded lines
+" let g:columnmove_strict_wbege=0
+ 
+ 
+
+a
+  "{{{
+  "}}}
+ 
+ 
+
+" 8.46 iskeyword, space, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+
+a
+b
+ 
+c "{{{
+d "}}}
+e
+f
+
+" 8.47 iskeyword, not-iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+
+a
+b
+;
+c "{{{
+d "}}}
+e
+f
+
+" 8.48 iskeyword, empty, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+a
+
+b
+c "{{{
+d "}}}
+e
+f
+
+" 8.49 not-iskeyword, space, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+
+;
+: "{{{
+] "}}}
+/
+ 
+\
+;
+
+" 8.50 not-iskeyword, iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+
+;
+:
+] "{{{
+/ "}}}
+a
+\
+;
+
+" 8.51 not-iskeyword, empty, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+;
+
+:
+] "{{{
+/ "}}}
+\
+;
+
+" 8.52 space, iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+
+ 
+ 
+a
+  "{{{
+  "}}}
+ 
+ 
+
+" 8.53 space, not-iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+
+ 
+;
+  "{{{
+  "}}}
+ 
+ 
+ 
+
+" 8.54 space, empty, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+
+ 
+  "{{{
+ 
+  "}}}
+ 
+a
+
+" 8.55 fold opening
+" let g:columnmove_strict_wbege=1
+" let g:columnmove_fold_open=1
+a
+b
+:
+c
+d "{{{
+;
+e "}}}
+f
+
+" 8.56 fold opening
+" let g:columnmove_strict_wbege=1
+" let g:columnmove_fold_open=1
+a
+b
+
+c
+d "{{{
+
+e "}}}
+f
+
+" 8.57 fold opening
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_open=1
+a
+b
+
+c
+d "{{{
+
+e "}}}
+f
+
+" 8.58 folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=0
+a
+
+b "{{{
+c "}}}
+d "{{{
+e "}}}
+f "{{{
+g "}}}
+h
+i
+
+" 8.59 folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=0
+" let g:columnmove_fold_open=1
+a
+b "{{{
+
+c "}}}
+d "{{{ "{{{
+e "}}}
+f "{{{
+g "}}}
+h "{{{
+i "}}} "}}}
+j
+k
+
+" 8.60 preserved column position at line end
+
+abcde
+
+fgh
+ijklm
+
+" 8.61 preserved column position at line end
+
+abcde
+
+fgh
+ijklm
+
+" Test 9
+" columnmove-e
+"-----------------------
+" 9.1 iskeyword, space
+a
+b
+c
+ 
+d
+e
+
+" 9.2 iskeyword, not-iskeyword
+a
+b
+c
+;
+d
+e
+
+" 9.3 iskeyword, empty
+a
+b
+c
+
+d
+e
+
+" 9.4 not-iskeyword, space
+;
+:
+]
+ 
+/
+\
+
+" 9.5 not-iskeyword, iskeyword
+;
+:
+]
+a
+/
+\
+
+" 9.6 not-iskeyword, empty
+;
+:
+]
+
+/
+\
+
+" 9.7 space, iskeyword
+ 
+ 
+ 
+a
+ 
+ 
+
+" 9.8 space, not-iskeyword
+ 
+ 
+ 
+;
+ 
+ 
+
+" 9.9 space, empty
+ 
+ 
+ 
+
+ 
+ 
+a
+
+" 9.10 iskeyword, space, folded lines
+a
+b "{{{
+c "}}}
+d
+ 
+e
+f
+
+" 9.11 iskeyword, not-iskeyword, folded lines
+a
+b "{{{
+c "}}}
+d
+;
+e
+f
+
+" 9.12 iskeyword, empty, folded lines
+a
+b "{{{
+c "}}}
+d
+
+e
+f
+
+" 9.13 not-iskeyword, space, folded lines
+;
+: "{{{
+] "}}}
+/
+ 
+\
+;
+
+" 9.14 not-iskeyword, iskeyword, folded lines
+;
+: "{{{
+] "}}}
+/
+a
+\
+;
+
+" 9.15 not-iskeyword, empty, folded lines
+;
+: "{{{
+] "}}}
+/
+
+\
+;
+
+" 9.16 space, iskeyword, folded lines
+ 
+  "{{{
+  "}}}
+ 
+a
+ 
+ 
+
+" 9.17 space, not-iskeyword, folded lines
+ 
+  "{{{
+  "}}}
+ 
+;
+ 
+ 
+
+" 9.18 space, empty, folded lines
+ 
+  "{{{
+  "}}}
+ 
+
+ 
+a
+
+" 9.19 iskeyword, space, folded lines
+" let g:columnmove_fold_treatment=1
+a
+b
+c "{{{
+d "}}}
+e
+ 
+f
+
+" 9.20 iskeyword, not-iskeyword, folded lines
+" let g:columnmove_fold_treatment=1
+a
+b
+c "{{{
+d "}}}
+e
+;
+f
+
+" 9.21 iskeyword, empty, folded lines
+" let g:columnmove_fold_treatment=1
+a
+b
+c "{{{
+d "}}}
+e
+
+f
+
+" 9.22 not-iskeyword, space, folded lines
+" let g:columnmove_fold_treatment=1
+;
+:
+] "{{{
+/ "}}}
+\
+ 
+;
+
+" 9.23 not-iskeyword, iskeyword, folded lines
+" let g:columnmove_fold_treatment=1
+;
+:
+] "{{{
+/ "}}}
+\
+a
+;
+
+" 9.24 not-iskeyword, empty, folded lines
+" let g:columnmove_fold_treatment=1
+;
+:
+] "{{{
+/ "}}}
+\
+
+;
+
+" 9.25 space, iskeyword, folded lines
+" let g:columnmove_fold_treatment=1
+ 
+ 
+  "{{{
+  "}}}
+ 
+a
+ 
+
+" 9.26 space, not-iskeyword, folded lines
+" let g:columnmove_fold_treatment=1
+ 
+  "{{{
+  "}}}
+ 
+;
+ 
+ 
+
+" 9.27 space, empty, folded lines
+" let g:columnmove_fold_treatment=1
+ 
+  "{{{
+  "}}}
+ 
+
+ 
+a
+
+" 9.28 iskeyword, space
+" let g:columnmove_strict_wbege=0
+a
+b
+c
+ 
+d
+e
+
+f
+g
+
+" 9.29 iskeyword, not-iskeyword
+" let g:columnmove_strict_wbege=0
+a
+b
+c
+;
+d
+e
+
+f
+g
+
+" 9.30 iskeyword, empty
+" let g:columnmove_strict_wbege=0
+a
+b
+c
+
+d
+e
+
+" 9.31 not-iskeyword, space
+" let g:columnmove_strict_wbege=0
+;
+:
+]
+ 
+/
+\
+
+;
+:
+
+" 9.32 not-iskeyword, iskeyword
+" let g:columnmove_strict_wbege=0
+;
+:
+]
+a
+/
+\
+
+;
+:
+
+" 9.33 not-iskeyword, empty
+" let g:columnmove_strict_wbege=0
+;
+:
+]
+
+/
+\
+
+" 9.34 space, iskeyword
+" let g:columnmove_strict_wbege=0
+ 
+ 
+ 
+a
+ 
+ 
+
+ 
+a
+
+" 9.35 space, not-iskeyword
+" let g:columnmove_strict_wbege=0
+ 
+ 
+ 
+;
+ 
+ 
+
+ 
+;
+
+" 9.36 space, empty
+" let g:columnmove_strict_wbege=0
+ 
+ 
+ 
+
+ 
+ 
+a
+
+" 9.37 iskeyword, space, folded lines
+" let g:columnmove_strict_wbege=0
+a
+b "{{{
+c "}}}
+d
+ 
+e
+f
+
+g
+ 
+
+" 9.38 iskeyword, not-iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+a
+b "{{{
+c "}}}
+d
+;
+e
+f
+
+g
+;
+
+" 9.39 iskeyword, empty, folded lines
+" let g:columnmove_strict_wbege=0
+a
+b "{{{
+c "}}}
+d
+
+e
+
+" 9.40 not-iskeyword, space, folded lines
+" let g:columnmove_strict_wbege=0
+;
+: "{{{
+] "}}}
+/
+ 
+\
+;
+
+;
+ 
+
+" 9.41 not-iskeyword, iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+;
+: "{{{
+] "}}}
+/
+a
+\
+;
+
+;
+a
+
+" 9.42 not-iskeyword, empty, folded lines
+" let g:columnmove_strict_wbege=0
+;
+: "{{{
+] "}}}
+/
+
+\
+;
+
+" 9.43 space, iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+ 
+  "{{{
+  "}}}
+ 
+a
+ 
+ 
+
+ 
+a
+
+" 9.44 space, not-iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+ 
+  "{{{
+  "}}}
+ 
+;
+ 
+ 
+
+ 
+;
+
+" 9.45 space, empty, folded lines
+" let g:columnmove_strict_wbege=0
+ 
+  "{{{
+  "}}}
+ 
+
+ 
+a
+
+" 9.46 iskeyword, space, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+a
+b
+c "{{{
+d "}}}
+ 
+e
+f
+
+" 9.47 iskeyword, not-iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+a
+b
+c "{{{
+d "}}}
+;
+e
+f
+
+" 9.48 iskeyword, empty, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+a
+b
+c "{{{
+d "}}}
+
+e
+f
+
+" 9.49 not-iskeyword, space, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+;
+:
+] "{{{
+/ "}}}
+ 
+\
+;
+
+" 9.50 not-iskeyword, iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+;
+:
+] "{{{
+/ "}}}
+a
+\
+;
+
+" 9.51 not-iskeyword, empty, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+;
+:
+] "{{{
+/ "}}}
+
+\
+;
+
+" 9.52 space, iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+ 
+ 
+  "{{{
+  "}}}
+a
+ 
+ 
+
+" 9.53 space, not-iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+ 
+ 
+  "{{{
+  "}}}
+;
+ 
+ 
+
+" 9.54 space, empty, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+ 
+ 
+  "{{{
+  "}}}
+
+ 
+a
+
+" 9.55 fold opening
+" let g:columnmove_strict_wbege=1
+" let g:columnmove_fold_open=1
+a
+b "{{{
+:
+c "}}}
+d
+;
+e
+f
+
+" 9.56 fold opening
+" let g:columnmove_strict_wbege=1
+" let g:columnmove_fold_open=1
+a
+b "{{{
+
+c "}}}
+d
+
+e
+f
+
+" 9.57 fold opening
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_open=1
+a
+b "{{{
+
+c "}}}
+d
+
+e
+f
+
+" 9.58 folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=0
+a
+b
+c "{{{
+d "}}}
+e "{{{
+f "}}}
+g "{{{
+h "}}}
+
+i
+
+" 9.59 folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=0
+" let g:columnmove_fold_open=1
+a
+b "{{{ "{{{
+c "}}}
+d "{{{
+e "}}}
+f "{{{
+g "}}} "}}}
+h "{{{
+
+i "}}}
+
+j
+k
+
+" 9.60 preserved column position at line end
+abcde
+fgh
+ijklm
+
+" 9.61 preserved column position at line end
+abcde
+fgh
+ijklm
+
+" Test 10
+" columnmove-ge
+"-----------------------
+" 10.1 iskeyword, space
+a
+b
+ 
+c
+d
+e
+
+" 10.2 iskeyword, not-iskeyword
+a
+b
+;
+c
+d
+e
+
+" 10.3 iskeyword, empty
+a
+b
+
+c
+d
+e
+
+" 10.4 not-iskeyword, space
+;
+:
+ 
+]
+/
+\
+
+" 10.5 not-iskeyword, iskeyword
+;
+:
+a
+]
+/
+\
+
+" 10.6 not-iskeyword, empty
+;
+:
+
+]
+/
+\
+
+" 10.7 space, iskeyword
+b
+ 
+ 
+a
+ 
+ 
+
+" 10.8 space, not-iskeyword
+:
+ 
+ 
+;
+ 
+ 
+
+" 10.9 space, empty
+a
+ 
+ 
+ 
+
+ 
+ 
+
+" 10.10 iskeyword, space, folded lines
+a
+b
+ 
+c
+d "{{{
+e "}}}
+f
+
+" 10.11 iskeyword, not-iskeyword, folded lines
+a
+b
+;
+c
+d "{{{
+e "}}}
+f
+
+" 10.12 iskeyword, empty, folded lines
+a
+b
+
+c "{{{
+d
+e "}}}
+f
+
+" 10.13 not-iskeyword, space, folded lines
+;
+:
+ 
+]
+/ "{{{
+\ "}}}
+;
+
+" 10.14 not-iskeyword, iskeyword, folded lines
+;
+:
+a
+]
+/ "{{{
+\ "}}}
+;
+
+" 10.15 not-iskeyword, empty, folded lines
+;
+:
+
+]
+/ "{{{
+\ "}}}
+;
+
+" 10.16 space, iskeyword, folded lines
+ 
+ 
+a
+ 
+  "{{{
+  "}}}
+ 
+
+" 10.17 space, not-iskeyword, folded lines
+ 
+ 
+;
+ 
+  "{{{
+  "}}}
+ 
+
+" 10.18 space, empty, folded lines
+a
+ 
+  "{{{
+  "}}}
+ 
+
+ 
+
+" 10.19 iskeyword, space, folded lines
+" let g:columnmove_fold_treatment=1
+a
+b
+ 
+d "{{{
+e "}}}
+f
+g
+
+" 10.20 iskeyword, not-iskeyword, folded lines
+" let g:columnmove_fold_treatment=1
+a
+;
+b
+c "{{{
+d "}}}
+e
+f
+
+" 10.21 iskeyword, empty, folded lines
+" let g:columnmove_fold_treatment=1
+a
+b
+
+c "{{{
+d "}}}
+e
+f
+
+" 10.22 not-iskeyword, space, folded lines
+" let g:columnmove_fold_treatment=1
+;
+:
+ 
+] "{{{
+/ "}}}
+\
+;
+
+" 10.23 not-iskeyword, iskeyword, folded lines
+" let g:columnmove_fold_treatment=1
+;
+a
+:
+] "{{{
+/ "}}}
+\
+;
+
+" 10.24 not-iskeyword, empty, folded lines
+" let g:columnmove_fold_treatment=1
+;
+
+:
+] "{{{
+/ "}}}
+\
+;
+
+" 10.25 space, iskeyword, folded lines
+" let g:columnmove_fold_treatment=1
+ 
+ 
+a
+  "{{{
+  "}}}
+ 
+ 
+
+" 10.26 space, not-iskeyword, folded lines
+" let g:columnmove_fold_treatment=1
+
+ 
+;
+  "{{{
+  "}}}
+ 
+ 
+
+" 10.27 space, empty, folded lines
+" let g:columnmove_fold_treatment=1
+ 
+
+a
+  "{{{
+  "}}}
+ 
+ 
+
+" 10.28 iskeyword, space
+" let g:columnmove_strict_wbege=0
+a
+b
+
+c
+ 
+d
+e
+f
+g
+
+" 10.29 iskeyword, not-iskeyword
+" let g:columnmove_strict_wbege=0
+a
+b
+
+c
+d
+e
+;
+f
+g
+
+" 10.30 iskeyword, empty
+" let g:columnmove_strict_wbege=0
+a
+b
+
+c
+d
+e
+
+" 10.31 not-iskeyword, space
+" let g:columnmove_strict_wbege=0
+;
+:
+
+;
+:
+]
+ 
+/
+\
+
+" 10.32 not-iskeyword, iskeyword
+" let g:columnmove_strict_wbege=0
+;
+:
+]
+/
+\
+
+;
+a
+:
+
+" 10.33 not-iskeyword, empty
+" let g:columnmove_strict_wbege=0
+;
+:
+
+]
+/
+\
+
+" 10.34 space, iskeyword
+" let g:columnmove_strict_wbege=0
+ 
+ 
+ 
+a
+
+ 
+ 
+ 
+a
+
+" 10.35 space, not-iskeyword
+" let g:columnmove_strict_wbege=0
+ 
+ 
+ 
+;
+
+ 
+ 
+ 
+;
+
+" 10.36 space, empty
+" let g:columnmove_strict_wbege=0
+ 
+ 
+a
+
+ 
+ 
+a
+
+" 10.37 iskeyword, space, folded lines
+" let g:columnmove_strict_wbege=0
+a
+b
+
+c
+d "{{{
+ 
+e "}}}
+f
+g
+ 
+
+" 10.38 iskeyword, not-iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+a
+b
+
+c "{{{
+d
+;
+e "}}}
+f
+g
+;
+
+" 10.39 iskeyword, empty, folded lines
+" let g:columnmove_strict_wbege=0
+
+a
+b
+
+c "{{{
+d "}}}
+e
+
+" 10.40 not-iskeyword, space, folded lines
+" let g:columnmove_strict_wbege=0
+;
+ 
+
+;
+: "{{{
+] "}}}
+/
+ 
+\
+;
+
+" 10.41 not-iskeyword, iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+;
+a
+
+;
+: "{{{
+] "}}}
+/
+a
+\
+;
+
+" 10.42 not-iskeyword, empty, folded lines
+" let g:columnmove_strict_wbege=0
+;
+
+\
+; "{{{
+: "}}}
+]
+/
+
+" 10.43 space, iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+ 
+a
+
+ 
+  "{{{
+ 
+  "}}}
+a
+ 
+ 
+
+" 10.44 space, not-iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+ 
+;
+
+ 
+  "{{{
+ 
+  "}}}
+;
+ 
+ 
+
+" 10.45 space, empty, folded lines
+" let g:columnmove_strict_wbege=0
+b
+ 
+
+a
+  "{{{
+  "}}}
+ 
+ 
+
+" 10.46 iskeyword, space, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+a
+
+b
+ 
+c "{{{
+d "}}}
+e
+f
+
+" 10.47 iskeyword, not-iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+
+a
+b
+;
+c "{{{
+d "}}}
+e
+f
+
+" 10.48 iskeyword, empty, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+a
+
+b
+c "{{{
+d "}}}
+e
+f
+
+" 10.49 not-iskeyword, space, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+
+;
+: "{{{
+] "}}}
+/
+ 
+\
+;
+
+" 10.50 not-iskeyword, iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+
+;
+:
+] "{{{
+/ "}}}
+a
+\
+;
+
+" 10.51 not-iskeyword, empty, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+;
+
+:
+] "{{{
+/ "}}}
+\
+;
+
+" 10.52 space, iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+
+ 
+ 
+a
+  "{{{
+  "}}}
+ 
+ 
+
+" 10.53 space, not-iskeyword, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+
+ 
+;
+  "{{{
+  "}}}
+ 
+ 
+ 
+
+" 10.54 space, empty, folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=1
+
+ 
+  "{{{
+ 
+  "}}}
+ 
+a
+
+" 10.55 fold opening
+" let g:columnmove_strict_wbege=1
+" let g:columnmove_fold_open=1
+a
+b
+:
+c
+d "{{{
+;
+e "}}}
+f
+
+" 10.56 fold opening
+" let g:columnmove_strict_wbege=1
+" let g:columnmove_fold_open=1
+a
+b
+
+c
+d "{{{
+
+e "}}}
+f
+
+" 10.57 fold opening
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_open=1
+a
+b
+
+c
+d "{{{
+
+e "}}}
+f
+
+" 10.58 folded lines
+" let g:columnmove_strict_wbege=0
+" let g:columnmove_fold_treatment=0
+" let g:columnmove_fold_open=1
+a
+b "{{{
+
+c "}}}
+d "{{{ "{{{
+e "}}}
+f "{{{
+g "}}}
+h "{{{
+i "}}} "}}}
+j
+k
+
+" 10.59 preserved column position at line end
+abcde
+
+fgh
+ijklm
+
+" 10.60 preserved column position at line end
+abcde
+
+fgh
+ijklm
+
+
+#s
+$t
+" vim:set foldcolumn=2:
+" vim:set foldmethod=marker:
+" vim:set commentstring="%s:
