@@ -699,7 +699,7 @@ function! s:columnmove_wbege(kind, mode, count, options_dict, command) "{{{
 
   " resolving user configuration
   let opt_fold_open      = s:user_conf(     'fold_open', a:options_dict, 0)
-  let opt_strict_wbege   = s:user_conf(  'strict_wbege', a:options_dict, 0)
+  let opt_strict_wbege   = s:user_conf(  'strict_wbege', a:options_dict, 1)
   let opt_fold_treatment = s:user_conf('fold_treatment', a:options_dict, 0)
   let opt_raw            = s:check_raw(a:options_dict)
 
