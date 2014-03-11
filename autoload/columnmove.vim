@@ -255,23 +255,77 @@ function! s:user_conf(name, arg, default)    "{{{
   endif
 
   if exists('g:columnmove_' . a:name)
-    unlet user_conf
     let user_conf = g:columnmove_{a:name}
   endif
 
   if exists('t:columnmove_' . a:name)
-    unlet user_conf
     let user_conf = t:columnmove_{a:name}
   endif
 
   if exists('w:columnmove_' . a:name)
-    unlet user_conf
     let user_conf = w:columnmove_{a:name}
   endif
 
   if exists('b:columnmove_' . a:name)
-    unlet user_conf
     let user_conf = b:columnmove_{a:name}
+  endif
+
+  return user_conf
+endfunction
+"}}}
+function! s:user_mode_conf(name, arg, default, mode)    "{{{
+  let user_conf = a:default
+
+  if !empty(a:arg)
+    if type(a:arg) == s:type_dict
+      if has_key(a:arg, a:name)
+        if type(a:arg[a:name]) == s:type_dict
+          return get(a:arg[a:name], a:mode, a:default)
+        elseif type(a:arg[a:name]) == s:type_num
+          return a:arg[a:name]
+        endif
+      endif
+    endif
+  endif
+
+  if exists('g:columnmove_' . a:name)
+    let type_val = g:columnmove_{a:name}
+
+    if type(type_val) == s:type_dict
+      let user_conf = get(g:columnmove_{a:name}, a:mode, a:default)
+    elseif type(type_val) == s:type_num
+      let user_conf = g:columnmove_{a:name}
+    endif
+  endif
+
+  if exists('t:columnmove_' . a:name)
+    let type_val = t:columnmove_{a:name}
+
+    if type(type_val) == s:type_dict
+      let user_conf = get(t:columnmove_{a:name}, a:mode, a:default)
+    elseif type(type_val) == s:type_num
+      let user_conf = t:columnmove_{a:name}
+    endif
+  endif
+
+  if exists('w:columnmove_' . a:name)
+    let type_val = w:columnmove_{a:name}
+
+    if type(type_val) == s:type_dict
+      let user_conf = get(w:columnmove_{a:name}, a:mode, a:default)
+    elseif type(type_val) == s:type_num
+      let user_conf = w:columnmove_{a:name}
+    endif
+  endif
+
+  if exists('b:columnmove_' . a:name)
+    let type_val = b:columnmove_{a:name}
+
+    if type(type_val) == s:type_dict
+      let user_conf = get(b:columnmove_{a:name}, a:mode, a:default)
+    elseif type(type_val) == s:type_num
+      let user_conf = b:columnmove_{a:name}
+    endif
   endif
 
   return user_conf
@@ -337,9 +391,9 @@ function! s:columnmove_ftFT(kind, mode, char, count, options_dict, command) "{{{
   let currentline = line(".")
 
   if a:char != ''
-    let dest = s:get_dest_ftFT_with_char(a:kind, a:char, currentline, col, a:count, a:options_dict)
+    let dest = s:get_dest_ftFT_with_char(a:kind, a:mode, a:char, currentline, col, a:count, a:options_dict)
   else
-    let dest = s:get_dest_ftFT(a:kind, currentline, col, a:count, a:options_dict)
+    let dest = s:get_dest_ftFT(a:kind, a:mode, currentline, col, a:count, a:options_dict)
   endif
 
   let opt_raw = s:check_raw(a:options_dict)
@@ -373,18 +427,14 @@ function! s:columnmove_ftFT(kind, mode, char, count, options_dict, command) "{{{
   return output
 endfunction
 "}}}
-function! s:get_dest_ftFT(kind, currentline, col, count, options_dict)  "{{{
+function! s:get_dest_ftFT(kind, mode, currentline, col, count, options_dict)  "{{{
   " resolving user configuration
-  let opt_fold_open      = s:user_conf(     'fold_open', a:options_dict, 0)
+  let opt_fold_open      = s:user_mode_conf('fold_open', a:options_dict, 0, a:mode)
   let opt_ignore_case    = s:user_conf(   'ignore_case', a:options_dict, &ignorecase)
   let opt_highlight      = s:user_conf(     'highlight', a:options_dict, 1)
   let opt_update_history = s:user_conf('update_history', a:options_dict, 1)
   let opt_expand_range   = s:user_conf(  'expand_range', a:options_dict, 0)
   let opt_auto_scroll    = s:user_conf(   'auto_scroll', a:options_dict, 0)
-
-  if type(opt_fold_open) == s:type_dict
-    let opt_fold_open = get(opt_fold_open, a:mode, 0)
-  endif
 
   " gather buffer lines
   if a:kind =~# '[ft]'
@@ -545,17 +595,13 @@ function! s:get_dest_ftFT(kind, currentline, col, count, options_dict)  "{{{
   return output
 endfunction
 "}}}
-function! s:get_dest_ftFT_with_char(kind, c, currentline, col, count, options_dict)  "{{{
+function! s:get_dest_ftFT_with_char(kind, mode, c, currentline, col, count, options_dict)  "{{{
   " resolving user configuration
-  let opt_fold_open      = s:user_conf(     'fold_open', a:options_dict, 0)
+  let opt_fold_open      = s:user_mode_conf('fold_open', a:options_dict, 0, a:mode)
   let opt_ignore_case    = s:user_conf(   'ignore_case', a:options_dict, &ignorecase)
   let opt_update_history = s:user_conf('update_history', a:options_dict, 1)
   let opt_expand_range   = s:user_conf(  'expand_range', a:options_dict, 0)
   let opt_auto_scroll    = s:user_conf(   'auto_scroll', a:options_dict, 0)
-
-  if type(opt_fold_open) == s:type_dict
-    let opt_fold_open = get(opt_fold_open, a:mode, 0)
-  endif
 
   " update history
   if opt_update_history
@@ -702,14 +748,10 @@ function! s:columnmove_wbege(kind, mode, count, options_dict, command) "{{{
   let currentline = line(".")
 
   " resolving user configuration
-  let opt_fold_open      = s:user_conf(     'fold_open', a:options_dict, 0)
+  let opt_fold_open      = s:user_mode_conf('fold_open', a:options_dict, 0, a:mode)
   let opt_strict_wbege   = s:user_conf(  'strict_wbege', a:options_dict, 1)
   let opt_fold_treatment = s:user_conf('fold_treatment', a:options_dict, 0)
   let opt_raw            = s:check_raw(a:options_dict)
-
-  if type(opt_fold_open) == s:type_dict
-    let opt_fold_open = get(opt_fold_open, a:mode, 0)
-  endif
 
   if opt_strict_wbege
     if a:kind =~# '\%(w\|ge\)'
