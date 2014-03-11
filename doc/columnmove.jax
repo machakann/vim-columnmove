@@ -186,14 +186,14 @@ KEYMAPPINGS					*columnmove-keymappings*
 |columnmove-F|		<Plug>(columnmove-F)		<M-F>
 |columnmove-T|		<Plug>(columnmove-T)		<M-T>
 |columnmove-semicolon|	<Plug>(columnmove-;)		<M-;>
-|columnmove-comma|		<Plug>(columnmove-,)		<M-,>
+|columnmove-comma|	<Plug>(columnmove-,)		<M-,>
 
 |columnmove-w|		<Plug>(columnmove-w)		<M-w>
 |columnmove-b|		<Plug>(columnmove-b)		<M-b>
 |columnmove-e|		<Plug>(columnmove-e)		<M-e>
 |columnmove-ge|		<Plug>(columnmove-ge)		<M-g>e
-								 and
-								<M-g><M-e>
+							 and
+							<M-g><M-e>
 --------------------------------------------------------------------------
 
 				     *g:columnmove_no_default_key_mappings*
