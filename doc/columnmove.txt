@@ -1,4 +1,4 @@
-﻿*columnmove.txt*	Last change:09-Mar-2014.
+*columnmove.txt*	Last change:11-Mar-2014.
 
 Bring cursor vertically in similar ways as line-wise commands.
 
