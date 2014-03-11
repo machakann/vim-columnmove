@@ -255,18 +255,22 @@ function! s:user_conf(name, arg, default)    "{{{
   endif
 
   if exists('g:columnmove_' . a:name)
+    unlet user_conf
     let user_conf = g:columnmove_{a:name}
   endif
 
   if exists('t:columnmove_' . a:name)
+    unlet user_conf
     let user_conf = t:columnmove_{a:name}
   endif
 
   if exists('w:columnmove_' . a:name)
+    unlet user_conf
     let user_conf = w:columnmove_{a:name}
   endif
 
   if exists('b:columnmove_' . a:name)
+    unlet user_conf
     let user_conf = b:columnmove_{a:name}
   endif
 
