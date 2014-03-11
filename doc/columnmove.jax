@@ -1,4 +1,4 @@
-﻿*columnmove.txt*	Last change:09-Mar-2014.
+﻿*columnmove.jax*	Last change:11-Mar-2014.
 
 カーソルを、縦に、動かします。
 
@@ -18,7 +18,7 @@ FUNCTIONS		|columnmove-functions|
 ==============================================================================
 INTRODUCTION					*columnmove-introduction*
 
-columnmove はカーソルを縦方向に動かすためのキーマッピングを提供します。
+*columnmove* はカーソルを縦方向に動かすためのキーマッピングを提供します。
 
 columnmove-f とその仲間達~
 columnmove-f とその仲間達は、同じ桁の中で指定された文字を探してその位置まで
