@@ -179,7 +179,7 @@ KEYMAPPINGS					*columnmove-keymappings*
 
 このプラグインは次に掲げるキーマッピングを提供します。
 
-機能				キーマッピング			デフォルト
+機能			キーマッピング			デフォルト
 --------------------------------------------------------------------------
 |columnmove-f|		<Plug>(columnmove-f)		<M-f>
 |columnmove-t|		<Plug>(columnmove-t)		<M-t>
