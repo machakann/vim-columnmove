@@ -92,7 +92,7 @@ t
 e
 ```
 
-"spoiled" commands would stop cursor on the fifth and nineth line since `fs-`, `fss`, and, `-te` are strings which are separated by empty line. It means that if there is a space, still stops cursor there.
+"spoiled" commands would stop cursor on the fifth and nineth line since `fs-`, `fss`, and, `-te` are strings which are separated by empty line. It means that if there is a space, still stops cursor on the space.
 
 ![columnmove-w:spoiled](http://kura2.photozou.jp/pub/986/3080986/photo/199165599_org.v1394287362.gif)
 
