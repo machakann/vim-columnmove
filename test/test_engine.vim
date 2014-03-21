@@ -1,6 +1,6 @@
 " vim:set foldmethod=marker:
 " vim:set commentstring="%s:
-" Last Change: 02-Mar-2014.
+" Last Change: 15-Mar-2014.
 
 " なぜnormal!ではなくマクロを使ったのかというとそっちの方がちらちらして好きだ
 " からです！
@@ -15,6 +15,7 @@
 " TODO: コメント普及させようね
 " TODO: result取得が融通きかない
 " TODO: 部分的にabort
+" TODO: なぜ辞書なんだ…なぜリストにしなかった…
 
 " Test information"{{{
 " Test 1
