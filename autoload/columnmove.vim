@@ -440,11 +440,7 @@ function! s:get_dest_ftFT(kind, mode, currentline, col, count, options_dict)  "{
   if a:kind =~# '[ft]'
     " down
     if opt_auto_scroll
-      let room = screenrow() - &scrolloff - 1
-
-      if room > 0
-        execute "normal! " . room . "\<C-e>"
-      endif
+      normal! zt
     endif
 
     let startline = (a:kind ==# 'f') ? a:currentline + 1 : a:currentline + 2
@@ -465,12 +461,7 @@ function! s:get_dest_ftFT(kind, mode, currentline, col, count, options_dict)  "{
   elseif a:kind =~# '[FT]'
     " up
     if opt_auto_scroll
-      let winheight = winheight(0)
-      let room      = winheight - screenrow() - &scrolloff
-
-      if room > 0
-        execute "normal! " . room . "\<C-y>"
-      endif
+      normal! zb
     endif
 
     let startline = (a:kind ==# 'F') ? a:currentline - 1 : a:currentline - 2
@@ -612,11 +603,7 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, currentline, col, count, opti
   if a:kind =~# '[ft]'
     " down
     if opt_auto_scroll
-      let room = screenrow() - &scrolloff - 1
-
-      if room > 0
-        execute "normal! " . room . "\<C-e>"
-      endif
+      normal! zt
     endif
 
     let startline = (a:kind ==# 'f') ? a:currentline + 1 : a:currentline + 2
@@ -637,12 +624,7 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, currentline, col, count, opti
   elseif a:kind =~# '[FT]'
     " up
     if opt_auto_scroll
-      let winheight = winheight(0)
-      let room      = winheight - screenrow() - &scrolloff
-
-      if room > 0
-        execute "normal! " . room . "\<C-y>"
-      endif
+      normal! zb
     endif
 
     let startline = (a:kind ==# 'F') ? a:currentline - 1 : a:currentline - 2
