@@ -1,5 +1,5 @@
 ﻿" Vim global plugin for moving cursor in vertical direction
-" Last Change: 08-Mar-2014.
+" Last Change: 22-Apr-2014.
 " Maintainer : Masaaki Nakamura <mckn@outlook.com>
 
 " License    : NYSL
@@ -13,64 +13,94 @@ let g:loaded_columnmove = 1
 
 """ keymappings
 " vertical f
-nnoremap <silent> <Plug>(columnmove-f)  :<C-u>call columnmove#f('n')<CR>
-xnoremap <silent> <Plug>(columnmove-f)  :<C-u>call columnmove#f('x')<CR>
-onoremap <silent> <Plug>(columnmove-f)  :<C-u>call columnmove#f('o')<CR>
-inoremap <silent> <Plug>(columnmove-f)  <C-r>=columnmove#f('i')<CR>
+inoremap <silent>      <Plug>(columnmove-f)        <C-r>=columnmove#f('i')<CR>
+nnoremap <silent>      <Plug>(columnmove-f)       :<C-u>call columnmove#f('n')<CR>
+xnoremap <silent>      <Plug>(columnmove-f)       :<C-u>call columnmove#f('x')<CR>
+onoremap <silent>      <Plug>(columnmove-f)      V:<C-u>call columnmove#f('o')<CR>
+onoremap <silent>     v<Plug>(columnmove-f)       :<C-u>call columnmove#f('o')<CR>
+onoremap <silent>     V<Plug>(columnmove-f)      V:<C-u>call columnmove#f('o')<CR>
+onoremap <silent> <C-v><Plug>(columnmove-f)  <C-v>:<C-u>call columnmove#f('o')<CR>
 
 " vertical t
-nnoremap <silent> <Plug>(columnmove-t)  :<C-u>call columnmove#t('n')<CR>
-xnoremap <silent> <Plug>(columnmove-t)  :<C-u>call columnmove#t('x')<CR>
-onoremap <silent> <Plug>(columnmove-t)  :<C-u>call columnmove#t('o')<CR>
-inoremap <silent> <Plug>(columnmove-t)  <C-r>=columnmove#t('i')<CR>
+inoremap <silent>      <Plug>(columnmove-t)        <C-r>=columnmove#t('i')<CR>
+nnoremap <silent>      <Plug>(columnmove-t)       :<C-u>call columnmove#t('n')<CR>
+xnoremap <silent>      <Plug>(columnmove-t)       :<C-u>call columnmove#t('x')<CR>
+onoremap <silent>      <Plug>(columnmove-t)      V:<C-u>call columnmove#t('o')<CR>
+onoremap <silent>     v<Plug>(columnmove-t)       :<C-u>call columnmove#t('o')<CR>
+onoremap <silent>     V<Plug>(columnmove-t)      V:<C-u>call columnmove#t('o')<CR>
+onoremap <silent> <C-v><Plug>(columnmove-t)  <C-v>:<C-u>call columnmove#t('o')<CR>
 
 " vertical F
-nnoremap <silent> <Plug>(columnmove-F)  :<C-u>call columnmove#F('n')<CR>
-xnoremap <silent> <Plug>(columnmove-F)  :<C-u>call columnmove#F('x')<CR>
-onoremap <silent> <Plug>(columnmove-F)  :<C-u>call columnmove#F('o')<CR>
-inoremap <silent> <Plug>(columnmove-F)  <C-r>=columnmove#F('i')<CR>
+inoremap <silent>      <Plug>(columnmove-F)        <C-r>=columnmove#F('i')<CR>
+nnoremap <silent>      <Plug>(columnmove-F)       :<C-u>call columnmove#F('n')<CR>
+xnoremap <silent>      <Plug>(columnmove-F)       :<C-u>call columnmove#F('x')<CR>
+onoremap <silent>      <Plug>(columnmove-F)      V:<C-u>call columnmove#F('o')<CR>
+onoremap <silent>     v<Plug>(columnmove-F)       :<C-u>call columnmove#F('o')<CR>
+onoremap <silent>     V<Plug>(columnmove-F)      V:<C-u>call columnmove#F('o')<CR>
+onoremap <silent> <C-v><Plug>(columnmove-F)  <C-v>:<C-u>call columnmove#F('o')<CR>
 
 " vertical T
-nnoremap <silent> <Plug>(columnmove-T)  :<C-u>call columnmove#T('n')<CR>
-xnoremap <silent> <Plug>(columnmove-T)  :<C-u>call columnmove#T('x')<CR>
-onoremap <silent> <Plug>(columnmove-T)  :<C-u>call columnmove#T('o')<CR>
-inoremap <silent> <Plug>(columnmove-T)  <C-r>=columnmove#T('i')<CR>
+inoremap <silent>      <Plug>(columnmove-T)        <C-r>=columnmove#T('i')<CR>
+nnoremap <silent>      <Plug>(columnmove-T)       :<C-u>call columnmove#T('n')<CR>
+xnoremap <silent>      <Plug>(columnmove-T)       :<C-u>call columnmove#T('x')<CR>
+onoremap <silent>      <Plug>(columnmove-T)      V:<C-u>call columnmove#T('o')<CR>
+onoremap <silent>     v<Plug>(columnmove-T)       :<C-u>call columnmove#T('o')<CR>
+onoremap <silent>     V<Plug>(columnmove-T)      V:<C-u>call columnmove#T('o')<CR>
+onoremap <silent> <C-v><Plug>(columnmove-T)  <C-v>:<C-u>call columnmove#T('o')<CR>
 
 " vertical semicolon
-nnoremap <silent> <Plug>(columnmove-;)  :<C-u>call columnmove#semicolon('n')<CR>
-xnoremap <silent> <Plug>(columnmove-;)  :<C-u>call columnmove#semicolon('x')<CR>
-onoremap <silent> <Plug>(columnmove-;)  :<C-u>call columnmove#semicolon('o')<CR>
-inoremap <silent> <Plug>(columnmove-;)  <C-r>=columnmove#semicolon('i')<CR>
+inoremap <silent>      <Plug>(columnmove-;)        <C-r>=columnmove#semicolon('i')<CR>
+nnoremap <silent>      <Plug>(columnmove-;)       :<C-u>call columnmove#semicolon('n')<CR>
+xnoremap <silent>      <Plug>(columnmove-;)       :<C-u>call columnmove#semicolon('x')<CR>
+onoremap <silent>      <Plug>(columnmove-;)      V:<C-u>call columnmove#semicolon('o')<CR>
+onoremap <silent>     v<Plug>(columnmove-;)       :<C-u>call columnmove#semicolon('o')<CR>
+onoremap <silent>     V<Plug>(columnmove-;)      V:<C-u>call columnmove#semicolon('o')<CR>
+onoremap <silent> <C-v><Plug>(columnmove-;)  <C-v>:<C-u>call columnmove#semicolon('o')<CR>
 
 " vertical comma
-nnoremap <silent> <Plug>(columnmove-,)  :<C-u>call columnmove#comma('n')<CR>
-xnoremap <silent> <Plug>(columnmove-,)  :<C-u>call columnmove#comma('x')<CR>
-onoremap <silent> <Plug>(columnmove-,)  :<C-u>call columnmove#comma('o')<CR>
-inoremap <silent> <Plug>(columnmove-,)  <C-r>=columnmove#comma('i')<CR>
+inoremap <silent>      <Plug>(columnmove-,)        <C-r>=columnmove#comma('i')<CR>
+nnoremap <silent>      <Plug>(columnmove-,)       :<C-u>call columnmove#comma('n')<CR>
+xnoremap <silent>      <Plug>(columnmove-,)       :<C-u>call columnmove#comma('x')<CR>
+onoremap <silent>      <Plug>(columnmove-,)      V:<C-u>call columnmove#comma('o')<CR>
+onoremap <silent>     v<Plug>(columnmove-,)       :<C-u>call columnmove#comma('o')<CR>
+onoremap <silent>     V<Plug>(columnmove-,)      V:<C-u>call columnmove#comma('o')<CR>
+onoremap <silent> <C-v><Plug>(columnmove-,)  <C-v>:<C-u>call columnmove#comma('o')<CR>
 
 " vertical w
-nnoremap <silent> <Plug>(columnmove-w)  :<C-u>call columnmove#w('n')<CR>
-xnoremap <silent> <Plug>(columnmove-w)  :<C-u>call columnmove#w('x')<CR>
-onoremap <silent> <Plug>(columnmove-w)  :<C-u>call columnmove#w('o')<CR>
-inoremap <silent> <Plug>(columnmove-w)  <C-r>=columnmove#w('i')<CR>
+inoremap <silent>      <Plug>(columnmove-w)        <C-r>=columnmove#w('i')<CR>
+nnoremap <silent>      <Plug>(columnmove-w)       :<C-u>call columnmove#w('n')<CR>
+xnoremap <silent>      <Plug>(columnmove-w)       :<C-u>call columnmove#w('x')<CR>
+onoremap <silent>      <Plug>(columnmove-w)      V:<C-u>call columnmove#w('o')<CR>
+onoremap <silent>     v<Plug>(columnmove-w)       :<C-u>call columnmove#w('o')<CR>
+onoremap <silent>     V<Plug>(columnmove-w)      V:<C-u>call columnmove#w('o')<CR>
+onoremap <silent> <C-v><Plug>(columnmove-w)  <C-v>:<C-u>call columnmove#w('o')<CR>
 
 " vertical b
-nnoremap <silent> <Plug>(columnmove-b)  :<C-u>call columnmove#b('n')<CR>
-xnoremap <silent> <Plug>(columnmove-b)  :<C-u>call columnmove#b('x')<CR>
-onoremap <silent> <Plug>(columnmove-b)  :<C-u>call columnmove#b('o')<CR>
-inoremap <silent> <Plug>(columnmove-b)  <C-r>=columnmove#b('i')<CR>
+inoremap <silent>      <Plug>(columnmove-b)        <C-r>=columnmove#b('i')<CR>
+nnoremap <silent>      <Plug>(columnmove-b)       :<C-u>call columnmove#b('n')<CR>
+xnoremap <silent>      <Plug>(columnmove-b)       :<C-u>call columnmove#b('x')<CR>
+onoremap <silent>      <Plug>(columnmove-b)      V:<C-u>call columnmove#b('o')<CR>
+onoremap <silent>     v<Plug>(columnmove-b)       :<C-u>call columnmove#b('o')<CR>
+onoremap <silent>     V<Plug>(columnmove-b)      V:<C-u>call columnmove#b('o')<CR>
+onoremap <silent> <C-v><Plug>(columnmove-b)  <C-v>:<C-u>call columnmove#b('o')<CR>
 
 " vertical e
-nnoremap <silent> <Plug>(columnmove-e)  :<C-u>call columnmove#e('n')<CR>
-xnoremap <silent> <Plug>(columnmove-e)  :<C-u>call columnmove#e('x')<CR>
-onoremap <silent> <Plug>(columnmove-e)  :<C-u>call columnmove#e('o')<CR>
-inoremap <silent> <Plug>(columnmove-e)  <C-r>=columnmove#e('i')<CR>
+inoremap <silent>      <Plug>(columnmove-e)        <C-r>=columnmove#e('i')<CR>
+nnoremap <silent>      <Plug>(columnmove-e)       :<C-u>call columnmove#e('n')<CR>
+xnoremap <silent>      <Plug>(columnmove-e)       :<C-u>call columnmove#e('x')<CR>
+onoremap <silent>      <Plug>(columnmove-e)      V:<C-u>call columnmove#e('o')<CR>
+onoremap <silent>     v<Plug>(columnmove-e)       :<C-u>call columnmove#e('o')<CR>
+onoremap <silent>     V<Plug>(columnmove-e)      V:<C-u>call columnmove#e('o')<CR>
+onoremap <silent> <C-v><Plug>(columnmove-e)  <C-v>:<C-u>call columnmove#e('o')<CR>
 
 " vertical ge
-nnoremap <silent> <Plug>(columnmove-ge) :<C-u>call columnmove#ge('n')<CR>
-xnoremap <silent> <Plug>(columnmove-ge) :<C-u>call columnmove#ge('x')<CR>
-onoremap <silent> <Plug>(columnmove-ge) :<C-u>call columnmove#ge('o')<CR>
-inoremap <silent> <Plug>(columnmove-ge) <C-r>=columnmove#ge('i')<CR>
+inoremap <silent>      <Plug>(columnmove-ge)       <C-r>=columnmove#ge('i')<CR>
+nnoremap <silent>      <Plug>(columnmove-ge)      :<C-u>call columnmove#ge('n')<CR>
+xnoremap <silent>      <Plug>(columnmove-ge)      :<C-u>call columnmove#ge('x')<CR>
+onoremap <silent>      <Plug>(columnmove-ge)     V:<C-u>call columnmove#ge('o')<CR>
+onoremap <silent>     v<Plug>(columnmove-ge)      :<C-u>call columnmove#ge('o')<CR>
+onoremap <silent>     V<Plug>(columnmove-ge)     V:<C-u>call columnmove#ge('o')<CR>
+onoremap <silent> <C-v><Plug>(columnmove-ge) <C-v>:<C-u>call columnmove#ge('o')<CR>
 
 """ default keymappings
 " If g:columnmove_no_default_key_mappings has been defined, then quit
@@ -79,84 +109,118 @@ if exists('g:columnmove_no_default_key_mappings') | finish | endif
 
 " vertical f
 if !hasmapto('<Plug>(columnmove-f)')
-  nmap <unique> <M-f> <Plug>(columnmove-f)
-  xmap <unique> <M-f> <Plug>(columnmove-f)
-  omap <unique> <M-f> <Plug>(columnmove-f)
-  imap <unique> <M-f> <Plug>(columnmove-f)
+  imap <unique>      <M-f>      <Plug>(columnmove-f)
+  nmap <unique>      <M-f>      <Plug>(columnmove-f)
+  xmap <unique>      <M-f>      <Plug>(columnmove-f)
+  omap <unique>      <M-f>      <Plug>(columnmove-f)
+  omap <unique>     v<M-f>     v<Plug>(columnmove-f)
+  omap <unique>     V<M-f>     V<Plug>(columnmove-f)
+  omap <unique> <C-v><M-f> <C-v><Plug>(columnmove-f)
 endif
 
 " vertical t
 if !hasmapto('<Plug>(columnmove-t)')
-  nmap <unique> <M-t> <Plug>(columnmove-t)
-  xmap <unique> <M-t> <Plug>(columnmove-t)
-  omap <unique> <M-t> <Plug>(columnmove-t)
-  imap <unique> <M-t> <Plug>(columnmove-t)
+  imap <unique>      <M-t>      <Plug>(columnmove-t)
+  nmap <unique>      <M-t>      <Plug>(columnmove-t)
+  xmap <unique>      <M-t>      <Plug>(columnmove-t)
+  omap <unique>      <M-t>      <Plug>(columnmove-t)
+  omap <unique>     v<M-t>     v<Plug>(columnmove-t)
+  omap <unique>     V<M-t>     V<Plug>(columnmove-t)
+  omap <unique> <C-v><M-t> <C-v><Plug>(columnmove-t)
 endif
 
 " vertical F
 if !hasmapto('<Plug>(columnmove-F)')
-  nmap <unique> <M-F> <Plug>(columnmove-F)
-  xmap <unique> <M-F> <Plug>(columnmove-F)
-  omap <unique> <M-F> <Plug>(columnmove-F)
-  imap <unique> <M-F> <Plug>(columnmove-F)
+  imap <unique>      <M-F>      <Plug>(columnmove-F)
+  nmap <unique>      <M-F>      <Plug>(columnmove-F)
+  xmap <unique>      <M-F>      <Plug>(columnmove-F)
+  omap <unique>      <M-F>      <Plug>(columnmove-F)
+  omap <unique>     v<M-F>     v<Plug>(columnmove-F)
+  omap <unique>     V<M-F>     V<Plug>(columnmove-F)
+  omap <unique> <C-v><M-F> <C-v><Plug>(columnmove-F)
 endif
 
 " vertical T
 if !hasmapto('<Plug>(columnmove-T)')
-  nmap <unique> <M-T> <Plug>(columnmove-T)
-  xmap <unique> <M-T> <Plug>(columnmove-T)
-  omap <unique> <M-T> <Plug>(columnmove-T)
-  imap <unique> <M-T> <Plug>(columnmove-T)
+  imap <unique>      <M-T>      <Plug>(columnmove-T)
+  nmap <unique>      <M-T>      <Plug>(columnmove-T)
+  xmap <unique>      <M-T>      <Plug>(columnmove-T)
+  omap <unique>      <M-T>      <Plug>(columnmove-T)
+  omap <unique>     v<M-T>     v<Plug>(columnmove-T)
+  omap <unique>     V<M-T>     V<Plug>(columnmove-T)
+  omap <unique> <C-v><M-T> <C-v><Plug>(columnmove-T)
 endif
 
 " vertical semicolon
 if !hasmapto('<Plug>(columnmove-;)')
-  nmap <unique> <M-;> <Plug>(columnmove-;)
-  xmap <unique> <M-;> <Plug>(columnmove-;)
-  omap <unique> <M-;> <Plug>(columnmove-;)
-  imap <unique> <M-;> <Plug>(columnmove-;)
+  imap <unique>      <M-;>      <Plug>(columnmove-;)
+  nmap <unique>      <M-;>      <Plug>(columnmove-;)
+  xmap <unique>      <M-;>      <Plug>(columnmove-;)
+  omap <unique>      <M-;>      <Plug>(columnmove-;)
+  omap <unique>     v<M-;>     v<Plug>(columnmove-;)
+  omap <unique>     V<M-;>     V<Plug>(columnmove-;)
+  omap <unique> <C-v><M-;> <C-v><Plug>(columnmove-;)
 endif
 
 " vertical comma
 if !hasmapto('<Plug>(columnmove-,)')
-  nmap <unique> <M-,> <Plug>(columnmove-,)
-  xmap <unique> <M-,> <Plug>(columnmove-,)
-  omap <unique> <M-,> <Plug>(columnmove-,)
-  imap <unique> <M-,> <Plug>(columnmove-,)
+  imap <unique>      <M-,>      <Plug>(columnmove-,)
+  nmap <unique>      <M-,>      <Plug>(columnmove-,)
+  xmap <unique>      <M-,>      <Plug>(columnmove-,)
+  omap <unique>      <M-,>      <Plug>(columnmove-,)
+  omap <unique>     v<M-,>     v<Plug>(columnmove-,)
+  omap <unique>     V<M-,>     V<Plug>(columnmove-,)
+  omap <unique> <C-v><M-,> <C-v><Plug>(columnmove-,)
 endif
 
 " vertical w
 if !hasmapto('<Plug>(columnmove-w)')
-  nmap <unique> <M-w> <Plug>(columnmove-w)
-  xmap <unique> <M-w> <Plug>(columnmove-w)
-  omap <unique> <M-w> <Plug>(columnmove-w)
-  imap <unique> <M-w> <Plug>(columnmove-w)
+  imap <unique>      <M-w>      <Plug>(columnmove-w)
+  nmap <unique>      <M-w>      <Plug>(columnmove-w)
+  xmap <unique>      <M-w>      <Plug>(columnmove-w)
+  omap <unique>      <M-w>      <Plug>(columnmove-w)
+  omap <unique>     v<M-w>     v<Plug>(columnmove-w)
+  omap <unique>     V<M-w>     V<Plug>(columnmove-w)
+  omap <unique> <C-v><M-w> <C-v><Plug>(columnmove-w)
 endif
 
 " vertical b
 if !hasmapto('<Plug>(columnmove-b)')
-  nmap <unique> <M-b> <Plug>(columnmove-b)
-  xmap <unique> <M-b> <Plug>(columnmove-b)
-  omap <unique> <M-b> <Plug>(columnmove-b)
-  imap <unique> <M-b> <Plug>(columnmove-b)
+  imap <unique>      <M-b>      <Plug>(columnmove-b)
+  nmap <unique>      <M-b>      <Plug>(columnmove-b)
+  xmap <unique>      <M-b>      <Plug>(columnmove-b)
+  omap <unique>      <M-b>      <Plug>(columnmove-b)
+  omap <unique>     v<M-b>     v<Plug>(columnmove-b)
+  omap <unique>     V<M-b>     V<Plug>(columnmove-b)
+  omap <unique> <C-v><M-b> <C-v><Plug>(columnmove-b)
 endif
 
 " vertical e
 if !hasmapto('<Plug>(columnmove-e)')
-  nmap <unique> <M-e> <Plug>(columnmove-e)
-  xmap <unique> <M-e> <Plug>(columnmove-e)
-  omap <unique> <M-e> <Plug>(columnmove-e)
-  imap <unique> <M-e> <Plug>(columnmove-e)
+  imap <unique>      <M-e>      <Plug>(columnmove-e)
+  nmap <unique>      <M-e>      <Plug>(columnmove-e)
+  xmap <unique>      <M-e>      <Plug>(columnmove-e)
+  omap <unique>      <M-e>      <Plug>(columnmove-e)
+  omap <unique>     v<M-e>     v<Plug>(columnmove-e)
+  omap <unique>     V<M-e>     V<Plug>(columnmove-e)
+  omap <unique> <C-v><M-e> <C-v><Plug>(columnmove-e)
 endif
 
 " vertical ge
 if !hasmapto('<Plug>(columnmove-ge)')
-  nmap <unique> <M-g>e <Plug>(columnmove-ge)
-  xmap <unique> <M-g>e <Plug>(columnmove-ge)
-  omap <unique> <M-g>e <Plug>(columnmove-ge)
-  imap <unique> <M-g>e <Plug>(columnmove-ge)
-  nmap <unique> <M-g><M-e> <Plug>(columnmove-ge)
-  xmap <unique> <M-g><M-e> <Plug>(columnmove-ge)
-  omap <unique> <M-g><M-e> <Plug>(columnmove-ge)
-  imap <unique> <M-g><M-e> <Plug>(columnmove-ge)
+  imap <unique>      <M-g>e      <Plug>(columnmove-ge)
+  nmap <unique>      <M-g>e      <Plug>(columnmove-ge)
+  xmap <unique>      <M-g>e      <Plug>(columnmove-ge)
+  omap <unique>      <M-g>e      <Plug>(columnmove-ge)
+  omap <unique>     v<M-g>e     v<Plug>(columnmove-ge)
+  omap <unique>     V<M-g>e     V<Plug>(columnmove-ge)
+  omap <unique> <C-v><M-g>e <C-v><Plug>(columnmove-ge)
+
+  imap <unique>      <M-g><M-e>      <Plug>(columnmove-ge)
+  nmap <unique>      <M-g><M-e>      <Plug>(columnmove-ge)
+  xmap <unique>      <M-g><M-e>      <Plug>(columnmove-ge)
+  omap <unique>      <M-g><M-e>      <Plug>(columnmove-ge)
+  omap <unique>     v<M-g><M-e>     v<Plug>(columnmove-ge)
+  omap <unique>     V<M-g><M-e>     V<Plug>(columnmove-ge)
+  omap <unique> <C-v><M-g><M-e> <C-v><Plug>(columnmove-ge)
 endif
