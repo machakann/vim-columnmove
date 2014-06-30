@@ -1,6 +1,6 @@
 " vim:set foldmethod=marker:
 " vim:set commentstring="%s:
-" Last Change: 15-Mar-2014.
+" Last Change: 03-Apr-2014.
 
 " なぜnormal!ではなくマクロを使ったのかというとそっちの方がちらちらして好きだ
 " からです！
@@ -38,7 +38,7 @@ let test_info.pre     = {
     \   }
 
 let test_info.1       = {
-    \   "pre"  : {'breaking' : 5 },
+    \   "pre"  : {'breaking' : 5, 'commands' : ['unlet! g:columnmove_fold_open']},
     \   "1"    : {'caption'     : 'line head',
     \             'result'      : 'getline(".")[col(".")]',
     \             'expectation' : '6',
