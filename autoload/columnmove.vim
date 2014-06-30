@@ -564,7 +564,7 @@ function! s:get_dest_ftFT(kind, mode, currentline, col, count, options_dict)  "{
     redraw
   endif
 
-  if key == "" | return [-1, -1, opened_fold] | endif
+  if key == "" | return [-1, [], opened_fold] | endif
 
   " update history
   if opt_update_history
@@ -573,7 +573,7 @@ function! s:get_dest_ftFT(kind, mode, currentline, col, count, options_dict)  "{
 
   let pattern = prefix . s:s.escape_pattern(key)
   let idx     = match(uniq_chars, pattern)
-  if idx < 0 | return [-1, -1, opened_fold] | endif
+  if idx < 0 | return [-1, [], opened_fold] | endif
 
   if a:kind ==# 't'
     let output = [displacements[idx], [highlight_rows[idx] - 1, a:col], opened_fold]
