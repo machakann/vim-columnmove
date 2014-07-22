@@ -681,11 +681,13 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, currentline, col, count, opti
     let s:search_history = [a:kind, a:c]
   endif
 
+  " save view
+  let view = winsaveview()
+
   " defining the searching range
   if a:kind =~# '[ft]'
     " down
     if opt_auto_scroll
-      let view = winsaveview()
       normal! zt
     endif
 
@@ -707,7 +709,6 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, currentline, col, count, opti
   elseif a:kind =~# '[FT]'
     " up
     if opt_auto_scroll
-      let view = winsaveview()
       normal! zb
     endif
 
