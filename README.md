@@ -26,7 +26,7 @@ Or you just want to expand to a whole file, give the negative number to `g:colum
 
 
 # columnmove-w
-columnmove-w and its variants are the commands for moving cursor in word-wise.  This group has four keymappings, that is, `columnmove-w`, `columnmove-b`, `columnmove-e`, `columnmove-ge`. Each of them are the imitations of `w`, `b`, `e`, `ge` commands, but work in vertical direction. These commands regard the column which cursor is on as a line and search for the head or tail of word to move.  These commands regard a empty part of the column (like empty lines) as a space to skip it. For example, assume a vimscript code like this:
+columnmove-w and its variants are the commands for moving cursor in word-wise.  This group has eight keymappings, that is, `columnmove-w`, `columnmove-b`, `columnmove-e`, `columnmove-ge`, `columnmove-W`, `columnmove-B`, `columnmove-E`, `columnmove-gE`. Each of them are the imitations of `w`, `b`, `e`, `ge`, `W`, `B`, `E`, `gE` commands, but work in vertical direction. These commands regard the column which cursor is on as a line and search for the head or tail of word to move.  These commands regard a empty part of the column (like empty lines) as a space to skip it. For example, assume a vimscript code like this:
 
 ```vim
 echo "first line"
@@ -66,7 +66,7 @@ fs- fss -te
 
 Empty columns are converted to spaces. Words are defined by using the option 'iskeyword'. Usually `-` is not keyword in vimscript code. Thus if the cursor is placed on the first `f`, w command brings cursor like, `-` -> `f` -> `-` -> `t`.  Hence `columnmove-w` command bring cursor to the third, fifth, and, nineth, and, tenth lines from the first line.
 
-These commands are mapped to `<M-w>`, `<M-b>`, `<M-e>`, `<M-g>e` in default.
+These commands are mapped to `<M-w>`, `<M-b>`, `<M-e>`, `<M-g>e`, `<M-W>`, `<M-B>`, `<M-E>`, `<M-g>E` in default.
 
 ![columnmove-w:strict](http://kura2.photozou.jp/pub/986/3080986/photo/199164951_org.v1394286992.gif)
 
