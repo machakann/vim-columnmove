@@ -512,6 +512,7 @@ function! s:get_dest_ftFT(kind, mode, currentline, col, count, options_dict)  "{
   if a:kind =~# '[ft]'
     " down
     if opt_auto_scroll
+      let view = winsaveview()
       normal! zt
     endif
 
@@ -533,6 +534,7 @@ function! s:get_dest_ftFT(kind, mode, currentline, col, count, options_dict)  "{
   elseif a:kind =~# '[FT]'
     " up
     if opt_auto_scroll
+      let view = winsaveview()
       normal! zb
     endif
 
@@ -645,7 +647,15 @@ function! s:get_dest_ftFT(kind, mode, currentline, col, count, options_dict)  "{
 
   let pattern = prefix . s:s.escape_pattern(key)
   let idx     = match(uniq_chars, pattern)
-  if idx < 0 | return [-1, [], opened_fold] | endif
+
+  if idx < 0
+    " can not find target
+    if opt_auto_scroll
+      call winrestview(view)
+    endif
+
+    return [-1, [], opened_fold]
+  endif
 
   if a:kind ==# 't'
     let output = [displacements[idx], [highlight_rows[idx] - 1, a:col], opened_fold]
@@ -675,6 +685,7 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, currentline, col, count, opti
   if a:kind =~# '[ft]'
     " down
     if opt_auto_scroll
+      let view = winsaveview()
       normal! zt
     endif
 
@@ -696,6 +707,7 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, currentline, col, count, opti
   elseif a:kind =~# '[FT]'
     " up
     if opt_auto_scroll
+      let view = winsaveview()
       normal! zb
     endif
 
@@ -767,6 +779,9 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, currentline, col, count, opti
       endif
     endif
   endwhile
+
+  " restore view
+  call winrestview(view)
 
   " could not find
   if idx > line_num | return [-1, [], opened_fold] | endif
