@@ -606,7 +606,7 @@ function! s:get_dest_ftFT(kind, mode, currentline, col, count, options_dict)  "{
   endwhile
 
   " picking up candidates
-  let prefix = opt_ignore_case ? '\c' : '\C'
+  let prefix = opt_ignore_case ? '\m\c' : '\m\C'
 
   let displacements  = []
   let highlight_rows = []
@@ -731,7 +731,7 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, currentline, col, count, opti
   let idx      = 0
   let line     = startline
   let displ    = 1
-  let prefix   = opt_ignore_case ? '\c' : '\C'
+  let prefix   = opt_ignore_case ? '\m\c' : '\m\C'
   let pattern  = prefix . s:s.escape_pattern(a:c)
   let line_num = len(whole_lines) - 1
 
