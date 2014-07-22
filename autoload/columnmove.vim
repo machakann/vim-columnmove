@@ -909,7 +909,7 @@ function! s:get_dest_wge(kind, col, currentline, count, level, opt_fold_treatmen
   endif
   let displ = 0  " displacement from current line to the destination
   let c     = ((col <= len(lines[0])) && (fold_{edge} < 0)) ? lines[idx][col-1] : ' '
-  let is_keyword_cur = (c == ' ') ? -1 : ((c =~ '\k') ? 1 : 0)
+  let is_keyword_cur = (c =~ '\m\s') ? -1 : ((c =~ '\m\k') ? 1 : 0)
 
   let output = [-1, [], opened_fold]
   while l:count > 0
@@ -958,7 +958,7 @@ function! s:get_dest_wge(kind, col, currentline, count, level, opt_fold_treatmen
 
     let c = ((col <= len(lines[idx])) && (fold_{edge} < 0)) ? lines[idx][col-1] : ' '
 
-    let is_keyword_cur = (c == ' ') ? -1 : ((c =~ '\k') ? 1 : 0)
+    let is_keyword_cur = (c =~ '\m\s') ? -1 : ((c =~ '\m\k') ? 1 : 0)
 
     if fold_{edge} >= 0
       " The current line is folded
@@ -1024,7 +1024,7 @@ function! s:get_dest_be(kind, col, currentline, count, level, opt_fold_treatment
   endif
   let displ = 0  " displacement from current line to the destination
   let c     = ((col <= len(lines[0])) && (fold_{edge} < 0)) ? lines[idx][col-1] : ' '
-  let is_keyword_cur = (c == ' ') ? -1 : ((c =~ '\k') ? 1 : 0)
+  let is_keyword_cur = (c =~ '\m\s') ? -1 : ((c =~ '\m\k') ? 1 : 0)
 
   let output = [-1, [], opened_fold]
   while l:count > 0
@@ -1074,7 +1074,7 @@ function! s:get_dest_be(kind, col, currentline, count, level, opt_fold_treatment
 
     let c = ((col <= len(lines[idx])) && (fold_{edge} < 0)) ? lines[idx][col-1] : ' '
 
-    let is_keyword_cur = (c == ' ') ? -1 : ((c =~ '\k') ? 1 : 0)
+    let is_keyword_cur = (c =~ '\m\s') ? -1 : ((c =~ '\m\k') ? 1 : 0)
 
     if fold_{edge} >= 0
       " The current line is folded
@@ -1365,7 +1365,7 @@ function! s:get_dest_WgE(kind, col, currentline, count, level, opt_fold_treatmen
   endif
   let displ = 0  " displacement from current line to the destination
   let c     = ((col <= len(lines[0])) && (fold_{edge} < 0)) ? lines[idx][col-1] : ' '
-  let is_empty_cur = (c == ' ') ? 1 : 0
+  let is_empty_cur = (c =~ '\m\s') ? 1 : 0
 
   let output = [-1, [], opened_fold]
   while l:count > 0
@@ -1414,7 +1414,7 @@ function! s:get_dest_WgE(kind, col, currentline, count, level, opt_fold_treatmen
 
     let c = ((col <= len(lines[idx])) && (fold_{edge} < 0)) ? lines[idx][col-1] : ' '
 
-    let is_empty_cur = (c == ' ') ? 1 : 0
+    let is_empty_cur = (c =~ '\m\s') ? 1 : 0
 
     if fold_{edge} >= 0
       " The current line is folded
@@ -1471,7 +1471,7 @@ function! s:get_dest_BE(kind, col, currentline, count, level, opt_fold_treatment
   endif
   let displ = 0  " displacement from current line to the destination
   let c     = ((col <= len(lines[0])) && (fold_{edge} < 0)) ? lines[idx][col-1] : ' '
-  let is_empty_cur = (c == ' ') ? 1 : 0
+  let is_empty_cur = (c =~ '\m\s') ? 1 : 0
 
   let output = [-1, [], opened_fold]
   while l:count > 0
@@ -1521,7 +1521,7 @@ function! s:get_dest_BE(kind, col, currentline, count, level, opt_fold_treatment
 
     let c = ((col <= len(lines[idx])) && (fold_{edge} < 0)) ? lines[idx][col-1] : ' '
 
-    let is_empty_cur = (c == ' ') ? 1 : 0
+    let is_empty_cur = (c =~ '\m\s') ? 1 : 0
 
     if fold_{edge} >= 0
       " The current line is folded
