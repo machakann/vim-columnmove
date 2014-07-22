@@ -1,21 +1,21 @@
 " vim:set foldmethod=marker:
 " vim:set commentstring="%s:
-" Last Change: 03-Apr-2014.
+" Last Change: 22-Jul-2014.
 
-" Ç»Ç∫normal!Ç≈ÇÕÇ»Ç≠É}ÉNÉçÇégÇ¡ÇΩÇÃÇ©Ç∆Ç¢Ç§Ç∆ÇªÇ¡ÇøÇÃï˚Ç™ÇøÇÁÇøÇÁÇµÇƒçDÇ´Çæ
-" Ç©ÇÁÇ≈Ç∑ÅI
+" „Å™„Åúnormal!„Åß„ÅØ„Å™„Åè„Éû„ÇØ„É≠„Çí‰Ωø„Å£„Åü„ÅÆ„Åã„Å®„ÅÑ„ÅÜ„Å®„Åù„Å£„Å°„ÅÆÊñπ„Åå„Å°„Çâ„Å°„Çâ„Åó„Å¶Â•Ω„Åç„Å†
+" „Åã„Çâ„Åß„ÅôÔºÅ
 "
-" ÉoÉOëΩâﬂÇ¨Ç‚ÇŒÇ¢
+" „Éê„Ç∞Â§öÈÅé„Åé„ÇÑ„Å∞„ÅÑ
 "
-" TODO: searchÇ™é∏îsÇµÇΩèÍçáÇ…åxçêÇ≈Ç´ÇÈÇÊÇ§Ç…ÇµÇƒÇ≠ÇÍ
-" TODO: test_infoÇ…on/offópÇÃÉvÉçÉpÉeÉBÇí«â¡
-" TODO: ÉfÉoÉbÉOópÇ…Ç‡ÉçÉOìfÇ≠èÍèäÇ™Ç†ÇÈÇ∆Ç¢Ç¢Ç»Ç†Ç¡Çƒ
-" TODO: s:minimum_header_widthÇ™è¨Ç≥Ç¢èÍçáäJÇ¢ÇΩÇËï¬Ç∂ÇΩÇËÅiÉXÉâÉCÉhÅjÇ»UI
-" TODO: ê¨å˜èåèÇ™ÅuìôÇµÇ¢ÅvÇæÇØÇ∂Ç·ÇøÇÂÇ¡Ç∆ÅBÅBÅB
-" TODO: ÉRÉÅÉìÉgïÅãyÇ≥ÇπÇÊÇ§ÇÀ
-" TODO: resultéÊìæÇ™óZí Ç´Ç©Ç»Ç¢
-" TODO: ïîï™ìIÇ…abort
-" TODO: Ç»Ç∫é´èëÇ»ÇÒÇæÅcÇ»Ç∫ÉäÉXÉgÇ…ÇµÇ»Ç©Ç¡ÇΩÅc
+" TODO: search„ÅåÂ§±Êïó„Åó„ÅüÂ†¥Âêà„Å´Ë≠¶Âëä„Åß„Åç„Çã„Çà„ÅÜ„Å´„Åó„Å¶„Åè„Çå
+" TODO: test_info„Å´on/offÁî®„ÅÆ„Éó„É≠„Éë„ÉÜ„Ç£„ÇíËøΩÂä†
+" TODO: „Éá„Éê„ÉÉ„Ç∞Áî®„Å´„ÇÇ„É≠„Ç∞Âêê„ÅèÂ†¥ÊâÄ„Åå„ÅÇ„Çã„Å®„ÅÑ„ÅÑ„Å™„ÅÇ„Å£„Å¶
+" TODO: s:minimum_header_width„ÅåÂ∞è„Åï„ÅÑÂ†¥ÂêàÈñã„ÅÑ„Åü„ÇäÈñâ„Åò„Åü„ÇäÔºà„Çπ„É©„Ç§„ÉâÔºâ„Å™UI
+" TODO: ÊàêÂäüÊù°‰ª∂„Åå„ÄåÁ≠â„Åó„ÅÑ„Äç„Å†„Åë„Åò„ÇÉ„Å°„Çá„Å£„Å®„ÄÇ„ÄÇ„ÄÇ
+" TODO: „Ç≥„É°„É≥„ÉàÊôÆÂèä„Åï„Åõ„Çà„ÅÜ„Å≠
+" TODO: resultÂèñÂæó„ÅåËûçÈÄö„Åç„Åã„Å™„ÅÑ
+" TODO: ÈÉ®ÂàÜÁöÑ„Å´abort
+" TODO: „Å™„ÅúËæûÊõ∏„Å™„Çì„Å†‚Ä¶„Å™„Åú„É™„Çπ„Éà„Å´„Åó„Å™„Åã„Å£„Åü‚Ä¶
 
 " Test information"{{{
 " Test 1
@@ -2928,6 +2928,1122 @@ let test_info.10      = {
     \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=0']}, 'post' : {}
     \             },
     \
+    \   }
+
+let test_info.11      = {
+    \   "pre"  : {'breaking' : 1 , 'commands' : [':let g:columnmove_fold_open=0', ':let g:columnmove_expand_range=0', ':let g:columnmove_fold_treatment=0']},
+    \   "1"    : {'caption'     : 'iskeyword, space',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'd',
+    \             'key_input'   : "\<M-W>",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "2"    : {'caption'     : 'iskeyword, not-iskeyword',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'd',
+    \             'key_input'   : "\<M-W>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "3"    : {'caption'     : 'iskeyword, empty',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'd',
+    \             'key_input'   : "\<M-W>",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "4"    : {'caption'     : 'not-iskeyword, space',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : '/',
+    \             'key_input'   : "\<M-W>",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "5"    : {'caption'     : 'not-iskeyword, iskeyword',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : '/',
+    \             'key_input'   : "\<M-W>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "6"    : {'caption'     : 'not-iskeyword, empty',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : '/',
+    \             'key_input'   : "\<M-W>",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "7"    : {'caption'     : 'space, iskeyword',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "\<M-W>",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "8"    : {'caption'     : 'space, not-iskeyword',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ';',
+    \             'key_input'   : "\<M-W>",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "9"    : {'caption'     : 'space, empty',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "\<M-W>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "10"   : {'caption'     : 'iskeyword, space, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'e',
+    \             'key_input'   : "\<M-W>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', ':let g:columnmove_fold_treatment=0']}, 'post' : {}
+    \             },
+    \
+    \   "11"   : {'caption'     : 'iskeyword, not-iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'e',
+    \             'key_input'   : "\<M-W>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "12"   : {'caption'     : 'iskeyword, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'e',
+    \             'key_input'   : "\<M-W>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "13"   : {'caption'     : 'not-iskeyword, space, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : '\',
+    \             'key_input'   : "\<M-W>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "14"   : {'caption'     : 'not-iskeyword, iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : '\',
+    \             'key_input'   : "\<M-W>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "15"   : {'caption'     : 'not-iskeyword, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : '\',
+    \             'key_input'   : "\<M-W>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "16"   : {'caption'     : 'space, iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "\<M-W>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "17"   : {'caption'     : 'space, not-iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ';',
+    \             'key_input'   : "\<M-W>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "18"   : {'caption'     : 'space, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "\<M-W>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "19"   : {'caption'     : 'iskeyword, space, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'd',
+    \             'key_input'   : "j\<M-W>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "20"   : {'caption'     : 'iskeyword, not-iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'd',
+    \             'key_input'   : "j\<M-W>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "21"   : {'caption'     : 'iskeyword, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'd',
+    \             'key_input'   : "j\<M-W>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "22"   : {'caption'     : 'not-iskeyword, space, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : '/',
+    \             'key_input'   : "j\<M-W>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "23"   : {'caption'     : 'not-iskeyword, iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : '/',
+    \             'key_input'   : "j\<M-W>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "24"   : {'caption'     : 'not-iskeyword, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : '/',
+    \             'key_input'   : "j\<M-W>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "25"   : {'caption'     : 'space, iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "j\<M-W>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "26"   : {'caption'     : 'space, not-iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ';',
+    \             'key_input'   : "j\<M-W>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "27"   : {'caption'     : 'space, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "j\<M-W>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "28"   : {'caption'     : 'fold opening',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ':',
+    \             'key_input'   : "2j\<M-W>",
+    \             'breaking'    : 11,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=0', 'let g:columnmove_fold_open=1']}, 'post' : {}
+    \             },
+    \
+    \   "29"   : {'caption'     : 'fold opening',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'c',
+    \             'key_input'   : "2j\<M-W>",
+    \             'breaking'    : 9,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=0', 'let g:columnmove_fold_open=1']}, 'post' : {}
+    \             },
+    \
+    \   "30"   : {'caption'     : 'fold opening',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'c',
+    \             'key_input'   : "2j\<M-W>",
+    \             'breaking'    : 9,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=0', 'let g:columnmove_fold_treatment=0', 'let g:columnmove_fold_open=1']}, 'post' : {}
+    \             },
+    \
+    \   "31"   : {'caption'     : 'folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'i',
+    \             'key_input'   : "3j\<M-W>",
+    \             'breaking'    : 15,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=0', 'let g:columnmove_fold_treatment=0', 'let g:columnmove_fold_open=1']}, 'post' : {}
+    \             },
+    \
+    \   "32"   : {'caption'     : 'preserved column position at line end',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'k',
+    \             'key_input'   : "$j\<M-W>",
+    \             'breaking'    : 2,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1']}, 'post' : {}
+    \             },
+    \
+    \   "post" : {'breaking' : 2, 'commands' : ['let g:columnmove_strict_wbege=0', 'let g:columnmove_fold_treatment=1']},
+    \   }
+
+let test_info.12      = {
+    \   "pre"  : {'breaking' : 0 , 'commands' : [':let g:columnmove_fold_open=0', ':let g:columnmove_expand_range=0', ':let g:columnmove_fold_treatment=0']},
+    \   "1"    : {'caption'     : 'iskeyword, space',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'c',
+    \             'key_input'   : "5j\<M-B>",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "2"    : {'caption'     : 'iskeyword, not-iskeyword',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "6j\<M-B>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "3"    : {'caption'     : 'iskeyword, empty',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'd',
+    \             'key_input'   : "5j\<M-B>",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "4"    : {'caption'     : 'not-iskeyword, space',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : '/',
+    \             'key_input'   : "5j\<M-B>",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "5"    : {'caption'     : 'not-iskeyword, iskeyword',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "6j\<M-B>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "6"    : {'caption'     : 'not-iskeyword, empty',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : '/',
+    \             'key_input'   : "5j\<M-B>",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "7"    : {'caption'     : 'space, iskeyword',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "5j\<M-B>",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "8"    : {'caption'     : 'space, not-iskeyword',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ';',
+    \             'key_input'   : "5j\<M-B>",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "9"    : {'caption'     : 'space, empty',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "6j\<M-B>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "10"   : {'caption'     : 'iskeyword, space, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'c',
+    \             'key_input'   : "5j\<M-B>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', ':let g:columnmove_fold_treatment=0']}, 'post' : {}
+    \             },
+    \
+    \   "11"   : {'caption'     : 'iskeyword, not-iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "6j\<M-B>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "12"   : {'caption'     : 'iskeyword, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "5j\<M-B>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "13"   : {'caption'     : 'not-iskeyword, space, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ']',
+    \             'key_input'   : "5j\<M-B>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "14"   : {'caption'     : 'not-iskeyword, iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ';',
+    \             'key_input'   : "6j\<M-B>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "15"   : {'caption'     : 'not-iskeyword, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ']',
+    \             'key_input'   : "5j\<M-B>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "16"   : {'caption'     : 'space, iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "5j\<M-B>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "17"   : {'caption'     : 'space, not-iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ';',
+    \             'key_input'   : "5j\<M-B>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "18"   : {'caption'     : 'space, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "6j\<M-B>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "19"   : {'caption'     : 'iskeyword, space, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'f',
+    \             'key_input'   : "6j\<M-B>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "20"   : {'caption'     : 'iskeyword, not-iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ';',
+    \             'key_input'   : "6j\<M-B>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "21"   : {'caption'     : 'iskeyword, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'e',
+    \             'key_input'   : "6j\<M-B>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "22"   : {'caption'     : 'not-iskeyword, space, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : '\',
+    \             'key_input'   : "6j\<M-B>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "23"   : {'caption'     : 'not-iskeyword, iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : '\',
+    \             'key_input'   : "6j\<M-B>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "24"   : {'caption'     : 'not-iskeyword, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : '\',
+    \             'key_input'   : "6j\<M-B>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "25"   : {'caption'     : 'space, iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "6j\<M-B>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "26"   : {'caption'     : 'space, not-iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ';',
+    \             'key_input'   : "6j\<M-B>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "27"   : {'caption'     : 'space, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "6j\<M-B>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "28"   : {'caption'     : 'fold opening',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ';',
+    \             'key_input'   : "7j\<M-B>",
+    \             'breaking'    : 10,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=0', 'let g:columnmove_fold_open=1']}, 'post' : {}
+    \             },
+    \
+    \   "29"   : {'caption'     : 'fold opening',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'e',
+    \             'key_input'   : "7j\<M-B>",
+    \             'breaking'    : 9,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=0', 'let g:columnmove_fold_open=1']}, 'post' : {}
+    \             },
+    \
+    \   "30"   : {'caption'     : 'preserved column position at line end',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'c',
+    \             'key_input'   : "4j$k\<M-B>",
+    \             'breaking'    : 3,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1']}, 'post' : {}
+    \             },
+    \
+    \   "post" : {'breaking' : 2},
+    \   }
+
+let test_info.13      = {
+    \   "pre"  : {'breaking' : 0 , 'commands' : [':let g:columnmove_fold_open=0', ':let g:columnmove_expand_range=0', ':let g:columnmove_fold_treatment=0']},
+    \   "1"    : {'caption'     : 'iskeyword, space',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'c',
+    \             'key_input'   : "\<M-E>",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "2"    : {'caption'     : 'iskeyword, not-iskeyword',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ';',
+    \             'key_input'   : "\<M-E>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "3"    : {'caption'     : 'iskeyword, empty',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'c',
+    \             'key_input'   : "\<M-E>",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "4"    : {'caption'     : 'not-iskeyword, space',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ']',
+    \             'key_input'   : "\<M-E>",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "5"    : {'caption'     : 'not-iskeyword, iskeyword',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "\<M-E>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "6"    : {'caption'     : 'not-iskeyword, empty',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ']',
+    \             'key_input'   : "\<M-E>",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "7"    : {'caption'     : 'space, iskeyword',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "\<M-E>",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "8"    : {'caption'     : 'space, not-iskeyword',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ';',
+    \             'key_input'   : "\<M-E>",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "9"    : {'caption'     : 'space, empty',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "\<M-E>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "10"   : {'caption'     : 'iskeyword, space, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'd',
+    \             'key_input'   : "\<M-E>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', ':let g:columnmove_fold_treatment=0']}, 'post' : {}
+    \             },
+    \
+    \   "11"   : {'caption'     : 'iskeyword, not-iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'f',
+    \             'key_input'   : "\<M-E>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "12"   : {'caption'     : 'iskeyword, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'd',
+    \             'key_input'   : "\<M-E>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "13"   : {'caption'     : 'not-iskeyword, space, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : '/',
+    \             'key_input'   : "\<M-E>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "14"   : {'caption'     : 'not-iskeyword, iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ';',
+    \             'key_input'   : "\<M-E>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "15"   : {'caption'     : 'not-iskeyword, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : '/',
+    \             'key_input'   : "\<M-E>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "16"   : {'caption'     : 'space, iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "\<M-E>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "17"   : {'caption'     : 'space, not-iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ';',
+    \             'key_input'   : "\<M-E>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "18"   : {'caption'     : 'space, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "\<M-E>",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "19"   : {'caption'     : 'iskeyword, space, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'b',
+    \             'key_input'   : "j\<M-E>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "20"   : {'caption'     : 'iskeyword, not-iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'b',
+    \             'key_input'   : "j\<M-E>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "21"   : {'caption'     : 'iskeyword, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'b',
+    \             'key_input'   : "j\<M-E>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "22"   : {'caption'     : 'not-iskeyword, space, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ':',
+    \             'key_input'   : "j\<M-E>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "23"   : {'caption'     : 'not-iskeyword, iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ':',
+    \             'key_input'   : "j\<M-E>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "24"   : {'caption'     : 'not-iskeyword, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ':',
+    \             'key_input'   : "j\<M-E>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "25"   : {'caption'     : 'space, iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "j\<M-E>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "26"   : {'caption'     : 'space, not-iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ';',
+    \             'key_input'   : "j\<M-E>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "27"   : {'caption'     : 'space, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "j\<M-E>",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "28"   : {'caption'     : 'fold opening',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ':',
+    \             'key_input'   : "2j\<M-E>",
+    \             'breaking'    : 10,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=0', 'let g:columnmove_fold_open=1']}, 'post' : {}
+    \             },
+    \
+    \   "29"   : {'caption'     : 'fold opening',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'b',
+    \             'key_input'   : "2j\<M-E>",
+    \             'breaking'    : 9,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=0', 'let g:columnmove_fold_open=1']}, 'post' : {}
+    \             },
+    \
+    \   "30"   : {'caption'     : 'preserved column position at line end',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'k',
+    \             'key_input'   : "$j\<M-E>",
+    \             'breaking'    : 1,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1']}, 'post' : {}
+    \             },
+    \
+    \   "post" : {'breaking' : 2, 'commands' : ['let g:columnmove_strict_wbege=0', 'let g:columnmove_fold_treatment=1']},
+    \   }
+
+let test_info.14      = {
+    \   "pre"  : {'breaking' : 0 , 'commands' : [':let g:columnmove_fold_open=0', ':let g:columnmove_expand_range=0', ':let g:columnmove_fold_treatment=0']},
+    \   "1"    : {'caption'     : 'iskeyword, space',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'b',
+    \             'key_input'   : "5j\<M-g>E",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "2"    : {'caption'     : 'iskeyword, not-iskeyword',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'b',
+    \             'key_input'   : "6j\<M-g>E",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "3"    : {'caption'     : 'iskeyword, empty',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'b',
+    \             'key_input'   : "5j\<M-g>E",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "4"    : {'caption'     : 'not-iskeyword, space',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ':',
+    \             'key_input'   : "5j\<M-g>E",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "5"    : {'caption'     : 'not-iskeyword, iskeyword',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ':',
+    \             'key_input'   : "5j\<M-g>E",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "6"    : {'caption'     : 'not-iskeyword, empty',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ':',
+    \             'key_input'   : "5j\<M-g>E",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "7"    : {'caption'     : 'space, iskeyword',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "5j\<M-g>E",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "8"    : {'caption'     : 'space, not-iskeyword',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ';',
+    \             'key_input'   : "5j\<M-g>E",
+    \             'breaking'    : 5,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "9"    : {'caption'     : 'space, empty',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "6j\<M-g>E",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "10"   : {'caption'     : 'iskeyword, space, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'b',
+    \             'key_input'   : "5j\<M-g>E",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', ':let g:columnmove_fold_treatment=0']}, 'post' : {}
+    \             },
+    \
+    \   "11"   : {'caption'     : 'iskeyword, not-iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'b',
+    \             'key_input'   : "6j\<M-g>E",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "12"   : {'caption'     : 'iskeyword, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'b',
+    \             'key_input'   : "4j\<M-g>E",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "13"   : {'caption'     : 'not-iskeyword, space, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ':',
+    \             'key_input'   : "5j\<M-g>E",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "14"   : {'caption'     : 'not-iskeyword, iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ':',
+    \             'key_input'   : "6j\<M-g>E",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "15"   : {'caption'     : 'not-iskeyword, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ':',
+    \             'key_input'   : "5j\<M-g>E",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "16"   : {'caption'     : 'space, iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "5j\<M-g>E",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "17"   : {'caption'     : 'space, not-iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ';',
+    \             'key_input'   : "5j\<M-g>E",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "18"   : {'caption'     : 'space, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "5j\<M-g>E",
+    \             'breaking'    : 6,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : 'let g:columnmove_strict_wbege=1'}, 'post' : {}
+    \             },
+    \
+    \   "19"   : {'caption'     : 'iskeyword, space, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'b',
+    \             'key_input'   : "6j\<M-g>E",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "20"   : {'caption'     : 'iskeyword, not-iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'b',
+    \             'key_input'   : "6j\<M-g>E",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "21"   : {'caption'     : 'iskeyword, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'b',
+    \             'key_input'   : "6j\<M-g>E",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "22"   : {'caption'     : 'not-iskeyword, space, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ':',
+    \             'key_input'   : "6j\<M-g>E",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "23"   : {'caption'     : 'not-iskeyword, iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ':',
+    \             'key_input'   : "6j\<M-g>E",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "24"   : {'caption'     : 'not-iskeyword, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ':',
+    \             'key_input'   : "6j\<M-g>E",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "25"   : {'caption'     : 'space, iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "6j\<M-g>E",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "26"   : {'caption'     : 'space, not-iskeyword, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : ';',
+    \             'key_input'   : "6j\<M-g>E",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "27"   : {'caption'     : 'space, empty, folded lines',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "6j\<M-g>E",
+    \             'breaking'    : 7,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=1']}, 'post' : {}
+    \             },
+    \
+    \   "28"   : {'caption'     : 'fold opening',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'd',
+    \             'key_input'   : "7j\<M-g>E",
+    \             'breaking'    : 10,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=0', 'let g:columnmove_fold_open=1']}, 'post' : {}
+    \             },
+    \
+    \   "29"   : {'caption'     : 'fold opening',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'd',
+    \             'key_input'   : "7j\<M-g>E",
+    \             'breaking'    : 9,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1', 'let g:columnmove_fold_treatment=0', 'let g:columnmove_fold_open=1']}, 'post' : {}
+    \             },
+    \
+    \   "30"   : {'caption'     : 'preserved column position at line end',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'c',
+    \             'key_input'   : "3j$k\<M-g>E",
+    \             'breaking'    : 3,
+    \             'abort'       : 0,
+    \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=1']}, 'post' : {}
+    \             },
     \   }
 
 let test_info.post     = {

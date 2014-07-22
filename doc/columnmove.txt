@@ -1,4 +1,4 @@
-*columnmove.txt*	Last change:11-Mar-2014.
+*columnmove.txt*	Last change:22-Jul-2014.
 
 Bring cursor vertically in similar ways as line-wise commands.
 
@@ -67,12 +67,13 @@ refer 'foldnestmax'.
 ------------------------------------------------------------------------------
 columnmove-w and its variants~
 columnmove-w and its variants are the commands for moving cursor in word-wise.
-This group has four keymappings, that is, |columnmove-w|, |columnmove-b|,
-|columnmove-e|, |columnmove-ge|. Each of them are the imitations of |w|, |b|,
-|e|, |ge|, but work in vertical direction. These commands regard the column
-which cursor is on as a line and search for the head or tail of word to move.
-These commands regard a empty part of the column (like empty lines) as a space
-to skip it. For example, assume a vimscript code like this:
+This group has eight keymappings, that is, |columnmove-w|, |columnmove-b|,
+|columnmove-e|, |columnmove-ge|, |columnmove-W|, |columnmove-B|,
+|columnmove-E|, |columnmove-gE|. Each of them are the imitations of |w|, |b|,
+|e|, |ge|, |W|, |B|, |E|, |gE|, but work in vertical direction. These commands
+regard the column which cursor is on as a line and search for the head or tail
+of word to move.  These commands regard a empty part of the column (like empty
+lines) as a space to skip it. For example, assume a vimscript code like this:
 >
 	let foo = 1
 	let bar = 2
@@ -194,6 +195,13 @@ functions		keymappings			default keymappings
 |columnmove-ge|		<Plug>(columnmove-ge)		<M-g>e
 							 and
 							<M-g><M-e>
+
+|columnmove-W|		<Plug>(columnmove-W)		<M-W>
+|columnmove-B|		<Plug>(columnmove-B)		<M-B>
+|columnmove-E|		<Plug>(columnmove-E)		<M-E>
+|columnmove-gE|		<Plug>(columnmove-gE)		<M-g>E
+							 and
+							<M-g><M-E>
 --------------------------------------------------------------------------
 
 				     *g:columnmove_no_default_key_mappings*
@@ -300,6 +308,42 @@ keymappings~
 	acceptable for you. Just for an example.)
 >
 	nmap <M-g>e <Plug>(columnmove-ge)
+<
+
+<Plug>(columnmove-W)					*columnmove-W*
+	This keymapping serves the function imitating the |W| command in
+	vertical direction. You may use as follows. (It is the default
+	setting, do not need to write in your vimrc if the default mapping is
+	acceptable for you. Just for an example.)
+>
+	nmap <M-W> <Plug>(columnmove-W)
+<
+
+<Plug>(columnmove-B)					*columnmove-B*
+	This keymapping serves the function imitating the |B| command in
+	vertical direction. You may use as follows. (It is the default
+	setting, do not need to write in your vimrc if the default mapping is
+	acceptable for you. Just for an example.)
+>
+	nmap <M-B> <Plug>(columnmove-B)
+<
+
+<Plug>(columnmove-E)					*columnmove-E*
+	This keymapping serves the function imitating the |E| command in
+	vertical direction. You may use as follows. (It is the default
+	setting, do not need to write in your vimrc if the default mapping is
+	acceptable for you. Just for an example.)
+>
+	nmap <M-E> <Plug>(columnmove-E)
+<
+
+<Plug>(columnmove-gE)					*columnmove-gE*
+	This keymapping serves the function imitating the |gE| command in
+	vertical direction. You may use as follows. (It is the default
+	setting, do not need to write in your vimrc if the default mapping is
+	acceptable for you. Just for an example.)
+>
+	nmap <M-g>E <Plug>(columnmove-gE)
 <
 
 
@@ -486,7 +530,8 @@ have similar interface as following:
 
 columnmove#xxx(mode[, count[, options_dictionary]])
 
-The part filled by "xxx" is a character of its original command.
+The part filled by "xxx" is a character of its original command. That is, "w",
+"b", "e", "ge", "W", "B", "E", "gE".
 
 The first argument "mode" is always required, it is a character to represent a
 kind of mapping modes. Since each commands can be mapped for |nmap|, |xmap|,

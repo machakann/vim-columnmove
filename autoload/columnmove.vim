@@ -1,4 +1,4 @@
-﻿" columnmove.vim - bring cursor vertically in similar ways as line-wise
+" columnmove.vim - bring cursor vertically in similar ways as line-wise
 "                    commands
 
 " Because of my preference these commands ignore folded lines in default.
@@ -236,6 +236,78 @@ function! columnmove#ge(mode, ...)
   let options_dict = (a:0 > 1) ? a:2 : {}
 
   let output = s:columnmove_wbege('ge', a:mode, l:count, options_dict, 'k')
+
+  return output
+endfunction
+"}}}
+" vertical 'W' commands "{{{
+function! columnmove#W(mode, ...)
+  " count assginment
+  let l:count = (a:0 > 0 && a:1 > 0) ? a:1 : v:count1
+
+  " re-entering to the visual mode (if necessary)
+  if (a:mode ==# 'x') && ((mode() !=? 'v') && (mode() != "\<C-v>"))
+    normal! gv
+  endif
+
+  " searching for the user configuration
+  let options_dict = (a:0 > 1) ? a:2 : {}
+
+  let output = s:columnmove_wbege('W', a:mode, l:count, options_dict, 'j')
+
+  return output
+endfunction
+"}}}
+" vertical 'B' commands "{{{
+function! columnmove#B(mode, ...)
+  " count assginment
+  let l:count = (a:0 > 0 && a:1 > 0) ? a:1 : v:count1
+
+  " re-entering to the visual mode (if necessary)
+  if (a:mode ==# 'x') && ((mode() !=? 'v') && (mode() != "\<C-v>"))
+    normal! gv
+  endif
+
+  " searching for the user configuration
+  let options_dict = (a:0 > 1) ? a:2 : {}
+
+  let output = s:columnmove_wbege('B', a:mode, l:count, options_dict, 'k')
+
+  return output
+endfunction
+"}}}
+" vertical 'E' commands "{{{
+function! columnmove#E(mode, ...)
+  " count assginment
+  let l:count = (a:0 > 0 && a:1 > 0) ? a:1 : v:count1
+
+  " re-entering to the visual mode (if necessary)
+  if (a:mode ==# 'x') && ((mode() !=? 'v') && (mode() != "\<C-v>"))
+    normal! gv
+  endif
+
+  " searching for the user configuration
+  let options_dict = (a:0 > 1) ? a:2 : {}
+
+  let output = s:columnmove_wbege('E', a:mode, l:count, options_dict, 'j')
+
+  return output
+endfunction
+"}}}
+" vertical 'gE' commands  "{{{
+function! columnmove#gE(mode, ...)
+  " count assginment
+  let l:count = (a:0 > 0 && a:1 > 0) ? a:1 : v:count1
+
+  " re-entering to the visual mode (if necessary)
+  if (a:mode ==# 'x') && ((mode() !=? 'v') && (mode() != "\<C-v>"))
+    normal! gv
+  endif
+
+  " searching for the user configuration
+  let options_dict = (a:0 > 1) ? a:2 : {}
+
+  let output = s:columnmove_wbege('gE', a:mode, l:count, options_dict, 'k')
 
   return output
 endfunction
@@ -723,7 +795,7 @@ function! s:highlight_del(id) "{{{
 endfunction
 "}}}
 
-" vertical w, b, e, ge
+" vertical w, b, e, ge, W, B, E, gE
 function! s:columnmove_wbege(kind, mode, count, options_dict, command) "{{{
   " searching for the destination
   let col         = col(".")
@@ -735,17 +807,23 @@ function! s:columnmove_wbege(kind, mode, count, options_dict, command) "{{{
   let opt_fold_treatment = s:user_conf('fold_treatment', a:options_dict, 0)
   let opt_raw            = s:check_raw(a:options_dict)
 
-  if opt_strict_wbege
-    if a:kind =~# '\%(w\|ge\)'
-      let dest = s:get_dest_wge(a:kind, col, currentline, a:count, opt_fold_open, opt_fold_treatment)
-    elseif a:kind =~# '[be]'
-      let dest = s:get_dest_be(a:kind, col, currentline, a:count, opt_fold_open, opt_fold_treatment)
-    endif
+  if a:kind ==# 'W' || a:kind ==# 'gE'
+    let dest = s:get_dest_WgE(a:kind, col, currentline, a:count, opt_fold_open, opt_fold_treatment)
+  elseif a:kind =~# '[BE]'
+    let dest = s:get_dest_BE(a:kind, col, currentline, a:count, opt_fold_open, opt_fold_treatment)
   else
-    if a:kind =~# '\%(w\|ge\)'
-      let dest = s:get_dest_spoiled_wge(a:kind, col, currentline, a:count, opt_fold_open, opt_fold_treatment)
-    elseif a:kind =~# '[be]'
-      let dest = s:get_dest_spoiled_be(a:kind, col, currentline, a:count, opt_fold_open, opt_fold_treatment)
+    if opt_strict_wbege
+      if a:kind ==# 'w' || a:kind ==# 'ge'
+        let dest = s:get_dest_wge(a:kind, col, currentline, a:count, opt_fold_open, opt_fold_treatment)
+      elseif a:kind =~# '[be]'
+        let dest = s:get_dest_be(a:kind, col, currentline, a:count, opt_fold_open, opt_fold_treatment)
+      endif
+    else
+      if a:kind ==# 'w' || a:kind ==# 'ge'
+        let dest = s:get_dest_spoiled_wge(a:kind, col, currentline, a:count, opt_fold_open, opt_fold_treatment)
+      elseif a:kind =~# '[be]'
+        let dest = s:get_dest_spoiled_be(a:kind, col, currentline, a:count, opt_fold_open, opt_fold_treatment)
+      endif
     endif
   endif
 
@@ -1133,7 +1211,7 @@ function! s:get_dest_spoiled_be(kind, col, currentline, count, level, opt_fold_t
     let endline   = line('$')
     let lines     = getline(a:currentline, endline) + ['']
     let threshold = endline - a:currentline + 1
-  else
+  elseif a:kind ==# 'b'
     " the case for b command
     let inc       = -1
     let edge      = 'start'
@@ -1210,6 +1288,225 @@ function! s:get_dest_spoiled_be(kind, col, currentline, count, level, opt_fold_t
     let c = ((col <= len(lines[idx])) && (fold_{edge} < 0)) ? lines[idx][col-1] : ''
 
     let is_empty_cur = (c == '') ? 1 : 0
+
+    if fold_{edge} >= 0
+      " The current line is folded
+      if !is_empty_pre && displ > 1
+        let l:count -= 1
+        let output   = [displ - 1, [line - inc, col], opened_fold]
+
+        if l:count <= 0 | break | endif
+      endif
+
+      let idx  += (fold_{edge} - line) * inc
+      let line  = fold_{edge}
+    elseif (is_empty_cur && !is_empty_pre)
+      " The current line is empty and the previous line is not empty
+      if displ - foldedblock > 1
+        let l:count -= 1
+        let output = [displ - 1 - foldedblock, [line - inc, col], opened_fold]
+      endif
+    endif
+  endwhile
+
+  return output
+endfunction
+"}}}
+function! s:get_dest_WgE(kind, col, currentline, count, level, opt_fold_treatment)  "{{{
+  let col         = a:col
+  let l:count     = a:count
+  let opened_fold = []
+
+  if a:kind ==# 'W'
+    " the case for w command
+    let inc       = 1
+    let edge      = 'end'
+    let endline   = line('$')
+    let lines     = getline(a:currentline, endline)
+    let threshold = endline - a:currentline
+  elseif a:kind ==# 'gE'
+    " the case for ge command
+    let inc       = -1
+    let edge      = 'start'
+    let lines     = reverse(getline(1, a:currentline))
+    let threshold = a:currentline - 1
+  endif
+
+  if a:level != 0
+    " fold opening
+    let opened_fold += s:fold_opener(a:currentline, a:currentline, a:level)
+  endif
+
+  let fold_start = foldclosed(a:currentline)
+  let fold_end   = foldclosedend(a:currentline)
+
+  if fold_{edge} >= 0
+    " The current line is still folded
+    let idx  = (fold_{edge} - a:currentline) * inc
+    let line = fold_{edge}  " line number of the destination
+  else
+    let idx  = 0
+    let line = a:currentline   " line number of the destination
+  endif
+  let displ = 0  " displacement from current line to the destination
+  let c     = ((col <= len(lines[0])) && (fold_{edge} < 0)) ? lines[idx][col-1] : ' '
+  let is_empty_cur = (c == ' ') ? 1 : 0
+
+  let output = [-1, [], opened_fold]
+  while l:count > 0
+    let idx += 1
+    if idx > threshold
+      return output
+    endif
+    let line  += inc
+    let displ += 1
+
+    if a:level != 0
+      " fold opening
+      let opened_fold += s:fold_opener(line, a:currentline, a:level)
+    endif
+
+    let fold_start = foldclosed(line)
+    let fold_end   = foldclosedend(line)
+
+    if (fold_{edge} >= 0) && (a:opt_fold_treatment == 0)
+      " skip folded lines
+      while 1
+        let idx += (fold_{edge} - line) * inc + 1
+        let line = fold_{edge} + inc  " line number of the destination
+
+        if a:kind ==# 'W'
+          if (line > endline) | return [-1, [], opened_fold] | endif
+        elseif a:kind ==# 'gE'
+          if (line < 1) | return [-1, [], opened_fold] | endif
+        endif
+
+        if a:level != 0
+          " fold opening
+          let opened_fold += s:fold_opener(line, a:currentline, a:level)
+        endif
+
+        let fold_start = foldclosed(line)
+        let fold_end   = foldclosedend(line)
+
+        let displ += 1
+
+        if (fold_{edge} < 0) | break | endif
+      endwhile
+    endif
+
+    let is_empty_pre = is_empty_cur
+
+    let c = ((col <= len(lines[idx])) && (fold_{edge} < 0)) ? lines[idx][col-1] : ' '
+
+    let is_empty_cur = (c == ' ') ? 1 : 0
+
+    if fold_{edge} >= 0
+      " The current line is folded
+      let idx  += (fold_{edge} - line) * inc
+      let line  = fold_{edge}
+      continue
+    elseif (is_empty_pre && !is_empty_cur)
+      " The previous line is empty and the current line is not empty
+      let l:count -= 1
+      let output = [displ, [line, col], opened_fold]
+    else
+      continue
+    endif
+  endwhile
+
+  return [displ, [line, col], opened_fold]
+endfunction
+"}}}
+function! s:get_dest_BE(kind, col, currentline, count, level, opt_fold_treatment)  "{{{
+  let col         = a:col
+  let l:count     = a:count
+  let opened_fold = []
+
+  if a:kind ==# 'E'
+    " the case for e command
+    let inc       = 1
+    let edge      = 'end'
+    let endline   = line('$')
+    let lines     = getline(a:currentline, endline) + ['']
+    let threshold = endline - a:currentline + 1
+  elseif a:kind ==# 'B'
+    " the case for b command
+    let inc       = -1
+    let edge      = 'start'
+    let lines     = reverse([''] + getline(1, a:currentline))
+    let threshold = a:currentline
+  endif
+
+  if a:level != 0
+    " fold opening
+    let opened_fold += s:fold_opener(a:currentline, a:currentline, a:level)
+  endif
+
+  let fold_start = foldclosed(a:currentline)
+  let fold_end   = foldclosedend(a:currentline)
+
+  if fold_{edge} >= 0
+    " The current line is still folded
+    let idx  = (fold_{edge} - a:currentline) * inc
+    let line = fold_{edge}     " line number of the destination
+  else
+    let idx  = 0
+    let line = a:currentline  " line number of the destination
+  endif
+  let displ = 0  " displacement from current line to the destination
+  let c     = ((col <= len(lines[0])) && (fold_{edge} < 0)) ? lines[idx][col-1] : ' '
+  let is_empty_cur = (c == ' ') ? 1 : 0
+
+  let output = [-1, [], opened_fold]
+  while l:count > 0
+    let idx  += 1
+    if idx > threshold
+      return output
+    endif
+    let line  += inc
+    let displ += 1
+
+    if a:level != 0
+      " fold opening
+      let opened_fold += s:fold_opener(line, a:currentline, a:level)
+    endif
+
+    let fold_start = foldclosed(line)
+    let fold_end   = foldclosedend(line)
+
+    let foldedblock = 0
+    if (fold_{edge} >= 0) && (a:opt_fold_treatment == 0)
+      " skip folded lines
+      while 1
+        let idx += (fold_{edge} - line) * inc + 1
+        let line = fold_{edge} + inc  " line number of the destination
+
+        if a:kind ==# 'E'
+          if (line > endline) | return [-1, [], opened_fold] | endif
+        elseif a:kind ==# 'B'
+          if (line < 1) | return [-1, [], opened_fold] | endif
+        endif
+
+        if a:level != 0
+          " fold opening
+          let opened_fold += s:fold_opener(line, a:currentline, a:level)
+        endif
+
+        let fold_start = foldclosed(line)
+        let fold_end   = foldclosedend(line)
+
+        let foldedblock += 1
+
+        if (fold_{edge} < 0) | let displ += foldedblock | break | endif
+      endwhile
+    endif
+
+    let is_empty_pre = is_empty_cur
+
+    let c = ((col <= len(lines[idx])) && (fold_{edge} < 0)) ? lines[idx][col-1] : ' '
+
+    let is_empty_cur = (c == ' ') ? 1 : 0
 
     if fold_{edge} >= 0
       " The current line is folded
