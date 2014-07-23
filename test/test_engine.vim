@@ -1,6 +1,6 @@
 " vim:set foldmethod=marker:
 " vim:set commentstring="%s:
-" Last Change: 22-Jul-2014.
+" Last Change: 23-Jul-2014.
 
 " なぜnormal!ではなくマクロを使ったのかというとそっちの方がちらちらして好きだ
 " からです！
@@ -181,6 +181,24 @@ let test_info.1       = {
     \             'breaking'    : 3,
     \             'abort'       : 0,
     \             'pre' : {}, 'post' : {}
+    \             },
+    \
+    \   "17"   : {'caption'     : 'multi-width character',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'o',
+    \             'key_input'   : "fa\<M-f>o",
+    \             'breaking'    : 2,
+    \             'abort'       : 0,
+    \             'pre' : {'commands': ['setl tw=4']}, 'post' : {}
+    \             },
+    \
+    \   "18"   : {'caption'     : 'multi-width character',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'o',
+    \             'key_input'   : "fe\<M-f>o",
+    \             'breaking'    : 2,
+    \             'abort'       : 0,
+    \             'pre' : {'commands': ['setl tw=4']}, 'post' : {}
     \             },
     \
     \   "post" : {'breaking' : 1},
@@ -1252,7 +1270,7 @@ let test_info.7       = {
     \             'result'      : 'getline(".")[col(".")-1]',
     \             'expectation' : 'i',
     \             'key_input'   : "3j\<M-w>",
-    \             'breaking'    : 13,
+    \             'breaking'    : 15,
     \             'abort'       : 0,
     \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=0', 'let g:columnmove_fold_treatment=0', 'let g:columnmove_fold_open=1']}, 'post' : {}
     \             },
@@ -1273,6 +1291,24 @@ let test_info.7       = {
     \             'breaking'    : 3,
     \             'abort'       : 0,
     \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=0']}, 'post' : {}
+    \             },
+    \
+    \   "61"   : {'caption'     : 'multi-width character',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'o',
+    \             'key_input'   : "faa\<M-w>\<Esc>",
+    \             'breaking'    : 2,
+    \             'abort'       : 0,
+    \             'pre' : {'commands': ['setl tw=4']}, 'post' : {}
+    \             },
+    \
+    \   "62"   : {'caption'     : 'multi-width character',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'o',
+    \             'key_input'   : "fea\<M-w>\<Esc>",
+    \             'breaking'    : 2,
+    \             'abort'       : 0,
+    \             'pre' : {'commands': ['setl tw=4']}, 'post' : {}
     \             },
     \
     \   "post" : {'breaking' : 1, 'commands' : ['let g:columnmove_strict_wbege=0', 'let g:columnmove_fold_treatment=1']},
@@ -1827,6 +1863,24 @@ let test_info.8       = {
     \             'breaking'    : 2,
     \             'abort'       : 0,
     \             'pre' : {'commands' : ['let g:columnmove_strict_wbege=0']}, 'post' : {}
+    \             },
+    \
+    \   "62"   : {'caption'     : 'multi-width character',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'a',
+    \             'key_input'   : "jfa2ja\<M-b>\<Esc>",
+    \             'breaking'    : 3,
+    \             'abort'       : 0,
+    \             'pre' : {'commands': ['setl tw=4']}, 'post' : {}
+    \             },
+    \
+    \   "63"   : {'caption'     : 'multi-width character',
+    \             'result'      : 'getline(".")[col(".")-1]',
+    \             'expectation' : 'e',
+    \             'key_input'   : "jfe2ja\<M-b>\<Esc>",
+    \             'breaking'    : 3,
+    \             'abort'       : 0,
+    \             'pre' : {'commands': ['setl tw=4']}, 'post' : {}
     \             },
     \
     \   "post" : {'breaking' : 1},

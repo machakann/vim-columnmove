@@ -138,6 +138,16 @@ fgh
 
 ijklm
 
+" 1.17 multi-width character
+	abc
+defghij
+klmnopq
+
+" 1.18 multi-width character
+abcdefg
+hijklmn
+	opq
+
 
 
 " Test 2
@@ -1283,6 +1293,18 @@ fgh
 
 ijklm
 
+" 7.61 multi-width character
+	abc
+defghij
+
+klmnopq
+
+" 7.62 multi-width character
+abcdefg
+hijklmn
+
+	opqr
+
 " Test 8
 " columnmove-b
 "-----------------------
@@ -1924,6 +1946,18 @@ abcde
 
 fgh
 ijklm
+
+" 8.62 multi-width character
+
+	abcde
+fghijklmn
+opqrstuvw
+
+" 8.63 multi-width character
+
+abcdefghi
+jklmnopqr
+	stuvw
 
 " Test 9
 " columnmove-e
