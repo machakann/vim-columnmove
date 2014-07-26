@@ -1101,7 +1101,7 @@ function! s:get_dest_be(kind, col, currentline, count, level, opt_fold_treatment
       " a different kind of character as previous one
       if displ - foldedblock > 1
         let l:count -= 1
-        let output = [displ - 1, [line - inc, col], opened_fold]
+        let output = [displ - 1 - foldedblock, [line - inc, col], opened_fold]
       endif
     endif
   endwhile
