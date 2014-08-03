@@ -398,7 +398,7 @@ function! s:columnmove_ftFT(kind, mode, argn, args) "{{{
   " move cursor
   if (opt.raw != 1) && (dest_view.lnum > 0)
     if (v:version > 704) || (v:version == 704 && has('patch310'))
-      call setpos([0, dest_view.lnum, dest_view.col, 0, dest_view.curswant])
+      call setpos('.', [0, dest_view.lnum, dest_view.col+1, 0, dest_view.curswant+1])
     else
       call winrestview(s:add_topline(dest_view))
     endif
@@ -766,7 +766,7 @@ function! s:columnmove_wbege(kind, mode, argn, args) "{{{
   " move cursor
   if (opt.raw != 1) && (dest_view.lnum > 0)
     if (v:version > 704) || (v:version == 704 && has('patch310'))
-      call setpos([0, dest_view.lnum, dest_view.col, 0, dest_view.curswant])
+      call setpos('.', [0, dest_view.lnum, dest_view.col+1, 0, dest_view.curswant+1])
     else
       call winrestview(s:add_topline(dest_view))
     endif
