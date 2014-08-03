@@ -1,8 +1,8 @@
-*columnmove.txt*	Last change:22-Jul-2014.
+*columnmove.txt*	Last change:01-Aug-2014.
 
 Bring cursor vertically in similar ways as line-wise commands.
 
-Author  : machakann <mckn@outlook.com>
+Author  : machakann <mckn@outlook.jp>
 License : NYSL license
           Japanese <http://www.kmonos.net/nysl/>
           English (Unofficial) <http://www.kmonos.net/nysl/index.en.html>
