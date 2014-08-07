@@ -388,7 +388,9 @@ function! s:columnmove_ftFT(kind, mode, argn, args) "{{{
   endif
 
   if opt.raw
-    let output = dest_view
+    let output = deepcopy(dest_view)
+    let output.col      += 1
+    let output.curswant += 1
   else
     let output = ''
   endif
@@ -756,7 +758,9 @@ function! s:columnmove_wbege(kind, mode, argn, args) "{{{
   let dest_view   = s:get_dest_wbege(a:kind, l:count, init_view, opt)
 
   if opt.raw
-    let output = dest_view
+    let output = deepcopy(dest_view)
+    let output.col      += 1
+    let output.curswant += 1
   else
     let output = ''
   endif

@@ -1,4 +1,4 @@
-*columnmove.txt*	Last change:01-Aug-2014.
+*columnmove.txt*	Last change:06-Aug-2014.
 
 Bring cursor vertically in similar ways as line-wise commands.
 
@@ -217,6 +217,17 @@ cursor will go to the {count}th destination.
 
 These keymappings are available with |nmap|, |xmap|, |omap|, |imap|.
 
+The default keymappings work as |linewise| and also accept |o_v|, |o_V|,
+|o_CTRL-V|. If you want to remap with |omap|, I recommend to use the following
+trick to do well with |o_v|, |o_V|, |o_CTRL-V|. This description makes it as
+you expect.
+>
+	omap      <M-f>      <Plug>(columnmove-f)
+	omap     v<M-f>     v<Plug>(columnmove-f)
+	omap     V<M-f>     V<Plug>(columnmove-f)
+	omap <C-v><M-f> <C-v><Plug>(columnmove-f)
+<
+
 
 ------------------------------------------------------------------------------
 keymappings~
@@ -429,7 +440,8 @@ have similar interface as following:
 
 columnmove#xxx(mode[, target[, count[, options_dictionary]]])
 
-The part filled by "xxx" is a character of its original command.
+The part filled by "xxx" is a name of its original command. You can use "f",
+"t", "F", "T", "semicolon", "comma".
 
 The first argument "mode" is always required, it is a character to represent a
 kind of mapping modes. Since each commands can be mapped for |nmap|, |xmap|,
@@ -450,44 +462,64 @@ ignore case always independent with 'ignorecase' option, then use this
 argument like this:
 >
 	nmap <silent> <M-f> :<C-u>call columnmove#f('n', '', 0,
-		\					{'ignore_case' : 1})
+		\				{'ignore_case' : 1})<CR>
 <
 If you want to use with |imap|, use like this:
 >
 	imap <silent> <M-w> <C-r>=columnmove#f('n', '', 0,
-		\					{'ignore_case' : 1})
+		\				{'ignore_case' : 1})<CR>
 <
 If you want to use with |cmap|, you should not use <silent>. Otherwise
 command-line would be not updated appropriately and you will see that it seems
 like not moving cursor.
 >
-	cmap <M-w> <C-r>=columnmove#f('n', '', 0, {'ignore_case' : 1})
+	cmap <M-w> <C-r>=columnmove#f('n', '', 0, {'ignore_case' : 1})<CR>
 <
+If you want to use with |omap|, I would suggest to check the notice at the end
+of |columnmove-keymappings| and recommend to map like this:
+>
+	onoremap <silent>      <M-f>     V:<C-u>call columnmove#f('o', '', 0,
+		\				{'fold_open' : -1})<CR>
+
+	onoremap <silent>     v<M-f>      :<C-u>call columnmove#f('o', '', 0,
+		\				{'fold_open' : -1})<CR>
+
+	onoremap <silent>     V<M-f>     V:<C-u>call columnmove#f('o', '', 0,
+		\				{'fold_open' : -1})<CR>
+
+	onoremap <silent> <C-v><M-f> <C-v>:<C-u>call columnmove#f('o', '', 0,
+		\				{'fold_open' : -1})<CR>
+<
+
 The key names are the name of configuration variables removing first
 "g:columnmove_". That is "open_fold", "ignorecase", "highlight",
 "expand_range", "update_history" can be used.
 Please refer |columnmove-configuration|.
 
-Besides, a special key "raw" can be also used. If the value is 1, these
-function do not move cursor and return a dictionary variable which has keys
-named "displacement", "distination", "opened_fold". The key displacement has a
-number which represents a distance from the current line to the destination
-line, this number is correct only when folds has been opened in order written
-in "opened_fold". "opened_fold" has a list which contains lists holding
-beginning and ending line number of folds. When these commands work, those
-folds would be opened, and closed if necessary.  "distination" is a list
-including the line number and column number of distination.
+Besides, a special key "raw" can be also used. If the value is 1 or 2, these
+function return a dictionary variable which has keys named "lnum", "col",
+"curswant", and "open_fold". The key lnum and col are the line number and
+column number of the destination. The key curswant is the preferred column
+when moving the cursor vertically. "opened_fold" has a list which contains
+lists holding beginning and ending line number of folds. When these commands
+work, those folds would be opened, and closed if necessary. If the value is
+1, these functions do not move cursor. But if the value is 2, these functions
+do.
 
 >
 	let output = columnmove#f('n', 'a', 1, {'raw' : 1})
 
-	" distance from current position to the destination
+	" line number of destination
 	" e.g. 10
-	echo output.displacement
+	echo output.lnum
 
-	" line number and column number of the destination
-	" e.g. [11, 1]
-	echo output.distination
+	" column number of destination
+	" e.g. 10
+	echo output.col
+
+	" preferred column when moving the cursor vertically
+	" e.g. 10
+	echo output.curswant
 
 	" opened folds
 	" e.g. [[3, 5], [6, 9]]
@@ -546,45 +578,63 @@ The third argument "options_dict" is a dictionary which can force to use given
 values of configuration variables. For example, assume you want to open folds
 always, then use this argument like this:
 >
-	nmap <silent> <M-w> :<C-u>call columnmove#w('n', 0,
-		\					{'fold_open' : -1})
+	nnoremap <silent> <M-w> :<C-u>call columnmove#w('n', 0,
+		\				{'fold_open' : -1})<CR>
 <
 If you want to use with |imap|, use like this:
 >
-	imap <silent> <M-w> <C-r>=columnmove#w('n', 0, {'fold_open' : -1})
+	inoremap <silent> <M-w> <C-r>=columnmove#w('n', 0,
+		\				{'fold_open' : -1})<CR>
 <
 If you want to use with |cmap|, you should not use <silent>. Otherwise
 command-line would be not updated appropriately and you will see that it seems
 like not moving cursor.
 >
-	cmap <M-w> <C-r>=columnmove#w('n', 0, {'fold_open' : -1})
+	cnoremap <M-w> <C-r>=columnmove#w('n', 0, {'fold_open' : -1})<CR>
 <
+If you want to use with |omap|, I would suggest to check the notice at the end
+of |columnmove-keymappings| and recommend to map like this:
+>
+	onoremap <silent>      <M-w>     V:<C-u>call columnmove#w('o', 0,
+		\				{'fold_open' : -1})<CR>
+
+	onoremap <silent>     v<M-w>      :<C-u>call columnmove#w('o', 0,
+		\				{'fold_open' : -1})<CR>
+
+	onoremap <silent>     V<M-w>     V:<C-u>call columnmove#w('o', 0,
+		\				{'fold_open' : -1})<CR>
+
+	onoremap <silent> <C-v><M-w> <C-v>:<C-u>call columnmove#w('o', 0,
+		\				{'fold_open' : -1})<CR>
+<
+
 The key names are the name of configuration variables removing first
 "g:columnmove_". That is "open_fold", "strict_wbege" can be used.
 Please refer |columnmove-configuration|.
 
 Besides, a special key "raw" can be also used. If the value is 1 or 2, these
-function returns a dictionary variable which has keys named "displacement",
-"distination", "opened_fold". The key displacement has a number which
-represents a distance from the current line to the destination line, this
-number is correct only when folds has been opened in order written in
-"opened_fold". "opened_fold" has a list which contains lists holding beginning
-and ending line number of folds. When these commands work, those folds would
-be opened, and closed if necessary. "distination" is a list including the line
-number and column number of distination.
-If the value is 1, these functions do not move cursor. But if the value is 2,
-these functions do.
+function return a dictionary variable which has keys named "lnum", "col",
+"curswant", and "open_fold". The key lnum and col are the line number and
+column number of the destination. The key curswant is the preferred column
+when moving the cursor vertically. "opened_fold" has a list which contains
+lists holding beginning and ending line number of folds. When these commands
+work, those folds would be opened, and closed if necessary. If the value is 1,
+these functions do not move cursor. But if the value is 2, these functions do.
 
 >
 	let output = columnmove#w('n', 1, {'raw' : 1})
 
-	" distance from current position to the destination
+	" line number of destination
 	" e.g. 10
-	echo output.displacement
+	echo output.lnum
 
-	" line number and column number of the destination
-	" e.g. [11, 20]
-	echo output.distination
+	" column number of destination
+	" e.g. 10
+	echo output.col
+
+	" preferred column when moving the cursor vertically
+	" e.g. 10
+	echo output.curswant
 
 	" opened folds
 	" e.g. [[3, 5], [6, 9]]
