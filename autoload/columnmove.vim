@@ -884,8 +884,6 @@ function! s:get_dest_wbege(kind, count, view, opt)  "{{{
         \      : null_char
   let is_target_cur = s:check_c(a:kind, c, a:opt)
 
-  let line_backup = 0 " only for b, e, B, E
-  let col_backup  = 0 " only for b, e, B, E
   let output = {'lnum': -1, 'col': -1, 'curswant': -1, 'opened_fold': opened_fold}
   while l:count > 0
     let idx  += 1
@@ -932,10 +930,9 @@ function! s:get_dest_wbege(kind, count, view, opt)  "{{{
           \      : null_char
     let is_target_cur = s:check_c(a:kind, c, a:opt)
 
-    let [idx, line, line_backup, col_backup, l:count, output]
+    let [idx, line, l:count, output]
           \ = s:judge(a:kind, a:opt, fold_{edge}, is_target_pre, is_target_cur,
-          \           l:count, inc, idx, line, col, line_backup, col_backup,
-          \           curswant, opened_fold, output)
+          \           l:count, inc, idx, line, col, curswant, opened_fold, output)
   endwhile
 
   return output
@@ -963,12 +960,10 @@ function! s:check_c(kind, c, opt) "{{{
   endif
 endfunction
 "}}}
-function! s:judge(kind, opt, fold_edge, is_target_pre, is_target_cur, count, inc, idx, line, col, line_backup, col_backup, curswant, opened_fold, output)  "{{{
+function! s:judge(kind, opt, fold_edge, is_target_pre, is_target_cur, count, inc, idx, line, col, curswant, opened_fold, output)  "{{{
   " FIXME: Too much arguments!
   let idx       = a:idx
   let line      = a:line
-  let line_backup = a:line_backup
-  let col_backup  = a:col_backup
   let l:count   = a:count
   let output    = a:output
 
@@ -1016,21 +1011,20 @@ function! s:judge(kind, opt, fold_edge, is_target_pre, is_target_cur, count, inc
       endif
     endif
   elseif a:kind ==# 'b' || a:kind ==# 'e'
-    " strict b, e
-
-    " the containt of is_target_***
-    " space, tab   : -1
-    " keyword chars:  1
-    " other chars  :  0
-
     if a:opt.strict_wbege
+      " strict b, e
+
+      " the containt of is_target_***
+      " space, tab   : -1
+      " keyword chars:  1
+      " other chars  :  0
+
       if a:fold_edge >= 0
         " The current line is folded
         if a:is_target_pre >= 0
           " The previous character is not space
-          if a:line_backup > 0
+          if a:output.lnum > 0
             let l:count -= 1
-            let output = {'lnum': a:line_backup, 'col': a:col_backup, 'curswant': a:curswant, 'opened_fold': a:opened_fold}
           endif
         endif
 
@@ -1039,23 +1033,19 @@ function! s:judge(kind, opt, fold_edge, is_target_pre, is_target_cur, count, inc
       elseif a:is_target_pre < 0
         " The previous is empty or space
         if a:is_target_cur > -1
-          let line_backup = a:line
-          let col_backup  = a:col
+          let output = {'lnum': a:line, 'col': a:col, 'curswant': a:curswant, 'opened_fold': a:opened_fold}
         endif
       elseif a:is_target_pre == a:is_target_cur
         " a same kind of character as previous one
-        let line_backup = a:line
-        let col_backup  = a:col
+        let output = {'lnum': a:line, 'col': a:col, 'curswant': a:curswant, 'opened_fold': a:opened_fold}
       else
         " a different kind of character as previous one
-        if a:line_backup > 0
+        if a:output.lnum > 0
           let l:count -= 1
-          let output = {'lnum': a:line_backup, 'col': a:col_backup, 'curswant': a:curswant, 'opened_fold': a:opened_fold}
         endif
 
-        if a:is_target_cur > -1
-          let line_backup = a:line
-          let col_backup  = a:col
+        if (l:count > 0) && (a:is_target_cur > -1)
+          let output = {'lnum': a:line, 'col': a:col, 'curswant': a:curswant, 'opened_fold': a:opened_fold}
         endif
       endif
     else
@@ -1067,22 +1057,19 @@ function! s:judge(kind, opt, fold_edge, is_target_pre, is_target_cur, count, inc
 
       if a:fold_edge >= 0
         " The current line is folded
-        if !a:is_target_pre && a:line_backup > 0
+        if !a:is_target_pre && a:output.lnum > 0
           let l:count -= 1
-          let output = {'lnum': a:line_backup, 'col': a:col_backup, 'curswant': a:curswant, 'opened_fold': a:opened_fold}
         endif
 
         let idx  += (a:fold_edge - a:line) * a:inc
         let line  = a:fold_edge
       elseif (a:is_target_cur && !a:is_target_pre)
         " The current line is empty and the previous line is not empty
-        if a:line_backup > 0
+        if a:output.lnum > 0
           let l:count -= 1
-          let output = {'lnum': a:line_backup, 'col': a:col_backup, 'curswant': a:curswant, 'opened_fold': a:opened_fold}
         endif
       elseif !a:is_target_cur
-        let line_backup = a:line
-        let col_backup  = a:col
+        let output = {'lnum': a:line, 'col': a:col, 'curswant': a:curswant, 'opened_fold': a:opened_fold}
       endif
     endif
   elseif a:kind ==# 'W' || a:kind ==# 'gE'
@@ -1110,26 +1097,23 @@ function! s:judge(kind, opt, fold_edge, is_target_pre, is_target_cur, count, inc
 
     if a:fold_edge >= 0
       " The current line is folded
-      if !a:is_target_pre && a:line_backup > 0
+      if !a:is_target_pre && a:output.lnum > 0
         let l:count -= 1
-        let output = {'lnum': a:line_backup, 'col': a:col_backup, 'curswant': a:curswant, 'opened_fold': a:opened_fold}
       endif
 
       let idx  += (a:fold_edge - a:line) * a:inc
       let line  = a:fold_edge
     elseif a:is_target_cur && !a:is_target_pre
       " The current line is empty and the previous line is not empty
-      if a:line_backup > 0
+      if a:output.lnum > 0
         let l:count -= 1
-        let output = {'lnum': a:line_backup, 'col': a:col_backup, 'curswant': a:curswant, 'opened_fold': a:opened_fold}
       endif
     elseif !a:is_target_cur
-      let line_backup = a:line
-      let col_backup  = a:col
+      let output = {'lnum': a:line, 'col': a:col, 'curswant': a:curswant, 'opened_fold': a:opened_fold}
     endif
   endif
 
-  return [idx, line, line_backup, col_backup, l:count, output]
+  return [idx, line, l:count, output]
 endfunction
 "}}}
 
