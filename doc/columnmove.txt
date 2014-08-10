@@ -1,4 +1,4 @@
-*columnmove.txt*	Last change:06-Aug-2014.
+*columnmove.txt*	Last change:11-Aug-2014.
 
 Bring cursor vertically in similar ways as line-wise commands.
 
@@ -466,14 +466,14 @@ argument like this:
 <
 If you want to use with |imap|, use like this:
 >
-	imap <silent> <M-w> <C-r>=columnmove#f('n', '', 0,
+	imap <silent> <M-f> <C-r>=columnmove#f('n', '', 0,
 		\				{'ignore_case' : 1})<CR>
 <
 If you want to use with |cmap|, you should not use <silent>. Otherwise
 command-line would be not updated appropriately and you will see that it seems
 like not moving cursor.
 >
-	cmap <M-w> <C-r>=columnmove#f('n', '', 0, {'ignore_case' : 1})<CR>
+	cmap <M-f> <C-r>=columnmove#f('n', '', 0, {'ignore_case' : 1})<CR>
 <
 If you want to use with |omap|, I would suggest to check the notice at the end
 of |columnmove-keymappings| and recommend to map like this:
