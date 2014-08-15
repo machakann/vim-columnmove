@@ -13,15 +13,25 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-let s:type_num  = type(0)
-let s:type_str  = type('')
-let s:type_list = type([])
-let s:type_dict = type({})
+let s:null_dest = {'lnum': -1, 'col': -1, 'curswant': -1}
 
-" for vertical ';', ',' commands
-" first factor is the kind of command (f, t, F, T)
-" second factor is the character searched last.
-let s:search_history = ['', '']
+" s:last_searched: for vertical 'f', 't', 'F', 'T', ';', ','commands
+" 'kind' key: the kind of command (f, t, F, T)
+" 'char' key: the character searched last
+" 'dest' key: the dictionary to assign the destination
+"             this would be used only to pass the target information from
+"             fixer to executer
+" 'args' key: the list of arguments for s:get_dest_ftFT_with_char().
+"             this would be used only when 'char' is given.
+"             this would be used only to pass the target information from
+"             fixer to executer or dot-repeat
+let s:last_searched = {'kind': '', 'char': '', 'dest': {}, 'args': [], 'wise': ''}
+
+" To suppress {count} times calling for executer
+" s:state == l:count        : execute moving the cursor
+" s:state <= 0 (dot-repeat) : execute moving the cursor
+" The other                 : skip
+let s:state = 0
 
 " load vital
 let s:V  = vital#of('columnmove')
@@ -31,29 +41,29 @@ unlet s:V
 
 """ mapping functions
 " vertical 'f' commands "{{{
-function! columnmove#f(mode, ...)
-  return s:columnmove_ftFT('f', a:mode, a:0, a:000)
+function! columnmove#f(mode, wise, ...)
+  return s:columnmove_ftFT_fixer('f', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical 't' commands "{{{
-function! columnmove#t(mode, ...)
-  return s:columnmove_ftFT('t', a:mode, a:0, a:000)
+function! columnmove#t(mode, wise, ...)
+  return s:columnmove_ftFT_fixer('t', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical 'F' commands "{{{
-function! columnmove#F(mode, ...)
-  return s:columnmove_ftFT('F', a:mode, a:0, a:000)
+function! columnmove#F(mode, wise, ...)
+  return s:columnmove_ftFT_fixer('F', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical 'T' commands "{{{
-function! columnmove#T(mode, ...)
-  return s:columnmove_ftFT('T', a:mode, a:0, a:000)
+function! columnmove#T(mode, wise, ...)
+  return s:columnmove_ftFT_fixer('T', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical ';' commands "{{{
-function! columnmove#semicolon(mode, ...)
-  let kind   = s:search_history[0]
-  let char   = s:search_history[1]
+function! columnmove#semicolon(mode, wise, ...)
+  let kind   = s:last_searched.kind
+  let char   = s:last_searched.char
 
   if kind != ''
     " count assginment
@@ -66,18 +76,18 @@ function! columnmove#semicolon(mode, ...)
     call extend(options_dict, {'update_history' : 0})
 
     " call well-suited command
-    let output = columnmove#{kind}(a:mode, char, l:count, options_dict)
+    let output = columnmove#{kind}(a:mode, a:wise, char, l:count, options_dict)
   else
-    let output = ''
+    let output = (a:mode == 'o') ? "\<Esc>" : ''
   endif
 
   return output
 endfunction
 "}}}
 " vertical ',' commands "{{{
-function! columnmove#comma(mode, ...)
-  let kind = s:search_history[0]
-  let char = s:search_history[1]
+function! columnmove#comma(mode, wise, ...)
+  let kind = s:last_searched.kind
+  let char = s:last_searched.char
 
   if kind != ''
     " count assginment
@@ -90,52 +100,52 @@ function! columnmove#comma(mode, ...)
     call extend(options_dict, {'update_history' : 0})
 
     " call well-suited command
-    let output = columnmove#{tr(kind, 'ftFT', 'FTft')}(a:mode, char, l:count, options_dict)
+    let output = columnmove#{tr(kind, 'ftFT', 'FTft')}(a:mode, a:wise, char, l:count, options_dict)
   else
-    let output = ''
+    let output = (a:mode == 'o') ? "\<Esc>" : ''
   endif
 
   return output
 endfunction
 "}}}
 " vertical 'w' commands "{{{
-function! columnmove#w(mode, ...)
-  return s:columnmove_wbege('w', a:mode, a:0, a:000)
+function! columnmove#w(mode, wise, ...)
+  return s:columnmove_wbege('w', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical 'b' commands "{{{
-function! columnmove#b(mode, ...)
-  return s:columnmove_wbege('b', a:mode, a:0, a:000)
+function! columnmove#b(mode, wise, ...)
+  return s:columnmove_wbege('b', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical 'e' commands "{{{
-function! columnmove#e(mode, ...)
-  return s:columnmove_wbege('e', a:mode, a:0, a:000)
+function! columnmove#e(mode, wise, ...)
+  return s:columnmove_wbege('e', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical 'ge' commands  "{{{
-function! columnmove#ge(mode, ...)
-  return s:columnmove_wbege('ge', a:mode, a:0, a:000)
+function! columnmove#ge(mode, wise, ...)
+  return s:columnmove_wbege('ge', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical 'W' commands "{{{
-function! columnmove#W(mode, ...)
-  return s:columnmove_wbege('W', a:mode, a:0, a:000)
+function! columnmove#W(mode, wise, ...)
+  return s:columnmove_wbege('W', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical 'B' commands "{{{
-function! columnmove#B(mode, ...)
-  return s:columnmove_wbege('B', a:mode, a:0, a:000)
+function! columnmove#B(mode, wise, ...)
+  return s:columnmove_wbege('B', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical 'E' commands "{{{
-function! columnmove#E(mode, ...)
-  return s:columnmove_wbege('E', a:mode, a:0, a:000)
+function! columnmove#E(mode, wise, ...)
+  return s:columnmove_wbege('E', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical 'gE' commands  "{{{
-function! columnmove#gE(mode, ...)
-  return s:columnmove_wbege('gE', a:mode, a:0, a:000)
+function! columnmove#gE(mode, wise, ...)
+  return s:columnmove_wbege('gE', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 
@@ -145,10 +155,8 @@ function! s:user_conf(name, arg, default)    "{{{
   let user_conf = a:default
 
   if !empty(a:arg)
-    if type(a:arg) == s:type_dict
-      if has_key(a:arg, a:name)
-        return a:arg[a:name]
-      endif
+    if s:s.is_dict(a:arg) && has_key(a:arg, a:name)
+      return a:arg[a:name]
     endif
   endif
 
@@ -175,13 +183,11 @@ function! s:user_mode_conf(name, arg, default, mode)    "{{{
   let user_conf = a:default
 
   if !empty(a:arg)
-    if type(a:arg) == s:type_dict
-      if has_key(a:arg, a:name)
-        if type(a:arg[a:name]) == s:type_dict
-          return get(a:arg[a:name], a:mode, a:default)
-        elseif type(a:arg[a:name]) == s:type_num
-          return a:arg[a:name]
-        endif
+    if s:s.is_dict(a:arg) && has_key(a:arg, a:name)
+      if s:s.is_dict(a:arg[a:name])
+        return get(a:arg[a:name], a:mode, a:default)
+      elseif s:s.is_number(a:arg[a:name])
+        return a:arg[a:name]
       endif
     endif
   endif
@@ -189,9 +195,9 @@ function! s:user_mode_conf(name, arg, default, mode)    "{{{
   if exists('g:columnmove_' . a:name)
     let type_val = g:columnmove_{a:name}
 
-    if type(type_val) == s:type_dict
+    if s:s.is_dict(type_val)
       let user_conf = get(g:columnmove_{a:name}, a:mode, a:default)
-    elseif type(type_val) == s:type_num
+    elseif s:s.is_number(type_val)
       let user_conf = g:columnmove_{a:name}
     endif
   endif
@@ -199,9 +205,9 @@ function! s:user_mode_conf(name, arg, default, mode)    "{{{
   if exists('t:columnmove_' . a:name)
     let type_val = t:columnmove_{a:name}
 
-    if type(type_val) == s:type_dict
+    if s:s.is_dict(type_val)
       let user_conf = get(t:columnmove_{a:name}, a:mode, a:default)
-    elseif type(type_val) == s:type_num
+    elseif s:s.is_number(type_val)
       let user_conf = t:columnmove_{a:name}
     endif
   endif
@@ -209,9 +215,9 @@ function! s:user_mode_conf(name, arg, default, mode)    "{{{
   if exists('w:columnmove_' . a:name)
     let type_val = w:columnmove_{a:name}
 
-    if type(type_val) == s:type_dict
+    if s:s.is_dict(type_val)
       let user_conf = get(w:columnmove_{a:name}, a:mode, a:default)
-    elseif type(type_val) == s:type_num
+    elseif s:s.is_number(type_val)
       let user_conf = w:columnmove_{a:name}
     endif
   endif
@@ -219,22 +225,14 @@ function! s:user_mode_conf(name, arg, default, mode)    "{{{
   if exists('b:columnmove_' . a:name)
     let type_val = b:columnmove_{a:name}
 
-    if type(type_val) == s:type_dict
+    if s:s.is_dict(type_val)
       let user_conf = get(b:columnmove_{a:name}, a:mode, a:default)
-    elseif type(type_val) == s:type_num
+    elseif s:s.is_number(type_val)
       let user_conf = b:columnmove_{a:name}
     endif
   endif
 
   return user_conf
-endfunction
-"}}}
-function! s:check_raw(arg)    "{{{
-  if has_key(a:arg, 'raw')
-    return a:arg['raw']
-  endif
-
-  return 0
 endfunction
 "}}}
 function! s:fold_opener(line, currentline, level)  "{{{
@@ -298,7 +296,7 @@ function! s:getchar_from_same_column(string, thr_col, cutup, null)  "{{{
     return a:null
   endif
 
-  if a:thr_col <= 0
+  if a:thr_col == 0
     return [chars[0], 0]
   endif
 
@@ -336,7 +334,8 @@ function! s:getchar_from_same_column(string, thr_col, cutup, null)  "{{{
   let col = (idx > 0) ? strlen(join(chars[: idx - 1], '')) : 0
 
   return [chars[idx], col]
-endfunction"}}}
+endfunction
+"}}}
 function! s:add_topline(dest_view) "{{{
   let dest_view = a:dest_view
   let line = a:dest_view.lnum
@@ -352,14 +351,10 @@ endfunction
 "}}}
 
 " vertical f, t, F, T
-function! s:columnmove_ftFT(kind, mode, argn, args) "{{{
+function! s:columnmove_ftFT_fixer(kind, mode, wise, argn, args) "{{{
   " count assginment
   let l:count = (a:argn > 1 && a:args[1] > 0) ? a:args[1] : v:count1
-
-  " re-entering to the visual mode (if necessary)
-  if (a:mode ==# 'x') && ((mode() !=? 'v') && (mode() != "\<C-v>"))
-    normal! gv
-  endif
+  let s:state = l:count
 
   " searching for the user configuration
   let options_dict = (a:argn > 2) ? a:args[2] : {}
@@ -378,40 +373,105 @@ function! s:columnmove_ftFT(kind, mode, argn, args) "{{{
   let opt.update_history = s:user_conf('update_history', options_dict, 1)
   let opt.expand_range   = s:user_conf(  'expand_range', options_dict, 0)
   let opt.auto_scroll    = s:user_conf(   'auto_scroll', options_dict, 0)
-  let opt.raw            = s:check_raw(options_dict)
 
   " searching for destinations
   if char != ''
-    let dest_view = s:get_dest_ftFT_with_char(a:kind, a:mode, char, l:count, view, opt)
-  else
-    let dest_view = s:get_dest_ftFT(a:kind, a:mode, l:count, view, opt)
-  endif
+    let s:last_searched.dest = copy(s:null_dest)
+    let s:last_searched.args = [a:kind, a:mode, char, l:count, deepcopy(view), deepcopy(opt)]
 
-  if opt.raw
-    let output = deepcopy(dest_view)
-    let output.col      += 1
-    let output.curswant += 1
-  else
-    let output = ''
-  endif
-
-  let opened_fold = remove(dest_view, 'opened_fold')
-
-  " move cursor
-  if (opt.raw != 1) && (dest_view.lnum > 0)
-    if (v:version > 704) || (v:version == 704 && has('patch310'))
-      call setpos('.', [0, dest_view.lnum, dest_view.col+1, 0, dest_view.curswant+1])
+    if a:mode == 'i'
+      let call_method = "\<C-r>="
     else
-      call winrestview(s:add_topline(dest_view))
+      let call_method = ":\<C-u>call "
+    endif
+
+    let cmd = call_method . "columnmove#ftFT_executer()\<CR>"
+  else
+    let [dest_view, opened_fold] = s:get_dest_ftFT(a:kind, a:mode, l:count, view, opt)
+
+    " close unnecessary fold
+    if opened_fold != []
+      call s:fold_closer(line('.'), opened_fold)
+    endif
+
+    if dest_view != s:null_dest
+      let s:last_searched.dest = dest_view
+      let s:last_searched.args = [a:kind, a:mode, s:last_searched.char, l:count, deepcopy(view), deepcopy(opt)]
+      let s:last_searched.wise  = a:wise
+
+      if a:mode == 'i'
+        let call_method = "\<C-r>="
+      else
+        let call_method = ":\<C-u>call "
+      endif
+
+      let cmd = call_method . "columnmove#ftFT_executer()\<CR>"
+    else
+      let cmd = (a:mode == 'o') ? "\<Esc>" : ''
     endif
   endif
 
-  " close unnecessary fold
-  if opened_fold != []
-    call s:fold_closer(line('.'), opened_fold)
+  return cmd
+endfunction
+"}}}
+function! columnmove#ftFT_executer()  "{{{
+  " skip {count}
+  if !(s:state == get(s:last_searched.args, 3, 0) || s:state <= 0)
+    let s:state -= 1
+    return ''
   endif
 
-  return output
+  " determine the destination
+  let dest = copy(s:null_dest)
+  if s:last_searched.dest != s:null_dest
+    let dest = copy(s:last_searched.dest)
+    let s:last_searched.dest = copy(s:null_dest)
+  else
+    " when the function is called from dot-repeat, update count, view, and opt.
+    if s:state <= 0
+      let s:last_searched.args[3] = v:count1
+      let s:last_searched.args[4] = winsaveview()
+
+      " resolving user configuration
+      let opt = s:last_searched.args[5]
+      let opt.fold_open      = s:user_mode_conf('fold_open', opt, 0, 'o')
+      let opt.ignore_case    = s:user_conf(   'ignore_case', opt, &ignorecase)
+      let opt.highlight      = s:user_conf(     'highlight', opt, 1)
+      let opt.update_history = s:user_conf('update_history', opt, 1)
+      let opt.expand_range   = s:user_conf(  'expand_range', opt, 0)
+      let opt.auto_scroll    = s:user_conf(   'auto_scroll', opt, 0)
+    endif
+
+    let [dest, opened_fold] = call('s:get_dest_ftFT_with_char', s:last_searched.args)
+
+    " close unnecessary fold
+    if opened_fold != []
+      call s:fold_closer(line('.'), opened_fold)
+    endif
+  endif
+
+  " re-entering to the visual mode (if necessary)
+  let mode = get(s:last_searched.args, 1, '')
+  if (mode ==# 'x') && ((mode() !=? 'v') && (mode() != "\<C-v>"))
+    normal! gv
+  endif
+
+  " move cursor
+  if dest != s:null_dest
+    " optimize the motion
+    if s:last_searched.wise != ''
+      execute 'normal! ' . s:last_searched.wise
+    endif
+
+    if (v:version > 704) || (v:version == 704 && has('patch310'))
+      call setpos('.', [0, dest.lnum, dest.col+1, 0, dest.curswant+1])
+    else
+      call winrestview(s:add_topline(dest))
+    endif
+  endif
+
+  let s:state -= 1
+  return ''
 endfunction
 "}}}
 function! s:get_dest_ftFT(kind, mode, count, view, opt)  "{{{
@@ -531,7 +591,7 @@ function! s:get_dest_ftFT(kind, mode, count, view, opt)  "{{{
   let prefix = a:opt.ignore_case ? '\m\c' : '\m\C'
 
   let highlight_pos = []
-  let uniq_chars     = s:Sl.uniq_by(filter(copy(chars), '!empty(v:val)'), 'v:val')
+  let uniq_chars    = s:Sl.uniq_by(filter(copy(chars), '!empty(v:val)'), 'v:val')
   for c in copy(uniq_chars)
     let pattern = prefix . s:s.escape_pattern(c)
     let idx     = match(chars, pattern, 0, a:count)
@@ -541,7 +601,7 @@ function! s:get_dest_ftFT(kind, mode, count, view, opt)  "{{{
       call remove(uniq_chars, match(uniq_chars, pattern))
     endif
   endfor
-  if highlight_pos == [] | return {'lnum': -1, 'col': -1, 'curswant': -1, 'opened_fold': opened_fold} | endif
+  if highlight_pos == [] | return [copy(s:null_dest), opened_fold] | endif
 
   " highlighting candidates
   if a:opt.highlight
@@ -558,11 +618,12 @@ function! s:get_dest_ftFT(kind, mode, count, view, opt)  "{{{
     redraw
   endif
 
-  if key == "" | return {'lnum': -1, 'col': -1, 'curswant': -1, 'opened_fold': opened_fold} | endif
+  if key == "" | return [copy(s:null_dest), opened_fold] | endif
 
   " update history
   if a:opt.update_history
-    let s:search_history = [a:kind, key]
+    let s:last_searched.kind = a:kind
+    let s:last_searched.char = key
   endif
 
   let pattern = prefix . s:s.escape_pattern(key)
@@ -574,15 +635,15 @@ function! s:get_dest_ftFT(kind, mode, count, view, opt)  "{{{
       call winrestview(a:view)
     endif
 
-    return {'lnum': -1, 'col': -1, 'curswant': -1, 'opened_fold': opened_fold}
+    return [copy(s:null_dest), opened_fold]
   endif
 
   if a:kind ==# 't'
-    let output = {'lnum': highlight_pos[idx][0] - 1, 'col': highlight_pos[idx][1], 'curswant': curswant, 'opened_fold': opened_fold}
+    let output = [{'lnum': highlight_pos[idx][0] - 1, 'col': highlight_pos[idx][1], 'curswant': curswant}, opened_fold]
   elseif a:kind ==# 'T'
-    let output = {'lnum': highlight_pos[idx][0] + 1, 'col': highlight_pos[idx][1], 'curswant': curswant, 'opened_fold': opened_fold}
+    let output = [{'lnum': highlight_pos[idx][0] + 1, 'col': highlight_pos[idx][1], 'curswant': curswant}, opened_fold]
   else
-    let output = {'lnum': highlight_pos[idx][0], 'col': highlight_pos[idx][1], 'curswant': curswant, 'opened_fold': opened_fold}
+    let output = [{'lnum': highlight_pos[idx][0], 'col': highlight_pos[idx][1], 'curswant': curswant}, opened_fold]
   endif
 
   return output
@@ -598,7 +659,8 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, count, view, opt)  "{{{
 
   " update history
   if a:opt.update_history
-    let s:search_history = [a:kind, a:c]
+    let s:last_searched.kind = a:kind
+    let s:last_searched.char = a:c
   endif
 
   " defining the searching range
@@ -670,7 +732,16 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, count, view, opt)  "{{{
     let fold_end   = foldclosedend(line)
     if fold_start < 0
       let [c, col] = s:getchar_from_same_column(whole_lines[idx], curswant, cutup, ['', -1])
-      if c =~ pattern | break | endif " found!
+
+      if c =~ pattern
+        " found!
+        if l:count == 1
+          break
+        else
+          let l:count -= 1
+        endif
+      endif
+
       let idx   += 1
       let line  += inc
     else
@@ -705,34 +776,30 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, count, view, opt)  "{{{
   call winrestview(a:view)
 
   " could not find
-  if idx > line_num | return {'lnum': -1, 'col': -1, 'curswant': -1, 'opened_fold': opened_fold} | endif
+  if idx > line_num | return [copy(s:null_dest), opened_fold] | endif
 
   if a:kind ==# 't'
-    let output = {'lnum': line - 1, 'col': col, 'curswant': curswant, 'opened_fold': opened_fold}
+    let output = [{'lnum': line - 1, 'col': col, 'curswant': curswant}, opened_fold]
   elseif a:kind ==# 'T'
-    let output = {'lnum': line + 1, 'col': col, 'curswant': curswant, 'opened_fold': opened_fold}
+    let output = [{'lnum': line + 1, 'col': col, 'curswant': curswant}, opened_fold]
   else
-    let output = {'lnum': line, 'col': col, 'curswant': curswant, 'opened_fold': opened_fold}
+    let output = [{'lnum': line, 'col': col, 'curswant': curswant}, opened_fold]
   endif
 
   return output
 endfunction
 "}}}
 function! s:highlight_add(row, col) "{{{
-  let pattern   = '\%' . a:row . 'l\%' . a:col . 'c.'
-  let id = matchadd("IncSearch", pattern)
-  return id
+  return matchadd("IncSearch", '\%' . a:row . 'l\%' . a:col . 'c.')
 endfunction
 "}}}
 function! s:highlight_del(id) "{{{
-  call matchdelete(a:id)
-
-  return
+  return matchdelete(a:id)
 endfunction
 "}}}
 
 " vertical w, b, e, ge, W, B, E, gE
-function! s:columnmove_wbege(kind, mode, argn, args) "{{{
+function! s:columnmove_wbege(kind, mode, wise, argn, args) "{{{
   " count assginment
   let l:count = (a:argn > 0 && a:args[0] > 0) ? a:args[0] : v:count1
 
@@ -752,23 +819,17 @@ function! s:columnmove_wbege(kind, mode, argn, args) "{{{
   let opt.fold_open      = s:user_mode_conf('fold_open', options_dict, 0, a:mode)
   let opt.strict_wbege   = s:user_conf(  'strict_wbege', options_dict, 1)
   let opt.fold_treatment = s:user_conf('fold_treatment', options_dict, 0)
-  let opt.raw            = s:check_raw(options_dict)
 
   " searching for the destination
-  let dest_view   = s:get_dest_wbege(a:kind, l:count, init_view, opt)
-
-  if opt.raw
-    let output = deepcopy(dest_view)
-    let output.col      += 1
-    let output.curswant += 1
-  else
-    let output = ''
-  endif
-
-  let opened_fold = remove(dest_view, 'opened_fold')
+  let [dest_view, opened_fold] = s:get_dest_wbege(a:kind, l:count, init_view, opt)
 
   " move cursor
-  if (opt.raw != 1) && (dest_view.lnum > 0)
+  if dest_view != s:null_dest
+    " optimize the motion
+    if a:wise != ''
+      execute 'normal! ' . a:wise
+    endif
+
     if (v:version > 704) || (v:version == 704 && has('patch310'))
       call setpos('.', [0, dest_view.lnum, dest_view.col+1, 0, dest_view.curswant+1])
     else
@@ -781,7 +842,7 @@ function! s:columnmove_wbege(kind, mode, argn, args) "{{{
     call s:fold_closer(line('.'), opened_fold)
   endif
 
-  return output
+  return ''
 endfunction
 "}}}
 function! s:get_dest_wbege(kind, count, view, opt)  "{{{
@@ -884,7 +945,7 @@ function! s:get_dest_wbege(kind, count, view, opt)  "{{{
         \      : null_char
   let is_target_cur = s:check_c(a:kind, c, a:opt)
 
-  let output = {'lnum': -1, 'col': -1, 'curswant': -1, 'opened_fold': opened_fold}
+  let output = [copy(s:null_dest), opened_fold]
   while l:count > 0
     let idx  += 1
     if idx > threshold
@@ -962,16 +1023,17 @@ endfunction
 "}}}
 function! s:judge(kind, opt, fold_edge, is_target_pre, is_target_cur, count, inc, idx, line, col, curswant, opened_fold, output)  "{{{
   " FIXME: Too much arguments!
-  let idx       = a:idx
-  let line      = a:line
-  let l:count   = a:count
-  let output    = a:output
+  let idx     = a:idx
+  let line    = a:line
+  let l:count = a:count
+  let output  = a:output
+  let lnum    = a:output[0]['lnum']
 
   if a:kind ==# 'w' || a:kind ==# 'ge'
     if a:opt.strict_wbege
       " strict w, ge
 
-      " the containt of is_target_***
+      " the content of is_target_***
       " space, tab   : -1
       " keyword chars:  1
       " other chars  :  0
@@ -984,19 +1046,19 @@ function! s:judge(kind, opt, fold_edge, is_target_pre, is_target_cur, count, inc
         " The previous is empty or space
         if a:is_target_cur >= 0
           let l:count -= 1
-          let output = {'lnum': a:line, 'col': a:col, 'curswant': a:curswant, 'opened_fold': a:opened_fold}
+          let output = [{'lnum': a:line, 'col': a:col, 'curswant': a:curswant}, a:opened_fold]
         endif
       elseif !(a:is_target_pre == a:is_target_cur)
         " a different kind of character as previous one
         if a:is_target_cur >= 0
           let l:count -= 1
-          let output = {'lnum': a:line, 'col': a:col, 'curswant': a:curswant, 'opened_fold': a:opened_fold}
+          let output = [{'lnum': a:line, 'col': a:col, 'curswant': a:curswant}, a:opened_fold]
         endif
       endif
     else
       " spoiled w, ge
 
-      " the containt of is_target_***
+      " the content of is_target_***
       " empty    : 1
       " not empty: 0
 
@@ -1007,14 +1069,14 @@ function! s:judge(kind, opt, fold_edge, is_target_pre, is_target_cur, count, inc
       elseif (a:is_target_pre && !a:is_target_cur)
         " The previous line is empty and the current line is not empty
         let l:count -= 1
-        let output = {'lnum': a:line, 'col': a:col, 'curswant': a:curswant, 'opened_fold': a:opened_fold}
+        let output = [{'lnum': a:line, 'col': a:col, 'curswant': a:curswant}, a:opened_fold]
       endif
     endif
   elseif a:kind ==# 'b' || a:kind ==# 'e'
     if a:opt.strict_wbege
       " strict b, e
 
-      " the containt of is_target_***
+      " the content of is_target_***
       " space, tab   : -1
       " keyword chars:  1
       " other chars  :  0
@@ -1023,7 +1085,7 @@ function! s:judge(kind, opt, fold_edge, is_target_pre, is_target_cur, count, inc
         " The current line is folded
         if a:is_target_pre >= 0
           " The previous character is not space
-          if a:output.lnum > 0
+          if lnum > 0
             let l:count -= 1
           endif
         endif
@@ -1033,31 +1095,31 @@ function! s:judge(kind, opt, fold_edge, is_target_pre, is_target_cur, count, inc
       elseif a:is_target_pre < 0
         " The previous is empty or space
         if a:is_target_cur > -1
-          let output = {'lnum': a:line, 'col': a:col, 'curswant': a:curswant, 'opened_fold': a:opened_fold}
+          let output = [{'lnum': a:line, 'col': a:col, 'curswant': a:curswant}, a:opened_fold]
         endif
       elseif a:is_target_pre == a:is_target_cur
         " a same kind of character as previous one
-        let output = {'lnum': a:line, 'col': a:col, 'curswant': a:curswant, 'opened_fold': a:opened_fold}
+        let output = [{'lnum': a:line, 'col': a:col, 'curswant': a:curswant}, a:opened_fold]
       else
         " a different kind of character as previous one
-        if a:output.lnum > 0
+        if lnum > 0
           let l:count -= 1
         endif
 
         if (l:count > 0) && (a:is_target_cur > -1)
-          let output = {'lnum': a:line, 'col': a:col, 'curswant': a:curswant, 'opened_fold': a:opened_fold}
+          let output = [{'lnum': a:line, 'col': a:col, 'curswant': a:curswant}, a:opened_fold]
         endif
       endif
     else
       " spoiled b, e
 
-      " the containt of is_target_***
+      " the content of is_target_***
       " empty    : 1
       " not empty: 0
 
       if a:fold_edge >= 0
         " The current line is folded
-        if !a:is_target_pre && a:output.lnum > 0
+        if !a:is_target_pre && lnum > 0
           let l:count -= 1
         endif
 
@@ -1065,17 +1127,17 @@ function! s:judge(kind, opt, fold_edge, is_target_pre, is_target_cur, count, inc
         let line  = a:fold_edge
       elseif (a:is_target_cur && !a:is_target_pre)
         " The current line is empty and the previous line is not empty
-        if a:output.lnum > 0
+        if lnum > 0
           let l:count -= 1
         endif
       elseif !a:is_target_cur
-        let output = {'lnum': a:line, 'col': a:col, 'curswant': a:curswant, 'opened_fold': a:opened_fold}
+        let output = [{'lnum': a:line, 'col': a:col, 'curswant': a:curswant}, a:opened_fold]
       endif
     endif
   elseif a:kind ==# 'W' || a:kind ==# 'gE'
     " W, gE
 
-    " the containt of is_target_***
+    " the content of is_target_***
     " space    : 1
     " not space: 0
 
@@ -1086,18 +1148,18 @@ function! s:judge(kind, opt, fold_edge, is_target_pre, is_target_cur, count, inc
     elseif (a:is_target_pre && !a:is_target_cur)
       " The previous line is empty and the current line is not empty
       let l:count -= 1
-      let output = {'lnum': a:line, 'col': a:col, 'curswant': a:curswant, 'opened_fold': a:opened_fold}
+      let output = [{'lnum': a:line, 'col': a:col, 'curswant': a:curswant}, a:opened_fold]
     endif
   elseif a:kind ==# 'B' || a:kind ==# 'E'
     " B, E
 
-    " the containt of is_target_***
+    " the content of is_target_***
     " space    : 1
     " not space: 0
 
     if a:fold_edge >= 0
       " The current line is folded
-      if !a:is_target_pre && a:output.lnum > 0
+      if !a:is_target_pre && lnum > 0
         let l:count -= 1
       endif
 
@@ -1105,11 +1167,11 @@ function! s:judge(kind, opt, fold_edge, is_target_pre, is_target_cur, count, inc
       let line  = a:fold_edge
     elseif a:is_target_cur && !a:is_target_pre
       " The current line is empty and the previous line is not empty
-      if a:output.lnum > 0
+      if lnum > 0
         let l:count -= 1
       endif
     elseif !a:is_target_cur
-      let output = {'lnum': a:line, 'col': a:col, 'curswant': a:curswant, 'opened_fold': a:opened_fold}
+      let output = [{'lnum': a:line, 'col': a:col, 'curswant': a:curswant}, a:opened_fold]
     endif
   endif
 
@@ -1122,3 +1184,4 @@ unlet s:save_cpo
 
 " vim:set foldmethod=marker:
 " vim:set commentstring="%s:
+" vim:set ts=2 sts=2 sw=2 et:

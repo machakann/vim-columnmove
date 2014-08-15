@@ -1,4 +1,4 @@
-﻿*columnmove.jax*	日本語版ヘルプ		Last change:11-Aug-2014.
+﻿*columnmove.jax*	日本語版ヘルプ		Last change:15-Aug-2014.
 
 カーソルを、縦に、動かします。
 
@@ -36,6 +36,10 @@ columnmove-f とその仲間達は、同じ桁の中で指定された文字を�
 も検索範囲としたい場合、次のように vimrc へ書いてください。
 >
 	let g:columnmove_expand_range = 10
+<
+あるいは単純にファイル全体を検索範囲としたい場合は負の数値を与えてください。
+>
+	let g:columnmove_expand_range = -1
 <
 
 これらのコマンドは移動先文字の指定があるまで、候補文字を |hl-IncSearch| を使っ
@@ -267,7 +271,7 @@ KEYMAPPINGS					*columnmove-keymappings*
 	nmap <M-T> <Plug>(columnmove-T)
 <
 
-<Plug>(columnmove-;)				*columnmove-semicolon*
+<Plug>(columnmove-;)					*columnmove-;*
 	このキーマッピングは |;| コマンドを列方向に模倣した機能を提供します。
 	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
 	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
@@ -276,7 +280,7 @@ KEYMAPPINGS					*columnmove-keymappings*
 	nmap <M-;> <Plug>(columnmove-;)
 <
 
-<Plug>(columnmove-,)					*columnmove-comma*
+<Plug>(columnmove-,)					*columnmove-,*
 	このキーマッピングは |,| コマンドを列方向に模倣した機能を提供します。
 	マッピングする場合、次のように使えるでしょう。(ただし以下の設定はデフ
 	ォルトの設定ですので、デフォルトに不満がない限りは vimrc に書く必要は
@@ -437,25 +441,36 @@ columnmove-f とその仲間達~
 columnmove-f とその仲間達はそのキーマッピングに対応する関数を持ちます。それ
 らは次のようなインターフェイスを持ちます。
 
-columnmove#xxx(mode[, target[, count[, options_dictionary]]])
+columnmove#xxx(mode, wise[, target[, count[, options_dictionary]]])
 
 xxx と書いてある部分はそれぞれのオリジナルコマンドの一文字、すなわち 'f' 、
-'t' 、 'F' 、 'T' 、あるいは "semicolon" 、 "comma" です。
+'t' 、 'F' 、 'T' 、あるいは "semicolon" 、 "comma" です。これらの関数をキーに
+割り当てる場合には各マッピングコマンド |mapping| の <expr> オプションを使用す
+る必要があります。
+
+第一引数と第二引数は必須ですが、第三・四・五引数は任意です。
 
 第一引数の "mode" の指定は必須です。これはどのモードにマッピングされているかを
 関数に伝えるために使われます。関数は |nmap|, |xmap|, |omap|, |imap| にマップす
 ることができるので、 "mode" には 'n', 'x', 'o', 'i' のどれかが指定されることに
 なります。
 
-第二引数の "target" は検索対象となる一文字です。検索する文字が限られるような場
+第二引数 "wise" の指定は必須です。これはオペレータ待機モードにおける挙動を変化
+させるために使われます。なので、オペレータ待機モード以外では単に空文字列 '' を
+与えてください。オペレータ待機モードでは、空文字を与えると |exclusive| な文字
+単位 |characterwise| の移動となります。 'v' を与えると |inclusive| な文字列単
+位 |characterwise| の移動となります。 'V' を与えると行単位 |linewise| の移動と
+なります。 "\<C-v>" を与えるとブロック単位 |blockwise| の移動となります。
+
+第三引数の "target" は検索対象となる一文字です。検索する文字が限られるような場
 合に使います。空文字 '' が指定された場合は通常と同じように、検索対象の入力を求
 めます。
 
-三つめの引数 "count" には数字が使えます。もし正の数が指定された場合、関数は常
+第四引数 "count" には数字が使えます。もし正の数が指定された場合、関数は常
 に {count} 指定を無視し、引数に与えられた数字を使います。もしゼロおよび負数が
 指定された場合は通常と同じように {count} を参照します。
 
-四つ目の引数 "options_dict" にはオプションの使用を強制するための辞書が与えられ
+第五引数 "options_dict" にはオプションの使用を強制するための辞書が与えられ
 ます。キーの名前は |columnmove-configuration| にある挙動制御用の変数名か
 ら"g:columnmove_" を取り除いたものが使用されます。つまり、
 "open_fold" 、"ignorecase" 、 "highlight" 、 "expand_range" 、
@@ -463,86 +478,81 @@ xxx と書いてある部分はそれぞれのオリジナルコマンドの一�
 い。例えば 'ignorecase' オプションにかかわらず常に大文字小文字を無視したい場合
 は、この引数を次のように使います。
 >
-	nnoremap <silent> <M-f> :<C-u>call columnmove#f('n', '', 0,
-		\				{'ignore_case' : 1})<CR>
+	nnoremap <silent><expr> <M-f> columnmove#f('n', ''
+		\				'', 0, {'ignore_case' : 1})
 <
-|imap| する場合には次のように書きます。
+ヴィジュアルモードにマッピングする場合には次のように書きます。
 >
-	inoremap <silent> <M-f> <C-r>=columnmove#f('n', '', 0,
-		\				{'ignore_case' : 1})<CR>
+	xnoremap <silent><expr> <M-f> columnmove#f('x', ''
+		\				'', 0, {'ignore_case' : 1})
 <
-|cmap| の場合は注意が必要です。 <silent> を使うとコマンドラインが正しく更新さ
-れないためカーソルが動いたように見えません。 <silent> は使わないでください。
+インサートモードにマッピングする場合には次のように書きます。
 >
-	cnoremap <M-f> <C-r>=columnmove#f('n', '', 0, {'ignore_case' : 1})<CR>
+	inoremap <silent><expr> <M-f> columnmove#f('i', ''
+		\				'', 0, {'ignore_case' : 1})
 <
-|omap| する場合には |columnmove-keymappings| 後半部分の注意書きを参照しておく
-ことをお勧めします。そのうえで次のようにするとデフォルトと同様に使用できるで
-しょう。
+オペレータ待機モードにマッピングする場合には |columnmove-keymappings| 後半部分
+の注意書きを参照しておくことをお勧めします。そのうえで次のようにするとデフォル
+トと同様に使用できるでしょう。
 >
-	onoremap <silent>      <M-f>     V:<C-u>call columnmove#f('o', '', 0,
-		\				{'fold_open' : -1})<CR>
+	onoremap <silent><expr>      <M-f> columnmove#f('o', 'V'
+		\				'', 0, {'ignore_case' : -1})
 
-	onoremap <silent>     v<M-f>      :<C-u>call columnmove#f('o', '', 0,
-		\				{'fold_open' : -1})<CR>
+	onoremap <silent><expr>     v<M-f> columnmove#f('o', ''
+		\				'', 0, {'ignore_case' : -1})
 
-	onoremap <silent>     V<M-f>     V:<C-u>call columnmove#f('o', '', 0,
-		\				{'fold_open' : -1})<CR>
+	onoremap <silent><expr>     V<M-f> columnmove#f('o', 'V'
+		\				'', 0, {'ignore_case' : -1})
 
-	onoremap <silent> <C-v><M-f> <C-v>:<C-u>call columnmove#f('o', '', 0,
-		\				{'fold_open' : -1})<CR>
+	onoremap <silent><expr> <C-v><M-f> columnmove#f('o', "\<C-v>"
+		\				'', 0, {'ignore_case' : -1})
 <
 
-加えて、特別なキー "raw" も使用できます。値に1か2が指定されている場合、関数は
-移動先の情報を収めた辞書を返します。"lnum" キーと "col" キーにはそれぞれ移動先
-の行番号、桁番号が収められています。 "curswant" キーには縦方向へ移動時に期待さ
-れる桁番号が、 "opened_fold" キーに開いて候補を検索した折り畳みの開始行と終了
-行の番号のリスト群が収められています。移動する際にはこれらの折り畳みを開き、移
-動後に必要のない部分を閉じています。
-値が1の時、関数はカーソルを動かしません。2の時は動かします。
->
-	let output = columnmove#f('n', 'a', 1, {'raw' : 1})
+キーの名前はオプション変数から最初の "g:columnmove_" を取り除いたもの、すなわ
+ち "open_fold", "ignorecase", "highlight", "expand_range", "update_history",
+"auto_scroll" が使用できます。 |columnmove-configuration| の項をご参照くださ
+い。
 
-	" 移動先の行番号、例えば 10 など
-	echo output.lnum
-
-	" 移動先の桁番号、例えば 10 など
-	echo output.col
-
-	" 縦方向移動時に期待される桁番号、例えば 10 など
-	echo output.curswant
-
-	" 開いた折り畳み、例えば [[3, 5], [6, 9]] など
-	echo output.open_fold
-<
 
 
 						*columnmove#f()*
-columnmove#f(mode[, target[, count[, options_dictionary]]])
-	|columnmove-f| の機能に対応する関数です。
+columnmove#f(mode, wise[, target[, count[, options_dictionary]]])
+	|columnmove-f| の機能に対応する関数です。この関数をキーに割り当てると
+	きには各マッピングコマンド |mapping| に <expr> オプションを使用してく
+	ださい。
 
 						*columnmove#t()*
-columnmove#t(mode[, target[, count[, options_dictionary]]])
-	|columnmove-t| の機能に対応する関数です。
+columnmove#t(mode, wise[, target[, count[, options_dictionary]]])
+	|columnmove-t| の機能に対応する関数です。この関数をキーに割り当てると
+	きには各マッピングコマンド |mapping| に <expr> オプションを使用してく
+	ださい。
 
 						*columnmove#F()*
-columnmove#F(mode[, target[, count[, options_dictionary]]])
-	|columnmove-F| の機能に対応する関数です。
+columnmove#F(mode, wise[, target[, count[, options_dictionary]]])
+	|columnmove-F| の機能に対応する関数です。この関数をキーに割り当てると
+	きには各マッピングコマンド |mapping| に <expr> オプションを使用してく
+	ださい。
 
 						*columnmove#T()*
-columnmove#T(mode[, target[, count[, options_dictionary]]])
-	|columnmove-T| の機能に対応する関数です。
+columnmove#T(mode, wise[, target[, count[, options_dictionary]]])
+	|columnmove-T| の機能に対応する関数です。この関数をキーに割り当てると
+	きには各マッピングコマンド |mapping| に <expr> オプションを使用してく
+	ださい。
 
 
-次の二つのコマンドについては、その特性上第二引数 "target" が省略されます。
+次の二つのコマンドについては、その特性上第三引数 "target" が省略されます。
 
 						*columnmove#semicolon()*
-columnmove#semicolon(mode[, count[, options_dictionary]])
-	|columnmove-semicolon| の機能に対応する関数です。
+columnmove#semicolon(mode, wise[, count[, options_dictionary]])
+	|columnmove-;| の機能に対応する関数です。この関数をキーに割り当てると
+	きには各マッピングコマンド |mapping| に <expr> オプションを使用してく
+	ださい。
 
 						*columnmove#comma()*
-columnmove#comma(mode[, count[, options_dictionary]])
-	|columnmove-comma| の機能に対応する関数です。
+columnmove#comma(mode, wise[, count[, options_dictionary]])
+	|columnmove-,| の機能に対応する関数です。この関数をキーに割り当てると
+	きには各マッピングコマンド |mapping| に <expr> オプションを使用してく
+	ださい。
 
 
 ------------------------------------------------------------------------------
@@ -550,97 +560,103 @@ columnmove-w とその仲間達~
 columnmove-w とその仲間達はそのキーマッピングに対応した関数を持っています。
 それらは次のようなインターフェイスを持ちます。
 
-columnmove#xxx(mode[, count[, options_dictionary]])
+columnmove#xxx(mode, wise[, count[, options_dictionary]])
 
 xxx と書いてある部分はそれぞれのオリジナルコマンドの名前、すなわち 'w' 、
 'b' 、 'e' 、 "ge" 、 "W" 、 "B" 、 "E" 、 "gE" です。
+
+第一引数と第二引数は必須ですが、第三・四・五引数は任意です。
 
 第一引数の "mode" の指定は必須です。これはどのモードにマッピングされているかを
 関数に伝えるために使われます。関数は |nmap|, |xmap|, |omap|, |imap| にマップす
 ることができるので、 "mode" には 'n', 'x', 'o', 'i' のどれかが指定されることに
 なります。
 
-第二引数 "count" には数字が使えます。もし正の数が指定された場合、関数は常
+第二引数 "wise" の指定は必須です。これはオペレータ待機モードにおける挙動を変化
+させるために使われます。なので、オペレータ待機モード以外では単に空文字列 '' を
+与えてください。オペレータ待機モードでは、空文字を与えると |exclusive| な文字
+単位 |characterwise| の移動となります。 'v' を与えると |inclusive| な文字列単
+位 |characterwise| の移動となります。 'V' を与えると行単位 |linewise| の移動と
+なります。 "\<C-v>" を与えるとブロック単位 |blockwise| の移動となります。
+
+第三引数 "count" には数字が使えます。もし正の数が指定された場合、関数は常
 に {count} 指定を無視し、引数に与えられた数字を使います。もしゼロおよび負数が
 指定された場合は通常と同じように {count} を参照します。
 
-三つ目の引数 "options_dict" にはオプションの使用を強制するための辞書が与えられ
+第四引数 "options_dict" にはオプションの使用を強制するための辞書が与えられ
 ます。キーの名前は |columnmove-configuration| にある挙動制御用の変数名か
 ら"g:columnmove_" を取り除いたものが使用されます。つまり、
 "open_fold" 、"strict_wbege" が使用できます。 |columnmove-configuration| の項
 もご覧ください。例えば常に折り畳みを開きたい場合には、この引数を次のように使い
 ます。
 >
-	nnoremap <silent> <M-w> :<C-u>call columnmove#w('n', 0,
-		\				{'fold_open' : -1})<CR>
+	nnoremap <silent> <M-w> :<C-u>call columnmove#w('n', ''
+		\				0, {'fold_open' : -1})<CR>
 <
-|imap| する場合には次のように書きます。
+ヴィジュアルモードにマッピングする場合には次のように書きます。
 >
-	inoremap <silent> <M-w> <C-r>=columnmove#w('n', 0,
-		\				{'fold_open' : -1})<CR>
+	xnoremap <silent> <M-w> :<C-u>call columnmove#w('x', ''
+		\				0, {'fold_open' : -1})<CR>
 <
-|cmap| の場合は注意が必要です。 <silent> を使うとコマンドラインが正しく更新さ
-れないためカーソルが動いたように見えません。 <silent> は使わないでください。
+インサートモードにマッピングする場合には次のように書きます。
 >
-	cnoremap <M-w> <C-r>=columnmove#w('n', 0, {'fold_open' : -1})<CR>
+	inoremap <silent> <M-w> <C-r>=columnmove#w('i', ''
+		\				0, {'fold_open' : -1})<CR>
 <
-|omap| する場合には |columnmove-keymappings| 後半部分の注意書きを参照しておく
-ことをお勧めします。そのうえで次のようにするとデフォルトと同様に使用できるで
-しょう。
+オペレータ待機モードにマッピングする場合には |columnmove-keymappings| 後半部分
+の注意書きを参照しておくことをお勧めします。そのうえで次のようにするとデフォル
+トと同様に使用できるでしょう。
 >
-	onoremap <silent>      <M-w>     V:<C-u>call columnmove#w('o', 0,
-		\				{'fold_open' : -1})<CR>
+	onoremap <silent>      <M-w> :<C-u>call columnmove#w('o', 'V'
+		\				0, {'fold_open' : -1})<CR>
 
-	onoremap <silent>     v<M-w>      :<C-u>call columnmove#w('o', 0,
-		\				{'fold_open' : -1})<CR>
+	onoremap <silent>     v<M-w> :<C-u>call columnmove#w('o', ''
+		\				0, {'fold_open' : -1})<CR>
 
-	onoremap <silent>     V<M-w>     V:<C-u>call columnmove#w('o', 0,
-		\				{'fold_open' : -1})<CR>
+	onoremap <silent>     V<M-w> :<C-u>call columnmove#w('o', 'V'
+		\				0, {'fold_open' : -1})<CR>
 
-	onoremap <silent> <C-v><M-w> <C-v>:<C-u>call columnmove#w('o', 0,
-		\				{'fold_open' : -1})<CR>
+	onoremap <silent> <C-v><M-w> :<C-u>call columnmove#w('o', "\<C-v>"
+		\				0, {'fold_open' : -1})<CR>
 <
 
+キーの名前はオプション変数から最初の "g:columnmove_" を取り除いたもの、すなわ
+ち "open_fold", "strict_wbege", "fold_treatment" が使用できます。
+|columnmove-configuration| の項をご参照ください。
 
-加えて、特別なキー "raw" も使用できます。値に1か2が指定されている場合、関数は
-移動先の情報を収めた辞書を返します。"lnum" キーと "col" キーにはそれぞれ移動先
-の行番号、桁番号が収められています。 "curswant" キーには縦方向へ移動時に期待さ
-れる桁番号が、 "opened_fold" キーに開いて候補を検索した折り畳みの開始行と終了
-行の番号のリスト群が収められています。移動する際にはこれらの折り畳みを開き、移
-動後に必要のない部分を閉じています。
-値が1の時、関数はカーソルを動かしません。2の時は動かします。
->
-	let output = columnmove#w('n', 1, {'raw' : 1})
-
-	" 移動先の行番号、例えば 10 など
-	echo output.lnum
-
-	" 移動先の桁番号、例えば 10 など
-	echo output.col
-
-	" 縦方向移動時に期待される桁番号、例えば 10 など
-	echo output.curswant
-
-	" 開いた折り畳み、例えば [[3, 5], [6, 9]] など
-	echo output.open_fold
-<
 
 
 						*columnmove#w()*
-columnmove#w(mode[, target[, count[, options_dictionary]]])
+columnmove#w(mode, wise[, target[, count[, options_dictionary]]])
 	|columnmove-w| に対応する関数です。
 
 						*columnmove#b()*
-columnmove#b(mode[, target[, count[, options_dictionary]]])
+columnmove#b(mode, wise[, target[, count[, options_dictionary]]])
 	|columnmove-b| に対応する関数です。
 
 						*columnmove#e()*
-columnmove#e(mode[, target[, count[, options_dictionary]]])
+columnmove#e(mode, wise[, target[, count[, options_dictionary]]])
 	|columnmove-e| に対応する関数です。
 
 						*columnmove#ge()*
-columnmove#ge(mode[, target[, count[, options_dictionary]]])
+columnmove#ge(mode, wise[, target[, count[, options_dictionary]]])
 	|columnmove-ge| に対応する関数です。
+
+						*columnmove#W()*
+columnmove#W(mode, wise[, target[, count[, options_dictionary]]])
+	|columnmove-W| に対応する関数です。
+
+						*columnmove#B()*
+columnmove#B(mode, wise[, target[, count[, options_dictionary]]])
+	|columnmove-B| に対応する関数です。
+
+						*columnmove#E()*
+columnmove#E(mode, wise[, target[, count[, options_dictionary]]])
+	|columnmove-E| に対応する関数です。
+
+						*columnmove#gE()*
+columnmove#gE(mode, wise[, target[, count[, options_dictionary]]])
+	|columnmove-gE| に対応する関数です。
 
 
 ==============================================================================

@@ -1,5 +1,5 @@
 " Vim global plugin for moving cursor in vertical direction
-" Last Change: 22-Jul-2014.
+" Last Change: 16-Aug-2014.
 " Maintainer : Masaaki Nakamura <mckn@outlook.com>
 
 " License    : NYSL
@@ -11,137 +11,145 @@ if exists("g:loaded_columnmove")
 endif
 let g:loaded_columnmove = 1
 
+let s:cpoptions = &cpoptions
+if stridx(&cpoptions, '<') != -1
+  set cpoptions-=<
+endif
+
 """ keymappings
 " vertical f
-inoremap <silent>      <Plug>(columnmove-f)            <C-r>=columnmove#f('i')<CR>
-nnoremap <silent>      <Plug>(columnmove-f)       :<C-u>call columnmove#f('n')<CR>
-xnoremap <silent>      <Plug>(columnmove-f)       :<C-u>call columnmove#f('x')<CR>
-onoremap <silent>      <Plug>(columnmove-f)      V:<C-u>call columnmove#f('o')<CR>
-onoremap <silent>     v<Plug>(columnmove-f)       :<C-u>call columnmove#f('o')<CR>
-onoremap <silent>     V<Plug>(columnmove-f)      V:<C-u>call columnmove#f('o')<CR>
-onoremap <silent> <C-v><Plug>(columnmove-f)  <C-v>:<C-u>call columnmove#f('o')<CR>
+inoremap <silent><expr>      <Plug>(columnmove-f) columnmove#f('i', '')
+nnoremap <silent><expr>      <Plug>(columnmove-f) columnmove#f('n', '')
+xnoremap <silent><expr>      <Plug>(columnmove-f) columnmove#f('x', '')
+onoremap <silent><expr>      <Plug>(columnmove-f) columnmove#f('o', 'V')
+onoremap <silent><expr>     v<Plug>(columnmove-f) columnmove#f('o', '')
+onoremap <silent><expr>     V<Plug>(columnmove-f) columnmove#f('o', 'V')
+onoremap <silent><expr> <C-v><Plug>(columnmove-f) columnmove#f('o', "\<C-v>")
 
 " vertical t
-inoremap <silent>      <Plug>(columnmove-t)            <C-r>=columnmove#t('i')<CR>
-nnoremap <silent>      <Plug>(columnmove-t)       :<C-u>call columnmove#t('n')<CR>
-xnoremap <silent>      <Plug>(columnmove-t)       :<C-u>call columnmove#t('x')<CR>
-onoremap <silent>      <Plug>(columnmove-t)      V:<C-u>call columnmove#t('o')<CR>
-onoremap <silent>     v<Plug>(columnmove-t)       :<C-u>call columnmove#t('o')<CR>
-onoremap <silent>     V<Plug>(columnmove-t)      V:<C-u>call columnmove#t('o')<CR>
-onoremap <silent> <C-v><Plug>(columnmove-t)  <C-v>:<C-u>call columnmove#t('o')<CR>
+inoremap <silent><expr>      <Plug>(columnmove-t) columnmove#t('i', '')
+nnoremap <silent><expr>      <Plug>(columnmove-t) columnmove#t('n', '')
+xnoremap <silent><expr>      <Plug>(columnmove-t) columnmove#t('x', '')
+onoremap <silent><expr>      <Plug>(columnmove-t) columnmove#t('o', 'V')
+onoremap <silent><expr>     v<Plug>(columnmove-t) columnmove#t('o', '')
+onoremap <silent><expr>     V<Plug>(columnmove-t) columnmove#t('o', 'V')
+onoremap <silent><expr> <C-v><Plug>(columnmove-t) columnmove#t('o', "\<C-v>")
 
 " vertical F
-inoremap <silent>      <Plug>(columnmove-F)            <C-r>=columnmove#F('i')<CR>
-nnoremap <silent>      <Plug>(columnmove-F)       :<C-u>call columnmove#F('n')<CR>
-xnoremap <silent>      <Plug>(columnmove-F)       :<C-u>call columnmove#F('x')<CR>
-onoremap <silent>      <Plug>(columnmove-F)      V:<C-u>call columnmove#F('o')<CR>
-onoremap <silent>     v<Plug>(columnmove-F)       :<C-u>call columnmove#F('o')<CR>
-onoremap <silent>     V<Plug>(columnmove-F)      V:<C-u>call columnmove#F('o')<CR>
-onoremap <silent> <C-v><Plug>(columnmove-F)  <C-v>:<C-u>call columnmove#F('o')<CR>
+inoremap <silent><expr>      <Plug>(columnmove-F) columnmove#F('i', '')
+nnoremap <silent><expr>      <Plug>(columnmove-F) columnmove#F('n', '')
+xnoremap <silent><expr>      <Plug>(columnmove-F) columnmove#F('x', '')
+onoremap <silent><expr>      <Plug>(columnmove-F) columnmove#F('o', 'V')
+onoremap <silent><expr>     v<Plug>(columnmove-F) columnmove#F('o', '')
+onoremap <silent><expr>     V<Plug>(columnmove-F) columnmove#F('o', 'V')
+onoremap <silent><expr> <C-v><Plug>(columnmove-F) columnmove#F('o', "\<C-v>")
 
 " vertical T
-inoremap <silent>      <Plug>(columnmove-T)            <C-r>=columnmove#T('i')<CR>
-nnoremap <silent>      <Plug>(columnmove-T)       :<C-u>call columnmove#T('n')<CR>
-xnoremap <silent>      <Plug>(columnmove-T)       :<C-u>call columnmove#T('x')<CR>
-onoremap <silent>      <Plug>(columnmove-T)      V:<C-u>call columnmove#T('o')<CR>
-onoremap <silent>     v<Plug>(columnmove-T)       :<C-u>call columnmove#T('o')<CR>
-onoremap <silent>     V<Plug>(columnmove-T)      V:<C-u>call columnmove#T('o')<CR>
-onoremap <silent> <C-v><Plug>(columnmove-T)  <C-v>:<C-u>call columnmove#T('o')<CR>
+inoremap <silent><expr>      <Plug>(columnmove-T) columnmove#T('i', '')
+nnoremap <silent><expr>      <Plug>(columnmove-T) columnmove#T('n', '')
+xnoremap <silent><expr>      <Plug>(columnmove-T) columnmove#T('x', '')
+onoremap <silent><expr>      <Plug>(columnmove-T) columnmove#T('o', 'V')
+onoremap <silent><expr>     v<Plug>(columnmove-T) columnmove#T('o', '')
+onoremap <silent><expr>     V<Plug>(columnmove-T) columnmove#T('o', 'V')
+onoremap <silent><expr> <C-v><Plug>(columnmove-T) columnmove#T('o', "\<C-v>")
 
 " vertical semicolon
-inoremap <silent>      <Plug>(columnmove-;)            <C-r>=columnmove#semicolon('i')<CR>
-nnoremap <silent>      <Plug>(columnmove-;)       :<C-u>call columnmove#semicolon('n')<CR>
-xnoremap <silent>      <Plug>(columnmove-;)       :<C-u>call columnmove#semicolon('x')<CR>
-onoremap <silent>      <Plug>(columnmove-;)      V:<C-u>call columnmove#semicolon('o')<CR>
-onoremap <silent>     v<Plug>(columnmove-;)       :<C-u>call columnmove#semicolon('o')<CR>
-onoremap <silent>     V<Plug>(columnmove-;)      V:<C-u>call columnmove#semicolon('o')<CR>
-onoremap <silent> <C-v><Plug>(columnmove-;)  <C-v>:<C-u>call columnmove#semicolon('o')<CR>
+inoremap <silent><expr>      <Plug>(columnmove-;) columnmove#semicolon('i', '')
+nnoremap <silent><expr>      <Plug>(columnmove-;) columnmove#semicolon('n', '')
+xnoremap <silent><expr>      <Plug>(columnmove-;) columnmove#semicolon('x', '')
+onoremap <silent><expr>      <Plug>(columnmove-;) columnmove#semicolon('o', 'V')
+onoremap <silent><expr>     v<Plug>(columnmove-;) columnmove#semicolon('o', '')
+onoremap <silent><expr>     V<Plug>(columnmove-;) columnmove#semicolon('o', 'V')
+onoremap <silent><expr> <C-v><Plug>(columnmove-;) columnmove#semicolon('o', "\<C-v>")
 
 " vertical comma
-inoremap <silent>      <Plug>(columnmove-,)            <C-r>=columnmove#comma('i')<CR>
-nnoremap <silent>      <Plug>(columnmove-,)       :<C-u>call columnmove#comma('n')<CR>
-xnoremap <silent>      <Plug>(columnmove-,)       :<C-u>call columnmove#comma('x')<CR>
-onoremap <silent>      <Plug>(columnmove-,)      V:<C-u>call columnmove#comma('o')<CR>
-onoremap <silent>     v<Plug>(columnmove-,)       :<C-u>call columnmove#comma('o')<CR>
-onoremap <silent>     V<Plug>(columnmove-,)      V:<C-u>call columnmove#comma('o')<CR>
-onoremap <silent> <C-v><Plug>(columnmove-,)  <C-v>:<C-u>call columnmove#comma('o')<CR>
+inoremap <silent><expr>      <Plug>(columnmove-,) columnmove#comma('i', '')
+nnoremap <silent><expr>      <Plug>(columnmove-,) columnmove#comma('n', '')
+xnoremap <silent><expr>      <Plug>(columnmove-,) columnmove#comma('x', '')
+onoremap <silent><expr>      <Plug>(columnmove-,) columnmove#comma('o', 'V')
+onoremap <silent><expr>     v<Plug>(columnmove-,) columnmove#comma('o', '')
+onoremap <silent><expr>     V<Plug>(columnmove-,) columnmove#comma('o', 'V')
+onoremap <silent><expr> <C-v><Plug>(columnmove-,) columnmove#comma('o', "\<C-v>")
 
 " vertical w
-inoremap <silent>      <Plug>(columnmove-w)            <C-r>=columnmove#w('i')<CR>
-nnoremap <silent>      <Plug>(columnmove-w)       :<C-u>call columnmove#w('n')<CR>
-xnoremap <silent>      <Plug>(columnmove-w)       :<C-u>call columnmove#w('x')<CR>
-onoremap <silent>      <Plug>(columnmove-w)      V:<C-u>call columnmove#w('o')<CR>
-onoremap <silent>     v<Plug>(columnmove-w)       :<C-u>call columnmove#w('o')<CR>
-onoremap <silent>     V<Plug>(columnmove-w)      V:<C-u>call columnmove#w('o')<CR>
-onoremap <silent> <C-v><Plug>(columnmove-w)  <C-v>:<C-u>call columnmove#w('o')<CR>
+inoremap <silent>      <Plug>(columnmove-w)       <C-r>=columnmove#w('i', '')<CR>
+nnoremap <silent>      <Plug>(columnmove-w)  :<C-u>call columnmove#w('n', '')<CR>
+xnoremap <silent>      <Plug>(columnmove-w)  :<C-u>call columnmove#w('x', '')<CR>
+onoremap <silent>      <Plug>(columnmove-w)  :<C-u>call columnmove#w('o', 'V')<CR>
+onoremap <silent>     v<Plug>(columnmove-w)  :<C-u>call columnmove#w('o', '')<CR>
+onoremap <silent>     V<Plug>(columnmove-w)  :<C-u>call columnmove#w('o', 'V')<CR>
+onoremap <silent> <C-v><Plug>(columnmove-w)  :<C-u>call columnmove#w('o', "\<C-v>")<CR>
 
 " vertical b
-inoremap <silent>      <Plug>(columnmove-b)            <C-r>=columnmove#b('i')<CR>
-nnoremap <silent>      <Plug>(columnmove-b)       :<C-u>call columnmove#b('n')<CR>
-xnoremap <silent>      <Plug>(columnmove-b)       :<C-u>call columnmove#b('x')<CR>
-onoremap <silent>      <Plug>(columnmove-b)      V:<C-u>call columnmove#b('o')<CR>
-onoremap <silent>     v<Plug>(columnmove-b)       :<C-u>call columnmove#b('o')<CR>
-onoremap <silent>     V<Plug>(columnmove-b)      V:<C-u>call columnmove#b('o')<CR>
-onoremap <silent> <C-v><Plug>(columnmove-b)  <C-v>:<C-u>call columnmove#b('o')<CR>
+inoremap <silent>      <Plug>(columnmove-b)       <C-r>=columnmove#b('i', '')<CR>
+nnoremap <silent>      <Plug>(columnmove-b)  :<C-u>call columnmove#b('n', '')<CR>
+xnoremap <silent>      <Plug>(columnmove-b)  :<C-u>call columnmove#b('x', '')<CR>
+onoremap <silent>      <Plug>(columnmove-b)  :<C-u>call columnmove#b('o', 'V')<CR>
+onoremap <silent>     v<Plug>(columnmove-b)  :<C-u>call columnmove#b('o', '')<CR>
+onoremap <silent>     V<Plug>(columnmove-b)  :<C-u>call columnmove#b('o', 'V')<CR>
+onoremap <silent> <C-v><Plug>(columnmove-b)  :<C-u>call columnmove#b('o', "\<C-v>")<CR>
 
 " vertical e
-inoremap <silent>      <Plug>(columnmove-e)            <C-r>=columnmove#e('i')<CR>
-nnoremap <silent>      <Plug>(columnmove-e)       :<C-u>call columnmove#e('n')<CR>
-xnoremap <silent>      <Plug>(columnmove-e)       :<C-u>call columnmove#e('x')<CR>
-onoremap <silent>      <Plug>(columnmove-e)      V:<C-u>call columnmove#e('o')<CR>
-onoremap <silent>     v<Plug>(columnmove-e)       :<C-u>call columnmove#e('o')<CR>
-onoremap <silent>     V<Plug>(columnmove-e)      V:<C-u>call columnmove#e('o')<CR>
-onoremap <silent> <C-v><Plug>(columnmove-e)  <C-v>:<C-u>call columnmove#e('o')<CR>
+inoremap <silent>      <Plug>(columnmove-e)       <C-r>=columnmove#e('i', '')<CR>
+nnoremap <silent>      <Plug>(columnmove-e)  :<C-u>call columnmove#e('n', '')<CR>
+xnoremap <silent>      <Plug>(columnmove-e)  :<C-u>call columnmove#e('x', '')<CR>
+onoremap <silent>      <Plug>(columnmove-e)  :<C-u>call columnmove#e('o', 'V')<CR>
+onoremap <silent>     v<Plug>(columnmove-e)  :<C-u>call columnmove#e('o', '')<CR>
+onoremap <silent>     V<Plug>(columnmove-e)  :<C-u>call columnmove#e('o', 'V')<CR>
+onoremap <silent> <C-v><Plug>(columnmove-e)  :<C-u>call columnmove#e('o', "\<C-v>")<CR>
 
 " vertical ge
-inoremap <silent>      <Plug>(columnmove-ge)           <C-r>=columnmove#ge('i')<CR>
-nnoremap <silent>      <Plug>(columnmove-ge)      :<C-u>call columnmove#ge('n')<CR>
-xnoremap <silent>      <Plug>(columnmove-ge)      :<C-u>call columnmove#ge('x')<CR>
-onoremap <silent>      <Plug>(columnmove-ge)     V:<C-u>call columnmove#ge('o')<CR>
-onoremap <silent>     v<Plug>(columnmove-ge)      :<C-u>call columnmove#ge('o')<CR>
-onoremap <silent>     V<Plug>(columnmove-ge)     V:<C-u>call columnmove#ge('o')<CR>
-onoremap <silent> <C-v><Plug>(columnmove-ge) <C-v>:<C-u>call columnmove#ge('o')<CR>
+inoremap <silent>      <Plug>(columnmove-ge)      <C-r>=columnmove#ge('i', '')<CR>
+nnoremap <silent>      <Plug>(columnmove-ge) :<C-u>call columnmove#ge('n', '')<CR>
+xnoremap <silent>      <Plug>(columnmove-ge) :<C-u>call columnmove#ge('x', '')<CR>
+onoremap <silent>      <Plug>(columnmove-ge) :<C-u>call columnmove#ge('o', 'V')<CR>
+onoremap <silent>     v<Plug>(columnmove-ge) :<C-u>call columnmove#ge('o', '')<CR>
+onoremap <silent>     V<Plug>(columnmove-ge) :<C-u>call columnmove#ge('o', 'V')<CR>
+onoremap <silent> <C-v><Plug>(columnmove-ge) :<C-u>call columnmove#ge('o', "\<C-v>")<CR>
 
 " vertical W
-inoremap <silent>      <Plug>(columnmove-W)            <C-r>=columnmove#W('i')<CR>
-nnoremap <silent>      <Plug>(columnmove-W)       :<C-u>call columnmove#W('n')<CR>
-xnoremap <silent>      <Plug>(columnmove-W)       :<C-u>call columnmove#W('x')<CR>
-onoremap <silent>      <Plug>(columnmove-W)      V:<C-u>call columnmove#W('o')<CR>
-onoremap <silent>     v<Plug>(columnmove-W)       :<C-u>call columnmove#W('o')<CR>
-onoremap <silent>     V<Plug>(columnmove-W)      V:<C-u>call columnmove#W('o')<CR>
-onoremap <silent> <C-v><Plug>(columnmove-W)  <C-v>:<C-u>call columnmove#W('o')<CR>
+inoremap <silent>      <Plug>(columnmove-W)       <C-r>=columnmove#W('i', '')<CR>
+nnoremap <silent>      <Plug>(columnmove-W)  :<C-u>call columnmove#W('n', '')<CR>
+xnoremap <silent>      <Plug>(columnmove-W)  :<C-u>call columnmove#W('x', '')<CR>
+onoremap <silent>      <Plug>(columnmove-W)  :<C-u>call columnmove#W('o', 'V')<CR>
+onoremap <silent>     v<Plug>(columnmove-W)  :<C-u>call columnmove#W('o', '')<CR>
+onoremap <silent>     V<Plug>(columnmove-W)  :<C-u>call columnmove#W('o', 'V')<CR>
+onoremap <silent> <C-v><Plug>(columnmove-W)  :<C-u>call columnmove#W('o', "\<C-v>")<CR>
 
 " vertical B
-inoremap <silent>      <Plug>(columnmove-B)            <C-r>=columnmove#B('i')<CR>
-nnoremap <silent>      <Plug>(columnmove-B)       :<C-u>call columnmove#B('n')<CR>
-xnoremap <silent>      <Plug>(columnmove-B)       :<C-u>call columnmove#B('x')<CR>
-onoremap <silent>      <Plug>(columnmove-B)      V:<C-u>call columnmove#B('o')<CR>
-onoremap <silent>     v<Plug>(columnmove-B)       :<C-u>call columnmove#B('o')<CR>
-onoremap <silent>     V<Plug>(columnmove-B)      V:<C-u>call columnmove#B('o')<CR>
-onoremap <silent> <C-v><Plug>(columnmove-B)  <C-v>:<C-u>call columnmove#B('o')<CR>
+inoremap <silent>      <Plug>(columnmove-B)       <C-r>=columnmove#B('i', '')<CR>
+nnoremap <silent>      <Plug>(columnmove-B)  :<C-u>call columnmove#B('n', '')<CR>
+xnoremap <silent>      <Plug>(columnmove-B)  :<C-u>call columnmove#B('x', '')<CR>
+onoremap <silent>      <Plug>(columnmove-B)  :<C-u>call columnmove#B('o', 'V')<CR>
+onoremap <silent>     v<Plug>(columnmove-B)  :<C-u>call columnmove#B('o', '')<CR>
+onoremap <silent>     V<Plug>(columnmove-B)  :<C-u>call columnmove#B('o', 'V')<CR>
+onoremap <silent> <C-v><Plug>(columnmove-B)  :<C-u>call columnmove#B('o', "\<C-v>")<CR>
 
 " vertical E
-inoremap <silent>      <Plug>(columnmove-E)            <C-r>=columnmove#E('i')<CR>
-nnoremap <silent>      <Plug>(columnmove-E)       :<C-u>call columnmove#E('n')<CR>
-xnoremap <silent>      <Plug>(columnmove-E)       :<C-u>call columnmove#E('x')<CR>
-onoremap <silent>      <Plug>(columnmove-E)      V:<C-u>call columnmove#E('o')<CR>
-onoremap <silent>     v<Plug>(columnmove-E)       :<C-u>call columnmove#E('o')<CR>
-onoremap <silent>     V<Plug>(columnmove-E)      V:<C-u>call columnmove#E('o')<CR>
-onoremap <silent> <C-v><Plug>(columnmove-E)  <C-v>:<C-u>call columnmove#E('o')<CR>
+inoremap <silent>      <Plug>(columnmove-E)       <C-r>=columnmove#E('i', '')<CR>
+nnoremap <silent>      <Plug>(columnmove-E)  :<C-u>call columnmove#E('n', '')<CR>
+xnoremap <silent>      <Plug>(columnmove-E)  :<C-u>call columnmove#E('x', '')<CR>
+onoremap <silent>      <Plug>(columnmove-E)  :<C-u>call columnmove#E('o', 'V')<CR>
+onoremap <silent>     v<Plug>(columnmove-E)  :<C-u>call columnmove#E('o', '')<CR>
+onoremap <silent>     V<Plug>(columnmove-E)  :<C-u>call columnmove#E('o', 'V')<CR>
+onoremap <silent> <C-v><Plug>(columnmove-E)  :<C-u>call columnmove#E('o', "\<C-v>")<CR>
 
 " vertical gE
-inoremap <silent>      <Plug>(columnmove-gE)           <C-r>=columnmove#gE('i')<CR>
-nnoremap <silent>      <Plug>(columnmove-gE)      :<C-u>call columnmove#gE('n')<CR>
-xnoremap <silent>      <Plug>(columnmove-gE)      :<C-u>call columnmove#gE('x')<CR>
-onoremap <silent>      <Plug>(columnmove-gE)     V:<C-u>call columnmove#gE('o')<CR>
-onoremap <silent>     v<Plug>(columnmove-gE)      :<C-u>call columnmove#gE('o')<CR>
-onoremap <silent>     V<Plug>(columnmove-gE)     V:<C-u>call columnmove#gE('o')<CR>
-onoremap <silent> <C-v><Plug>(columnmove-gE) <C-v>:<C-u>call columnmove#gE('o')<CR>
+inoremap <silent>      <Plug>(columnmove-gE)      <C-r>=columnmove#gE('i', '')<CR>
+nnoremap <silent>      <Plug>(columnmove-gE) :<C-u>call columnmove#gE('n', '')<CR>
+xnoremap <silent>      <Plug>(columnmove-gE) :<C-u>call columnmove#gE('x', '')<CR>
+onoremap <silent>      <Plug>(columnmove-gE) :<C-u>call columnmove#gE('o', 'V')<CR>
+onoremap <silent>     v<Plug>(columnmove-gE) :<C-u>call columnmove#gE('o', '')<CR>
+onoremap <silent>     V<Plug>(columnmove-gE) :<C-u>call columnmove#gE('o', 'V')<CR>
+onoremap <silent> <C-v><Plug>(columnmove-gE) :<C-u>call columnmove#gE('o', "\<C-v>")<CR>
 
 """ default keymappings
 " If g:columnmove_no_default_key_mappings has been defined, then quit
 " immediately.
-if exists('g:columnmove_no_default_key_mappings') | finish | endif
+if exists('g:columnmove_no_default_key_mappings')
+  let &cpoptions = s:cpoptions
+  finish
+endif
 
 " vertical f
 if !hasmapto('<Plug>(columnmove-f)')
@@ -312,3 +320,8 @@ if !hasmapto('<Plug>(columnmove-gE)')
   omap <unique>     V<M-g><M-E>     V<Plug>(columnmove-gE)
   omap <unique> <C-v><M-g><M-E> <C-v><Plug>(columnmove-gE)
 endif
+
+let &cpoptions = s:cpoptions
+unlet s:cpoptions
+
+" vim:set ts=2 sts=2 sw=2 et:
