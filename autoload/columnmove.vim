@@ -27,10 +27,9 @@ let s:null_dest = {'lnum': -1, 'col': -1, 'curswant': -1}
 "             fixer to executer or dot-repeat
 let s:last_searched = {'kind': '', 'char': '', 'dest': {}, 'args': [], 'wise': ''}
 
-" To suppress {count} times calling for executer
-" s:state == l:count        : execute moving the cursor
-" s:state <= 0 (dot-repeat) : execute moving the cursor
-" The other                 : skip
+" To distinguish whether keymapping call or dot-repeat
+" s:state == 1  : keymapping
+" s:state <= 0  : dot-repeat
 let s:state = 0
 
 " load vital
@@ -354,7 +353,7 @@ endfunction
 function! s:columnmove_ftFT_fixer(kind, mode, wise, argn, args) "{{{
   " count assginment
   let l:count = (a:argn > 1 && a:args[1] > 0) ? a:args[1] : v:count1
-  let s:state = l:count
+  let s:state = 1
 
   " searching for the user configuration
   let options_dict = (a:argn > 2) ? a:args[2] : {}
@@ -415,12 +414,6 @@ function! s:columnmove_ftFT_fixer(kind, mode, wise, argn, args) "{{{
 endfunction
 "}}}
 function! columnmove#ftFT_executer()  "{{{
-  " skip {count}
-  if !(s:state == get(s:last_searched.args, 3, 0) || s:state <= 0)
-    let s:state -= 1
-    return ''
-  endif
-
   " determine the destination
   let dest = copy(s:null_dest)
   if s:last_searched.dest != s:null_dest
