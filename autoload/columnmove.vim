@@ -350,6 +350,10 @@ endfunction
 "}}}
 
 " vertical f, t, F, T
+inoremap <Plug>(columnmove-nop) <Nop>
+nnoremap <Plug>(columnmove-nop) <Nop>
+xnoremap <Plug>(columnmove-nop) <Nop>
+
 function! s:columnmove_ftFT_fixer(kind, mode, wise, argn, args) "{{{
   " count assginment
   let l:count = (a:argn > 1 && a:args[1] > 0) ? a:args[1] : v:count1
@@ -406,7 +410,9 @@ function! s:columnmove_ftFT_fixer(kind, mode, wise, argn, args) "{{{
 
       let cmd = call_method . "columnmove#ftFT_executer()\<CR>"
     else
-      let cmd = (a:mode == 'o') ? "\<Esc>" : ''
+      call winrestview(view)
+      redraw
+      let cmd = (a:mode == 'o') ? "\<Esc>" : "\<Plug>(columnmove-nop)"
     endif
   endif
 
