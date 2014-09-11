@@ -479,7 +479,8 @@ function! s:get_dest_ftFT(kind, mode, count, view, opt)  "{{{
   if a:kind =~# '[ft]'
     " down
     if a:opt.auto_scroll
-      normal! zt
+      " can not use normal! zt
+      call s:auto_scroll_up()
     endif
 
     let startline = (a:kind ==# 'f') ? initline + 1 : initline + 2
@@ -500,7 +501,8 @@ function! s:get_dest_ftFT(kind, mode, count, view, opt)  "{{{
   elseif a:kind =~# '[FT]'
     " up
     if a:opt.auto_scroll
-      normal! zb
+      " can not use normal! zb
+      call s:auto_scroll_down()
     endif
 
     let startline = (a:kind ==# 'F') ? initline - 1 : initline - 2
@@ -788,6 +790,101 @@ endfunction
 "}}}
 function! s:highlight_del(id) "{{{
   return matchdelete(a:id)
+endfunction
+"}}}
+function! s:auto_scroll_up()  "{{{
+  let current = line('.')
+  let viewtop = line('w0')
+  let lineend = line('$')
+  let winline = winline()
+  let offset  = &scrolloff
+
+  if current - viewtop <= offset
+    return
+  endif
+
+  let lnum = viewtop
+  let winheight = winheight(0)
+  let aim  = winline + winheight - 1
+  let lines = []
+  while aim > 0
+    let fold_end = foldclosedend(lnum)
+    let lines += [lnum]
+
+    if fold_end < 0
+      let lnum += 1
+    else
+      let lnum = fold_end + 1
+    endif
+
+    if lnum >= lineend
+      break
+    endif
+
+    let aim -= 1
+  endwhile
+
+  let idx = 0
+  for line in lines
+    if line >= current
+      break
+    endif
+    let idx += 1
+  endfor
+
+  if len(lines) - idx + offset >= winheight
+    let topline = lines[idx - offset]
+    call winrestview({'topline': topline})
+    redraw
+  endif
+  return
+endfunction
+"}}}
+function! s:auto_scroll_down()  "{{{
+  let current = line('.')
+  let viewbot = line('w$')
+  let winline = winline()
+  let offset  = &scrolloff
+
+  if viewbot - current <= offset
+    return
+  endif
+
+  let lnum = viewbot
+  let winheight = winheight(0)
+  let aim  = 2*winheight - winline
+  let lines = []
+  while aim > 0
+    let fold_end = foldclosed(lnum)
+    let lines += [lnum]
+
+    if fold_end < 0
+      let lnum -= 1
+    else
+      let lnum = fold_end - 1
+    endif
+
+    if lnum <= 1
+      break
+    endif
+
+    let aim -= 1
+  endwhile
+
+  let idx = 0
+  for line in lines
+    if line <= current
+      break
+    endif
+    let idx += 1
+  endfor
+
+  if winheight - idx + offset <= len(lines)
+    let topline = lines[idx + winheight - offset - 1]
+    call winrestview({'topline': topline})
+    redraw
+  endif
+  return
 endfunction
 "}}}
 
