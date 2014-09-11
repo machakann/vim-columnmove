@@ -285,7 +285,7 @@ function! s:getchar_from_same_column(string, thr_col, cutup, null)  "{{{
   " NOTE: 'cutup' is the maximum number of characters which can be put within
   "       'thr_col' bytes. It should be 1 or larger.
 
-  let chars = split(a:string, '\zs')[: a:cutup-1]
+  let chars = split(a:string, '\zs')[: a:cutup]
   let len   = len(chars)
   let top   = len - 1
   let bot   = -top
@@ -650,7 +650,6 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, count, view, opt)  "{{{
   let initline = a:view.lnum
   let col      = a:view.col    " NOTE: not equal col('.')!
   let curswant = a:view.curswant
-  let cutup    = max([virtcol, col('.')])
 
   " update history
   if a:opt.update_history
@@ -707,6 +706,7 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, count, view, opt)  "{{{
   let acceptable_gap = char_width - 1
   let curswant       = (curswant - virtcol + char_width <= acceptable_gap)
         \            ? curswant : (virtcol - char_width)
+  let cutup          = max([virtcol, col('.')]) + acceptable_gap
 
   " searching for the destination
   let idx      = 0
@@ -941,7 +941,6 @@ function! s:get_dest_wbege(kind, count, view, opt)  "{{{
   let initline    = a:view.lnum
   let col         = a:view.col    " NOTE: not equal col('.')!
   let curswant    = a:view.curswant
-  let cutup       = max([virtcol, col('.')])
   let opened_fold = []
 
   if a:kind ==# 'w'
@@ -1010,6 +1009,7 @@ function! s:get_dest_wbege(kind, count, view, opt)  "{{{
   let curswant       = (lines[0] == '') ? 0
         \            : (curswant - virtcol + char_width <= acceptable_gap) ? curswant
         \            : (virtcol - char_width)
+  let cutup          = max([virtcol, col('.')]) + acceptable_gap
 
   if a:opt.fold_open != 0
     " fold opening
