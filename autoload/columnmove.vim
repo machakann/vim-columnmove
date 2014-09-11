@@ -354,6 +354,10 @@ inoremap <Plug>(columnmove-nop) <Nop>
 nnoremap <Plug>(columnmove-nop) <Nop>
 xnoremap <Plug>(columnmove-nop) <Nop>
 
+let s:plug_cap = "\<Plug>"
+let s:cursorhold = s:plug_cap[0:1] . '`'
+unlet s:plug_cap
+
 function! s:columnmove_ftFT_fixer(kind, mode, wise, argn, args) "{{{
   " count assginment
   let l:count = (a:argn > 1 && a:args[1] > 0) ? a:args[1] : v:count1
@@ -611,7 +615,11 @@ function! s:get_dest_ftFT(kind, mode, count, view, opt)  "{{{
   endif
 
   " target character assginment
-  let key = nr2char(getchar())
+  while 1
+    let key = getchar()
+    if key != s:cursorhold | break | endif
+  endwhile
+  let key = type(key) == type(0) ? nr2char(key) : key
 
   " delete highlighting
   if a:opt.highlight
@@ -619,7 +627,7 @@ function! s:get_dest_ftFT(kind, mode, count, view, opt)  "{{{
     redraw
   endif
 
-  if key == "" | return [copy(s:null_dest), opened_fold] | endif
+  if key ==# "\<Esc>" || key ==# "\<C-c>" | return [copy(s:null_dest), opened_fold] | endif
 
   " update history
   if a:opt.update_history
