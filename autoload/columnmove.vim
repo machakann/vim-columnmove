@@ -285,54 +285,63 @@ function! s:getchar_from_same_column(string, thr_col, cutup, null)  "{{{
   " NOTE: 'cutup' is the maximum number of characters which can be put within
   "       'thr_col' bytes. It should be 1 or larger.
 
-  let chars = split(a:string, '\zs')[: a:cutup]
-  let len   = len(chars)
-  let top   = len - 1
-  let bot   = -top
-  let idx   = top
-
-  if a:string == ''
-    return a:null
-  endif
-
-  if a:thr_col == 0
-    return [chars[0], 0]
-  endif
-
-  if strdisplaywidth(a:string) <= a:thr_col
-    return a:null
-  endif
-
-  if strdisplaywidth(join(chars[: a:thr_col-1], '')) == a:thr_col
-    return [chars[a:thr_col], a:thr_col]
-  endif
-
-  if strdisplaywidth(chars[0]) > a:thr_col
-    return [chars[0], 0]
-  endif
-
-  " binary search
-  while 1
-    let width = strdisplaywidth(join(chars[: idx], ''))
-
-    if width == a:thr_col
-      let idx += 1
-      break
-    elseif top - bot <= 1
-      let idx = top
-      break
-    elseif width < a:thr_col
-      let bot = idx
+  if match(a:string[: a:cutup], '\%([^\x01-\x7E]\|\t\)') < 0
+    let col = a:thr_col
+    if strlen(a:string) <= a:thr_col
+      return a:null
     else
-      let top = idx
+      return [a:string[col], col]
+    endif
+  else
+    let chars = split(a:string, '\zs')[: a:cutup]
+    let len   = len(chars)
+    let top   = len - 1
+    let bot   = -top
+    let idx   = top
+
+    if a:string == ''
+      return a:null
     endif
 
-    let idx = (top + bot)/2
-  endwhile
+    if a:thr_col == 0
+      return [chars[0], 0]
+    endif
 
-  let col = (idx > 0) ? strlen(join(chars[: idx - 1], '')) : 0
+    if strdisplaywidth(a:string) <= a:thr_col
+      return a:null
+    endif
 
-  return [chars[idx], col]
+    if strdisplaywidth(join(chars[: a:thr_col-1], '')) == a:thr_col
+      return [chars[a:thr_col], a:thr_col]
+    endif
+
+    if strdisplaywidth(chars[0]) > a:thr_col
+      return [chars[0], 0]
+    endif
+
+    " binary search
+    while 1
+      let width = strdisplaywidth(join(chars[: idx], ''))
+
+      if width == a:thr_col
+        let idx += 1
+        break
+      elseif top - bot <= 1
+        let idx = top
+        break
+      elseif width < a:thr_col
+        let bot = idx
+      else
+        let top = idx
+      endif
+
+      let idx = (top + bot)/2
+    endwhile
+
+    let col = (idx > 0) ? strlen(join(chars[: idx - 1], '')) : 0
+
+    return [chars[idx], col]
+  endif
 endfunction
 "}}}
 function! s:add_topline(dest_view) "{{{
