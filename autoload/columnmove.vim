@@ -40,31 +40,31 @@ unlet s:V
 
 """ mapping functions
 " vertical 'f' commands "{{{
-function! columnmove#f(mode, wise, ...)
+function! columnmove#f(mode, wise, ...) abort
   return s:columnmove_ftFT_fixer('f', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical 't' commands "{{{
-function! columnmove#t(mode, wise, ...)
+function! columnmove#t(mode, wise, ...) abort
   return s:columnmove_ftFT_fixer('t', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical 'F' commands "{{{
-function! columnmove#F(mode, wise, ...)
+function! columnmove#F(mode, wise, ...) abort
   return s:columnmove_ftFT_fixer('F', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical 'T' commands "{{{
-function! columnmove#T(mode, wise, ...)
+function! columnmove#T(mode, wise, ...) abort
   return s:columnmove_ftFT_fixer('T', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical ';' commands "{{{
-function! columnmove#semicolon(mode, wise, ...)
+function! columnmove#semicolon(mode, wise, ...) abort
   let kind   = s:last_searched.kind
   let char   = s:last_searched.char
 
-  if kind != ''
+  if kind !=# ''
     " count assginment
     let l:count = (a:0 > 0 && a:1 > 0) ? a:1 : v:count1
 
@@ -77,18 +77,18 @@ function! columnmove#semicolon(mode, wise, ...)
     " call well-suited command
     let output = columnmove#{kind}(a:mode, a:wise, char, l:count, options_dict)
   else
-    let output = (a:mode == 'o') ? "\<Esc>" : ''
+    let output = (a:mode ==# 'o') ? "\<Esc>" : ''
   endif
 
   return output
 endfunction
 "}}}
 " vertical ',' commands "{{{
-function! columnmove#comma(mode, wise, ...)
+function! columnmove#comma(mode, wise, ...) abort
   let kind = s:last_searched.kind
   let char = s:last_searched.char
 
-  if kind != ''
+  if kind !=# ''
     " count assginment
     let l:count = (a:0 > 0 && a:1 > 0) ? a:1 : v:count1
 
@@ -101,56 +101,56 @@ function! columnmove#comma(mode, wise, ...)
     " call well-suited command
     let output = columnmove#{tr(kind, 'ftFT', 'FTft')}(a:mode, a:wise, char, l:count, options_dict)
   else
-    let output = (a:mode == 'o') ? "\<Esc>" : ''
+    let output = (a:mode ==# 'o') ? "\<Esc>" : ''
   endif
 
   return output
 endfunction
 "}}}
 " vertical 'w' commands "{{{
-function! columnmove#w(mode, wise, ...)
+function! columnmove#w(mode, wise, ...) abort
   return s:columnmove_wbege('w', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical 'b' commands "{{{
-function! columnmove#b(mode, wise, ...)
+function! columnmove#b(mode, wise, ...) abort
   return s:columnmove_wbege('b', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical 'e' commands "{{{
-function! columnmove#e(mode, wise, ...)
+function! columnmove#e(mode, wise, ...) abort
   return s:columnmove_wbege('e', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical 'ge' commands  "{{{
-function! columnmove#ge(mode, wise, ...)
+function! columnmove#ge(mode, wise, ...) abort
   return s:columnmove_wbege('ge', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical 'W' commands "{{{
-function! columnmove#W(mode, wise, ...)
+function! columnmove#W(mode, wise, ...) abort
   return s:columnmove_wbege('W', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical 'B' commands "{{{
-function! columnmove#B(mode, wise, ...)
+function! columnmove#B(mode, wise, ...) abort
   return s:columnmove_wbege('B', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical 'E' commands "{{{
-function! columnmove#E(mode, wise, ...)
+function! columnmove#E(mode, wise, ...) abort
   return s:columnmove_wbege('E', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 " vertical 'gE' commands  "{{{
-function! columnmove#gE(mode, wise, ...)
+function! columnmove#gE(mode, wise, ...) abort
   return s:columnmove_wbege('gE', a:mode, a:wise, a:0, a:000)
 endfunction
 "}}}
 
 """ subfuncs
 " common
-function! s:user_conf(name, arg, default)    "{{{
+function! s:user_conf(name, arg, default) abort    "{{{
   let user_conf = a:default
 
   if !empty(a:arg)
@@ -178,7 +178,7 @@ function! s:user_conf(name, arg, default)    "{{{
   return user_conf
 endfunction
 "}}}
-function! s:user_mode_conf(name, arg, default, mode)    "{{{
+function! s:user_mode_conf(name, arg, default, mode) abort    "{{{
   let user_conf = a:default
 
   if !empty(a:arg)
@@ -234,7 +234,7 @@ function! s:user_mode_conf(name, arg, default, mode)    "{{{
   return user_conf
 endfunction
 "}}}
-function! s:fold_opener(line, currentline, level)  "{{{
+function! s:fold_opener(line, currentline, level) abort  "{{{
   let foldlevel   = foldlevel(a:line)
   if foldlevel < 0 | return [] | endif
 
@@ -270,7 +270,7 @@ function! s:fold_opener(line, currentline, level)  "{{{
   return opened_fold
 endfunction
 "}}}
-function! s:fold_closer(line, opened_fold)  "{{{
+function! s:fold_closer(line, opened_fold) abort  "{{{
   for fold in reverse(a:opened_fold)
     if a:line < fold[0] || a:line > fold[1]
       execute fold[0] . 'foldclose'
@@ -278,7 +278,7 @@ function! s:fold_closer(line, opened_fold)  "{{{
   endfor
 endfunction
 "}}}
-function! s:getchar_from_same_column(string, thr_col, cutup, null)  "{{{
+function! s:getchar_from_same_column(string, thr_col, cutup) abort  "{{{
   " This function returns the first character beyond 'thr_col' which is the
   " column width on a display.
 
@@ -287,11 +287,7 @@ function! s:getchar_from_same_column(string, thr_col, cutup, null)  "{{{
 
   if match(a:string[: a:cutup], '\%([^\x01-\x7E]\|\t\)') < 0
     let col = a:thr_col
-    if strlen(a:string) <= a:thr_col
-      return a:null
-    else
-      return [a:string[col], col]
-    endif
+    return [a:string[col], col]
   else
     let chars = split(a:string, '\zs')[: a:cutup]
     let len   = len(chars)
@@ -299,8 +295,8 @@ function! s:getchar_from_same_column(string, thr_col, cutup, null)  "{{{
     let bot   = -top
     let idx   = top
 
-    if a:string == ''
-      return a:null
+    if a:string ==# ''
+      return ['', a:thr_col]
     endif
 
     if a:thr_col == 0
@@ -308,7 +304,7 @@ function! s:getchar_from_same_column(string, thr_col, cutup, null)  "{{{
     endif
 
     if strdisplaywidth(a:string) <= a:thr_col
-      return a:null
+      return ['', a:thr_col]
     endif
 
     if strdisplaywidth(join(chars[: a:thr_col-1], '')) == a:thr_col
@@ -344,7 +340,7 @@ function! s:getchar_from_same_column(string, thr_col, cutup, null)  "{{{
   endif
 endfunction
 "}}}
-function! s:add_topline(dest_view) "{{{
+function! s:add_topline(dest_view) abort "{{{
   let dest_view = a:dest_view
   let line = a:dest_view.lnum
   let col  = a:dest_view.col
@@ -367,7 +363,7 @@ let s:plug_cap = "\<Plug>"
 let s:cursorhold = s:plug_cap[0:1] . '`'
 unlet s:plug_cap
 
-function! s:columnmove_ftFT_fixer(kind, mode, wise, argn, args) "{{{
+function! s:columnmove_ftFT_fixer(kind, mode, wise, argn, args) abort "{{{
   " count assginment
   let l:count = (a:argn > 1 && a:args[1] > 0) ? a:args[1] : v:count1
   let s:state = 1
@@ -391,11 +387,11 @@ function! s:columnmove_ftFT_fixer(kind, mode, wise, argn, args) "{{{
   let opt.auto_scroll    = s:user_conf(   'auto_scroll', options_dict, 0)
 
   " searching for destinations
-  if char != ''
+  if char !=# ''
     let s:last_searched.dest = copy(s:null_dest)
     let s:last_searched.args = [a:kind, a:mode, char, l:count, deepcopy(view), deepcopy(opt)]
 
-    if a:mode == 'i'
+    if a:mode ==# 'i'
       let call_method = "\<C-r>="
     else
       let call_method = ":\<C-u>call "
@@ -415,7 +411,7 @@ function! s:columnmove_ftFT_fixer(kind, mode, wise, argn, args) "{{{
       let s:last_searched.args = [a:kind, a:mode, s:last_searched.char, l:count, deepcopy(view), deepcopy(opt)]
       let s:last_searched.wise  = a:wise
 
-      if a:mode == 'i'
+      if a:mode ==# 'i'
         let call_method = "\<C-r>="
       else
         let call_method = ":\<C-u>call "
@@ -425,14 +421,14 @@ function! s:columnmove_ftFT_fixer(kind, mode, wise, argn, args) "{{{
     else
       call winrestview(view)
       redraw
-      let cmd = (a:mode == 'o') ? "\<Esc>" : "\<Plug>(columnmove-nop)"
+      let cmd = (a:mode ==# 'o') ? "\<Esc>" : "\<Plug>(columnmove-nop)"
     endif
   endif
 
   return cmd
 endfunction
 "}}}
-function! columnmove#ftFT_executer()  "{{{
+function! columnmove#ftFT_executer() abort  "{{{
   " determine the destination
   let dest = copy(s:null_dest)
   if s:last_searched.dest != s:null_dest
@@ -464,14 +460,14 @@ function! columnmove#ftFT_executer()  "{{{
 
   " re-entering to the visual mode (if necessary)
   let mode = get(s:last_searched.args, 1, '')
-  if (mode ==# 'x') && ((mode() !=? 'v') && (mode() != "\<C-v>"))
+  if (mode ==# 'x') && ((mode() !=? 'v') && (mode() !=# "\<C-v>"))
     normal! gv
   endif
 
   " move cursor
   if dest != s:null_dest
     " optimize the motion
-    if s:last_searched.wise != ''
+    if s:last_searched.wise !=# ''
       execute 'normal! ' . s:last_searched.wise
     endif
 
@@ -486,13 +482,12 @@ function! columnmove#ftFT_executer()  "{{{
   return ''
 endfunction
 "}}}
-function! s:get_dest_ftFT(kind, mode, count, view, opt)  "{{{
+function! s:get_dest_ftFT(kind, mode, count, view, opt) abort  "{{{
   let l:count  = a:count
-  let virtcol  = virtcol(".")
+  let virtcol  = virtcol('.')
   let initline = a:view.lnum
   let col      = a:view.col    " NOTE: not equal col('.')!
   let curswant = a:view.curswant
-  let cutup    = max([virtcol, col('.')])
 
   " gather buffer lines
   if a:kind =~# '[ft]'
@@ -505,10 +500,10 @@ function! s:get_dest_ftFT(kind, mode, count, view, opt)  "{{{
     let startline = (a:kind ==# 'f') ? initline + 1 : initline + 2
 
     if a:opt.expand_range < 0
-      let endline = line("$")
+      let endline = line('$')
     else
-      let fileend = line("$")
-      let endline = line("w$") + a:opt.expand_range
+      let fileend = line('$')
+      let endline = line('w$') + a:opt.expand_range
       let endline = (endline > fileend) ? fileend : endline
     endif
 
@@ -516,7 +511,6 @@ function! s:get_dest_ftFT(kind, mode, count, view, opt)  "{{{
     let edge = 'end'
 
     let whole_lines = getline(startline, endline)
-    let line_num    = endline - startline
   elseif a:kind =~# '[FT]'
     " up
     if a:opt.auto_scroll
@@ -529,7 +523,7 @@ function! s:get_dest_ftFT(kind, mode, count, view, opt)  "{{{
     if a:opt.expand_range < 0
       let endline = 1
     else
-      let endline = line("w0") - a:opt.expand_range
+      let endline = line('w0') - a:opt.expand_range
       let endline = (endline < 1) ? 1 : endline
     endif
 
@@ -537,7 +531,6 @@ function! s:get_dest_ftFT(kind, mode, count, view, opt)  "{{{
     let edge = 'start'
 
     let whole_lines = reverse(getline(endline, startline))
-    let line_num    = startline - endline
   endif
 
   " determine the threshold column (=curswant)
@@ -545,10 +538,12 @@ function! s:get_dest_ftFT(kind, mode, count, view, opt)  "{{{
   let acceptable_gap = char_width - 1
   let curswant       = (curswant - virtcol + char_width <= acceptable_gap)
         \            ? curswant : (virtcol - char_width)
+  let cutup          = max([virtcol, col('.')]) + acceptable_gap
 
   " collecting characters in same column as cursor
   let idx         = 0
   let line        = startline
+  let line_num    = len(whole_lines)
 
   let chars       = []
   let cols        = []
@@ -560,11 +555,11 @@ function! s:get_dest_ftFT(kind, mode, count, view, opt)  "{{{
     let opened_fold += s:fold_opener(initline + inc, initline, a:opt.fold_open)
   endif
 
-  while idx <= line_num
+  while idx < line_num
     let fold_start = foldclosed(line)
     let fold_end   = foldclosedend(line)
     if fold_start < 0
-      let [c, col] = s:getchar_from_same_column(whole_lines[idx], curswant, cutup, ['', -1])
+      let [c, col] = s:getchar_from_same_column(whole_lines[idx], curswant, cutup)
       let chars += [c]
       let cols  += [col]
       let lines += [line]
@@ -579,13 +574,13 @@ function! s:get_dest_ftFT(kind, mode, count, view, opt)  "{{{
 
       if a:opt.expand_range >= 0
         if a:kind =~# '[ft]'
-          let endline  = line("w$") + a:opt.expand_range
+          let endline  = line('w$') + a:opt.expand_range
           let endline  = (endline > fileend) ? fileend : endline
-          let line_num = endline - startline
+          let line_num = endline - startline + 1
         elseif a:kind =~# '[FT]'
-          let endline  = line("w0") - a:opt.expand_range
+          let endline  = line('w0') - a:opt.expand_range
           let endline  = (endline < 1) ? 1 : endline
-          let line_num = startline - endline
+          let line_num = startline - endline + 1
         endif
       endif
 
@@ -619,7 +614,7 @@ function! s:get_dest_ftFT(kind, mode, count, view, opt)  "{{{
 
   " highlighting candidates
   if a:opt.highlight
-    let id_list = map(copy(highlight_pos), "s:highlight_add(v:val[0], v:val[1]+1)")
+    let id_list = map(copy(highlight_pos), 's:highlight_add(v:val[0], v:val[1]+1)')
     redraw
   endif
 
@@ -632,7 +627,7 @@ function! s:get_dest_ftFT(kind, mode, count, view, opt)  "{{{
 
   " delete highlighting
   if a:opt.highlight
-    call map(id_list, "s:highlight_del(v:val)")
+    call map(id_list, 's:highlight_del(v:val)')
     redraw
   endif
 
@@ -667,9 +662,9 @@ function! s:get_dest_ftFT(kind, mode, count, view, opt)  "{{{
   return output
 endfunction
 "}}}
-function! s:get_dest_ftFT_with_char(kind, mode, c, count, view, opt)  "{{{
+function! s:get_dest_ftFT_with_char(kind, mode, c, count, view, opt) abort  "{{{
   let l:count  = a:count
-  let virtcol  = virtcol(".")
+  let virtcol  = virtcol('.')
   let initline = a:view.lnum
   let col      = a:view.col    " NOTE: not equal col('.')!
   let curswant = a:view.curswant
@@ -684,16 +679,17 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, count, view, opt)  "{{{
   if a:kind =~# '[ft]'
     " down
     if a:opt.auto_scroll
-      normal! zt
+      " can not use normal! zt
+      call s:auto_scroll_up()
     endif
 
     let startline = (a:kind ==# 'f') ? initline + 1 : initline + 2
 
     if a:opt.expand_range < 0
-      let endline = line("$")
+      let endline = line('$')
     else
-      let fileend = line("$")
-      let endline = line("w$") + a:opt.expand_range
+      let fileend = line('$')
+      let endline = line('w$') + a:opt.expand_range
 
       let endline = (endline > fileend) ? fileend : endline
     endif
@@ -705,7 +701,8 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, count, view, opt)  "{{{
   elseif a:kind =~# '[FT]'
     " up
     if a:opt.auto_scroll
-      normal! zb
+      " can not use normal! zb
+      call s:auto_scroll_down()
     endif
 
     let startline = (a:kind ==# 'F') ? initline - 1 : initline - 2
@@ -713,7 +710,7 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, count, view, opt)  "{{{
     if a:opt.expand_range < 0
       let endline = 1
     else
-      let endline = line("w0") - a:opt.expand_range
+      let endline = line('w0') - a:opt.expand_range
 
       let endline = (endline < 1) ? 1 : endline
     endif
@@ -736,7 +733,7 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, count, view, opt)  "{{{
   let line     = startline
   let prefix   = a:opt.ignore_case ? '\m\c' : '\m\C'
   let pattern  = prefix . s:s.escape_pattern(a:c)
-  let line_num = len(whole_lines) - 1
+  let line_num = len(whole_lines)
 
   let opened_fold = []
 
@@ -745,11 +742,11 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, count, view, opt)  "{{{
     let opened_fold += s:fold_opener(initline + inc, initline, a:opt.fold_open)
   endif
 
-  while idx <= line_num
+  while idx < line_num
     let fold_start = foldclosed(line)
     let fold_end   = foldclosedend(line)
     if fold_start < 0
-      let [c, col] = s:getchar_from_same_column(whole_lines[idx], curswant, cutup, ['', -1])
+      let [c, col] = s:getchar_from_same_column(whole_lines[idx], curswant, cutup)
 
       if c =~ pattern
         " found!
@@ -771,13 +768,13 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, count, view, opt)  "{{{
 
       if a:opt.expand_range >= 0
         if a:kind =~# '[ft]'
-          let endline  = line("w$") + a:opt.expand_range
+          let endline  = line('w$') + a:opt.expand_range
           let endline  = (endline > fileend) ? fileend : endline
-          let line_num = endline - startline
+          let line_num = endline - startline + 1
         elseif a:kind =~# '[FT]'
-          let endline  = line("w0") - a:opt.expand_range
+          let endline  = line('w0') - a:opt.expand_range
           let endline  = (endline < 1) ? 1 : endline
-          let line_num = startline - endline
+          let line_num = startline - endline + 1
         endif
       endif
 
@@ -794,7 +791,7 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, count, view, opt)  "{{{
   call winrestview(a:view)
 
   " could not find
-  if idx > line_num | return [copy(s:null_dest), opened_fold] | endif
+  if idx >= line_num | return [copy(s:null_dest), opened_fold] | endif
 
   if a:kind ==# 't'
     let output = [{'lnum': line - 1, 'col': col, 'curswant': curswant}, opened_fold]
@@ -807,15 +804,15 @@ function! s:get_dest_ftFT_with_char(kind, mode, c, count, view, opt)  "{{{
   return output
 endfunction
 "}}}
-function! s:highlight_add(row, col) "{{{
-  return matchadd("IncSearch", '\%' . a:row . 'l\%' . a:col . 'c.')
+function! s:highlight_add(row, col) abort "{{{
+  return matchadd('IncSearch', '\%' . a:row . 'l\%' . a:col . 'c.')
 endfunction
 "}}}
-function! s:highlight_del(id) "{{{
+function! s:highlight_del(id) abort "{{{
   return matchdelete(a:id)
 endfunction
 "}}}
-function! s:auto_scroll_up()  "{{{
+function! s:auto_scroll_up() abort  "{{{
   let current = line('.')
   let viewtop = line('w0')
   let lineend = line('$')
@@ -863,7 +860,7 @@ function! s:auto_scroll_up()  "{{{
   return
 endfunction
 "}}}
-function! s:auto_scroll_down()  "{{{
+function! s:auto_scroll_down() abort  "{{{
   let current = line('.')
   let viewbot = line('w$')
   let winline = winline()
@@ -912,12 +909,12 @@ endfunction
 "}}}
 
 " vertical w, b, e, ge, W, B, E, gE
-function! s:columnmove_wbege(kind, mode, wise, argn, args) "{{{
+function! s:columnmove_wbege(kind, mode, wise, argn, args) abort "{{{
   " count assginment
   let l:count = (a:argn > 0 && a:args[0] > 0) ? a:args[0] : v:count1
 
   " re-entering to the visual mode (if necessary)
-  if (a:mode ==# 'x') && ((mode() !=? 'v') && (mode() != "\<C-v>"))
+  if (a:mode ==# 'x') && ((mode() !=? 'v') && (mode() !=# "\<C-v>"))
     normal! gv
   endif
 
@@ -939,7 +936,7 @@ function! s:columnmove_wbege(kind, mode, wise, argn, args) "{{{
   " move cursor
   if dest_view != s:null_dest
     " optimize the motion
-    if a:wise != ''
+    if a:wise !=# ''
       execute 'normal! ' . a:wise
     endif
 
@@ -958,7 +955,7 @@ function! s:columnmove_wbege(kind, mode, wise, argn, args) "{{{
   return ''
 endfunction
 "}}}
-function! s:get_dest_wbege(kind, count, view, opt)  "{{{
+function! s:get_dest_wbege(kind, count, view, opt) abort  "{{{
   let l:count     = a:count
   let virtcol     = virtcol('.')
   let initline    = a:view.lnum
@@ -1029,7 +1026,7 @@ function! s:get_dest_wbege(kind, count, view, opt)  "{{{
   " determine the threshold column (=curswant)
   let char_width     = strdisplaywidth(matchstr(lines[0], '.', col))
   let acceptable_gap = char_width - 1
-  let curswant       = (lines[0] == '') ? 0
+  let curswant       = (lines[0] ==# '') ? 0
         \            : (curswant - virtcol + char_width <= acceptable_gap) ? curswant
         \            : (virtcol - char_width)
   let cutup          = max([virtcol, col('.')]) + acceptable_gap
@@ -1054,7 +1051,7 @@ function! s:get_dest_wbege(kind, count, view, opt)  "{{{
   endif
 
   let [c, col] = (fold_{edge} < 0)
-        \      ? s:getchar_from_same_column(lines[idx], curswant, cutup, null_char)
+        \      ? s:getchar_from_same_column(lines[idx], curswant, cutup)
         \      : null_char
   let is_target_cur = s:check_c(a:kind, c, a:opt)
 
@@ -1100,7 +1097,7 @@ function! s:get_dest_wbege(kind, count, view, opt)  "{{{
 
     let is_target_pre = is_target_cur
     let [c, col] = (fold_{edge} < 0)
-          \      ? s:getchar_from_same_column(lines[idx], curswant, cutup, null_char)
+          \      ? s:getchar_from_same_column(lines[idx], curswant, cutup)
           \      : null_char
     let is_target_cur = s:check_c(a:kind, c, a:opt)
 
@@ -1112,29 +1109,31 @@ function! s:get_dest_wbege(kind, count, view, opt)  "{{{
   return output
 endfunction
 "}}}
-function! s:check_c(kind, c, opt) "{{{
+function! s:check_c(kind, c, opt) abort "{{{
   if a:kind =~# '[wbe]' || a:kind ==# 'ge'
     if a:opt.strict_wbege
       " strict w, b, e, ge
       " space, tab   : -1
       " keyword chars:  1
       " other chars  :  0
-      return (a:c =~ '\m\s') ? -1 : ((a:c =~ '\m\k') ? 1 : 0)
+      return a:c =~# '\m\s' || a:c ==# '' ? -1
+         \ : a:c =~# '\m\k' ? 1
+         \ : 0
     else
       " spoiled w, b, e, ge
       " empty    : 1
       " not empty: 0
-      return (a:c == '') ? 1 : 0
+      return a:c ==# '' ? 1 : 0
     endif
   else
     " W, B, E, gE
     " space    : 1
     " not space: 0
-    return (a:c =~ '\m\s') ? 1 : 0
+    return a:c =~# '\m\s' || a:c ==# '' ? 1 : 0
   endif
 endfunction
 "}}}
-function! s:judge(kind, opt, fold_edge, is_target_pre, is_target_cur, count, inc, idx, line, col, curswant, opened_fold, output)  "{{{
+function! s:judge(kind, opt, fold_edge, is_target_pre, is_target_cur, count, inc, idx, line, col, curswant, opened_fold, output) abort  "{{{
   " FIXME: Too much arguments!
   let idx     = a:idx
   let line    = a:line
