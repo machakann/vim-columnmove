@@ -409,7 +409,7 @@ function! s:columnmove_ftFT_fixer(kind, mode, wise, argn, args) abort "{{{
     if dest_view != s:null_dest
       let s:last_searched.dest = dest_view
       let s:last_searched.args = [a:kind, a:mode, s:last_searched.char, l:count, deepcopy(view), deepcopy(opt)]
-      let s:last_searched.wise  = a:wise
+      let s:last_searched.wise = a:wise
 
       if a:mode ==# 'i'
         let call_method = "\<C-r>="
