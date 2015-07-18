@@ -619,35 +619,35 @@ used.  Please refer |columnmove-configuration|.
 
 
 						*columnmove#w()*
-columnmove#w(mode, wise[, target[, count[, options_dictionary]]])
+columnmove#w(mode, wise[, count[, options_dictionary]])
 	The function corresponds to |columnmove-w|.
 
 						*columnmove#b()*
-columnmove#b(mode, wise[, target[, count[, options_dictionary]]])
+columnmove#b(mode, wise[, count[, options_dictionary]])
 	The function corresponds to |columnmove-b|.
 
 						*columnmove#e()*
-columnmove#e(mode, wise[, target[, count[, options_dictionary]]])
+columnmove#e(mode, wise[, count[, options_dictionary]])
 	The function corresponds to |columnmove-e|.
 
 						*columnmove#ge()*
-columnmove#ge(mode, wise[, target[, count[, options_dictionary]]])
+columnmove#ge(mode, wise[, count[, options_dictionary]])
 	The function corresponds to |columnmove-ge|.
 
 						*columnmove#W()*
-columnmove#W(mode, wise[, target[, count[, options_dictionary]]])
+columnmove#W(mode, wise[, count[, options_dictionary]])
 	The function corresponds to |columnmove-W|.
 
 						*columnmove#B()*
-columnmove#B(mode, wise[, target[, count[, options_dictionary]]])
+columnmove#B(mode, wise[, count[, options_dictionary]])
 	The function corresponds to |columnmove-B|.
 
 						*columnmove#E()*
-columnmove#E(mode, wise[, target[, count[, options_dictionary]]])
+columnmove#E(mode, wise[, count[, options_dictionary]])
 	The function corresponds to |columnmove-E|.
 
 						*columnmove#gE()*
-columnmove#gE(mode, wise[, target[, count[, options_dictionary]]])
+columnmove#gE(mode, wise[, count[, options_dictionary]])
 	The function corresponds to |columnmove-gE|.
 
 
@@ -687,7 +687,13 @@ columnmove#utility#map(mode, '[wbeWbe]' || 'g[eE]', lhs
 	'b', 'e', "ge", 'W', 'B', 'E', "gE" can be used. The third argument
 	"lhs" is treated as {lhs} of |:map| command. The fourth argument
 	"motionwise" is optional, this argument assigns the default motionwise
-	in operator-pending mode. The following optional arguments "target",
+	in operator-pending mode.
+
+		|characterwise|: 'v' or "char" (inclusive) or '' (exclusive)
+		|linewise|     : 'V' or "line"
+		blockwise    : "\<C-v>" or "block"
+
+	The following optional arguments "target",
 	"count", "options_dictionary" are same as |columnmove#f()| and
 	|columnmove#w()|.
 

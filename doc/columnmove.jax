@@ -1,4 +1,4 @@
-﻿*columnmove.jax*	日本語版ヘルプ		Last change:15-Aug-2014.
+﻿*columnmove.jax*	日本語版ヘルプ		Last change:18-Jul-2015.
 
 カーソルを、縦に、動かします。
 
@@ -627,36 +627,79 @@ xxx と書いてある部分はそれぞれのオリジナルコマンドの名�
 
 
 						*columnmove#w()*
-columnmove#w(mode, wise[, target[, count[, options_dictionary]]])
+columnmove#w(mode, wise[, count[, options_dictionary]])
 	|columnmove-w| に対応する関数です。
 
 						*columnmove#b()*
-columnmove#b(mode, wise[, target[, count[, options_dictionary]]])
+columnmove#b(mode, wise[, count[, options_dictionary]])
 	|columnmove-b| に対応する関数です。
 
 						*columnmove#e()*
-columnmove#e(mode, wise[, target[, count[, options_dictionary]]])
+columnmove#e(mode, wise[, count[, options_dictionary]])
 	|columnmove-e| に対応する関数です。
 
 						*columnmove#ge()*
-columnmove#ge(mode, wise[, target[, count[, options_dictionary]]])
+columnmove#ge(mode, wise[, count[, options_dictionary]])
 	|columnmove-ge| に対応する関数です。
 
 						*columnmove#W()*
-columnmove#W(mode, wise[, target[, count[, options_dictionary]]])
+columnmove#W(mode, wise[, count[, options_dictionary]])
 	|columnmove-W| に対応する関数です。
 
 						*columnmove#B()*
-columnmove#B(mode, wise[, target[, count[, options_dictionary]]])
+columnmove#B(mode, wise[, count[, options_dictionary]])
 	|columnmove-B| に対応する関数です。
 
 						*columnmove#E()*
-columnmove#E(mode, wise[, target[, count[, options_dictionary]]])
+columnmove#E(mode, wise[, count[, options_dictionary]])
 	|columnmove-E| に対応する関数です。
 
 						*columnmove#gE()*
-columnmove#gE(mode, wise[, target[, count[, options_dictionary]]])
+columnmove#gE(mode, wise[, count[, options_dictionary]])
 	|columnmove-gE| に対応する関数です。
+
+
+------------------------------------------------------------------------------
+補助関数~
+
+columnmove は多くのキーマッピング用の関数を抱え、それらはその自由度と引き換え
+に大量の似たような記述をユーザーに強いることがしばしばあります。この状況を軽減
+するためにキーマッピング定義を補助する関数があります。
+
+						*columnmove#utility#map()*
+columnmove#utility#map(mode, kind, lhs[, motionwise])
+
+columnmove#utility#map(mode, '[ftFT,;]', lhs
+		\ [, motionwise[, target, [, count[, options_dictionary]]]])
+
+columnmove#utility#map(mode, '[wbeWbe]' || 'g[eE]', lhs
+		\ [, motionwise[, count[, options_dictionary]]])
+
+	この関数はキーマッピング定義の記述を簡素化するために使われます。
+>
+	nnoremap <silent><expr>      \f columnmove#f('n', '')
+	xnoremap <silent><expr>      \f columnmove#f('x', '')
+	onoremap <silent><expr>      \f columnmove#f('o', 'V')
+	onoremap <silent><expr>     v\f columnmove#f('o', '')
+	onoremap <silent><expr>     V\f columnmove#f('o', 'V')
+	onoremap <silent><expr> <C-v>\f columnmove#f('o', "<Bslash><lt>C-v>")
+
+	" 上記の記述は次の一行に置き換えられます。
+	call columnmove#utility#map('nxo', 'f', '\f')
+<
+	第一引数の "mode" はモードを指定する文字 'n', 'x', 'o', 'i' をユーザー
+	の必要に応じて含む文字列です。第二引数 "kind" は columnmove のコマンド
+	を指定するための文字列で、 'f', 'F', 't', 'T', ';', ',', 'w', 'b',
+	'e', "ge", 'W', 'B', 'E', "gE" が使えます。第三引数 "lhs" は |:map| コ
+	マンドの {lhs} と同じように扱われます。省略可能な第四引数 "motionwise"
+	はオペレータ待機モードのデフォルトでの motionwise を指定します。
+
+		|characterwise|: 'v' or "char" (inclusive) or '' (exclusive)
+		|linewise|     : 'V' or "line"
+		blockwise    : "\<C-v>" or "block"
+
+	さらに続く省略可能な引数 "target", "count", "options_dictionary" は
+	|columnmove#f()| および |columnmove#w()| と同様です。
 
 
 ==============================================================================
