@@ -231,6 +231,7 @@ KEYMAPPINGS					*columnmove-keymappings*
 	omap     V<M-f>     V<Plug>(columnmove-f)
 	omap <C-v><M-f> <C-v><Plug>(columnmove-f)
 <
+あるいは、補助関数 |columnmove#utility#map()| を使うとより簡単です。
 
 
 ------------------------------------------------------------------------------
@@ -686,6 +687,19 @@ columnmove#utility#map(mode, '[wbeWbe]' || 'g[eE]', lhs
 
 	" 上記の記述は次の一行に置き換えられます。
 	call columnmove#utility#map('nxo', 'f', '\f')
+<
+	例えば、 cui 環境では Alt キーは有効ではないので、
+	|g:columnmove_no_default_key_mappings| と組み合わせて次のように使うと
+	よいでしょう。
+>
+	let g:columnmove_no_default_key_mappings = 1
+	call columnmove#utility#map('nxo', 'f', '\f')
+	call columnmove#utility#map('nxo', 'F', '\F')
+	call columnmove#utility#map('nxo', ';', '\;')
+	call columnmove#utility#map('nxo', ',', '\,')
+	call columnmove#utility#map('nxo', 'w', '\w')
+	call columnmove#utility#map('nxo', 'b', '\b')
+	call columnmove#utility#map('nxo', 'e', '\e')
 <
 	第一引数の "mode" はモードを指定する文字 'n', 'x', 'o', 'i' をユーザー
 	の必要に応じて含む文字列です。第二引数 "kind" は columnmove のコマンド

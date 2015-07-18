@@ -232,6 +232,8 @@ you expect.
 	omap     V<M-f>     V<Plug>(columnmove-f)
 	omap <C-v><M-f> <C-v><Plug>(columnmove-f)
 <
+Or using the supplementary function |columnmove#utility#map()| is easier way
+to do it.
 
 
 ------------------------------------------------------------------------------
@@ -680,6 +682,18 @@ columnmove#utility#map(mode, '[wbeWbe]' || 'g[eE]', lhs
 
 	" The above descriptions could be replaced by the line
 	call columnmove#utility#map('nxo', 'f', '\f')
+<
+	For example, Alt key is not valid to use in cui environment, use this
+	function with |g:columnmove_no_default_key_mappings|.
+>
+	let g:columnmove_no_default_key_mappings = 1
+	call columnmove#utility#map('nxo', 'f', '\f')
+	call columnmove#utility#map('nxo', 'F', '\F')
+	call columnmove#utility#map('nxo', ';', '\;')
+	call columnmove#utility#map('nxo', ',', '\,')
+	call columnmove#utility#map('nxo', 'w', '\w')
+	call columnmove#utility#map('nxo', 'b', '\b')
+	call columnmove#utility#map('nxo', 'e', '\e')
 <
 	The first argument "mode" is a string contains 'n', 'x', 'o' and 'i'
 	depending user's needs. The second argument "kind" is the string to
