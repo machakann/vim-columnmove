@@ -446,6 +446,9 @@ function! columnmove#ftFT_executer() abort  "{{{
   else
     " when the function is called from dot-repeat, update count, view, and opt.
     if s:state <= 0
+      " flash echoing
+      echo ''
+
       let s:last_searched.args[3] = v:count1
       let s:last_searched.args[4] = winsaveview()
 
@@ -961,6 +964,8 @@ function! s:columnmove_wbege(kind, mode, wise, argn, args) abort "{{{
     call s:fold_closer(line('.'), opened_fold)
   endif
 
+  " flash echoing
+  echo ''
   return ''
 endfunction
 "}}}
