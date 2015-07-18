@@ -908,7 +908,7 @@ function! s:auto_scroll_down() abort  "{{{
     let idx += 1
   endfor
 
-  if winheight - idx + offset <= len(lines)
+  if idx + winheight - offset <= len(lines)
     let topline = lines[idx + winheight - offset - 1]
     call winrestview({'topline': topline})
     redraw
