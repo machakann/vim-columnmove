@@ -706,7 +706,7 @@ columnmove#utility#map(mode, '[wbeWbe]' || 'g[eE]', lhs
 	call columnmove#utility#map('nxo', 'f', '\f', 'block')
 	call columnmove#utility#map('nxo', 'e', '\e', 'block')
 
-	" press d\f
+	" press d\fh
 	" a#c        ac
 	" def   ->   df     #:cursor
 	" ghi        g#
