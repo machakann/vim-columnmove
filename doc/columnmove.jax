@@ -701,6 +701,16 @@ columnmove#utility#map(mode, '[wbeWbe]' || 'g[eE]', lhs
 	call columnmove#utility#map('nxo', 'b', '\b')
 	call columnmove#utility#map('nxo', 'e', '\e')
 <
+	ユーザーによっては "motionwise" を変更すると便利かもしれません。
+>
+	call columnmove#utility#map('nxo', 'f', '\f', 'block')
+	call columnmove#utility#map('nxo', 'e', '\e', 'block')
+
+	" press d\f
+	" a#c        ac
+	" def   ->   df     #:cursor
+	" ghi        g#
+<
 	第一引数の "mode" はモードを指定する文字 'n', 'x', 'o', 'i' をユーザー
 	の必要に応じて含む文字列です。第二引数 "kind" は columnmove のコマンド
 	を指定するための文字列で、 'f', 'F', 't', 'T', ';', ',', 'w', 'b',

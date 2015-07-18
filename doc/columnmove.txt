@@ -695,6 +695,15 @@ columnmove#utility#map(mode, '[wbeWbe]' || 'g[eE]', lhs
 	call columnmove#utility#map('nxo', 'b', '\b')
 	call columnmove#utility#map('nxo', 'e', '\e')
 <
+	Some user might prefer to change "motionwise" to "block".
+>
+	call columnmove#utility#map('nxo', 'f', '\f', 'block')
+
+	" press d\f
+	" a#c        ac
+	" def   ->   df     #:cursor
+	" ghi        g#
+<
 	The first argument "mode" is a string contains 'n', 'x', 'o' and 'i'
 	depending user's needs. The second argument "kind" is the string to
 	specify the columnmove command. 'f', 'F', 't', 'T', ';', ',', 'w',
