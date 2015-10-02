@@ -307,19 +307,6 @@ function! s:getchar_from_same_column(string, thr_col, cutup) abort  "{{{
       return ['', a:thr_col]
     endif
 
-    if strdisplaywidth(join(chars[: a:thr_col-1], '')) == a:thr_col
-      let thr_idx  = a:thr_col
-      let last_idx = len(a:string) - 1
-      while thr_idx < last_idx
-        let displaywidth = strdisplaywidth(join(chars[: thr_idx], ''))
-        if displaywidth > a:thr_col
-          return [chars[thr_idx], displaywidth]
-        endif
-        let thr_idx += 1
-      endwhile
-      return ['', a:thr_col]
-    endif
-
     if strdisplaywidth(chars[0]) > a:thr_col
       return [chars[0], 0]
     endif
