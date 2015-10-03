@@ -1,6 +1,5 @@
-*columnmove.txt*	Last change:18-Jul-2015.
-
-Bring cursor vertically in similar ways as line-wise commands.
+*columnmove.txt*	Bring cursor along a column.
+						Last change:03-Oct-2015.
 
 Author  : machakann <mckn@outlook.jp>
 License : NYSL license
