@@ -1,5 +1,5 @@
 *columnmove.txt*	Bring cursor along a column.
-						Last change:03-Oct-2015.
+						Last change:13-Mar-2016.
 
 Author  : machakann <mckn@outlook.jp>
 License : NYSL license
@@ -7,7 +7,7 @@ License : NYSL license
           English (Unofficial) <http://www.kmonos.net/nysl/index.en.html>
 
 ==============================================================================
-CONTENTS					*columnmove-contents*
+CONTENTS				*columnmove-contents*
 
 INTRODUCTION		|columnmove-introduction|
 KEYMAPPINGS		|columnmove-keymappings|
@@ -15,7 +15,7 @@ CONFIGURATION		|columnmove-configuration|
 FUNCTIONS		|columnmove-functions|
 
 ==============================================================================
-INTRODUCTION					*columnmove-introduction*
+INTRODUCTION				*columnmove-introduction*
 
 columnmove serves you several keymappings specialized for moving cursor in
 vertical direction.
@@ -28,41 +28,27 @@ keymappings, that is, |columnmove-f|, |columnmove-t|, |columnmove-F|,
 imitations of |f|, |t|, |F|, |T|, |;|, |,| command, but work in vertical
 direction, not in line-wise.
 
-Please remember that these commands would search for the candidates of
-destination in the range of the lines displayed. Because I think that it is
-not easy to memorize the characters in the same column out of one's sight
-precisely. If you want to expand the range of searching, give the number of
-lines to |g:columnmove_expand_range|. For example, if you want to add ten
-lines to the range, please write following line to your vimrc.
->
-	let g:columnmove_expand_range = 10
-<
-Or you just want to expand the range across a whole file, give the negative
-number to g:columnmove_expand_range.
->
-	let g:columnmove_expand_range = -1
-<
-
-These commands highlight candidates of destination using |hl-IncSearch| until
-you type the target character. If you do not like to highlight, set
-|g:columnmove_highlight| to 0 as following. If you want to know in detail,
-please refer the description of |g:columnmove_highlight|.
+These commands highlight candidates of destination as
+|hl-ColumnmoveCandidates| while waiting your input of a target character. If
+you do not like the highlighting, set |g:columnmove_highlight| to 0 as
+following. See |g:columnmove_highlight|.
 >
 	let g:columnmove_highlight = 0
 <
+In the pending time, user can use <C-e>/<C-y>, <C-d>/<C-u>, <C-f>/<C-b> to
+scroll pages. <C-e>/<C-y> navigate by a line, <C-d>/<C-u> do by the value of
+'scroll' option (a half of the window height), <C-f>/<C-b> do by a page.
 
-Because of author's preference, these commands ignore |fold|ed lines in
-default. Folded lines would be considered that there is a empty line. If you
-want to search the destination with opening folds, please set
-|g:columnmove_open_fold| to positive or negative value, I mean not zero
-number. Those numbers has different roles, please refer the description of
-|g:columnmove_open_fold|. If you just want to open all folds, please assign
-|g:columnmove_open_fold| to &foldnestmax as following.
+These commands ignore folded lines (see |folds|) in default.  If you want to
+search the destination with opening folds, set |g:columnmove_open_fold| to a
+non-zero value . A positive and negaive numbers have different roles
+respectively, see |g:columnmove_open_fold|. If you just want to open all
+folds, please assign |g:columnmove_open_fold| to &foldnestmax as following.
 >
 	let g:columnmove_open_fold = &foldnestmax
 <
-Or you can simply set 20, because of the intrinsic restriction of Vim. Please
-refer 'foldnestmax'.
+Or you can simply set 20, because of the intrinsic restriction of Vim. See
+'foldnestmax'.
 >
 	let g:columnmove_open_fold = 20
 <
@@ -77,7 +63,7 @@ This group has eight keymappings, that is, |columnmove-w|, |columnmove-b|,
 |e|, |ge|, |W|, |B|, |E|, |gE|, but work in vertical direction. These commands
 regard the column which cursor is on as a line and search for the head or tail
 of word to move.  These commands regard a empty part of the column (like empty
-lines) as a space to skip it. For example, assume a vimscript code like this:
+lines) as a space to skip it. For example, assume a Vim script code like this:
 >
 	let foo = 1
 	let bar = 2
@@ -101,20 +87,21 @@ Cut out the first column.
 	e
 	e
 <
-Consider it as a line.
+Regard it as a line.
 >
 	ll "l eee
 <
 Empty columns are converted to spaces. Words are defined by using the option
 'iskeyword'. Usually '"' is not keyword in vimscript code. Thus if the cursor
-is placed on the first 'l', w command brings cursor like, '"' -> 'l' -> 'e'.
+is placed on the first `l`, w command brings cursor like:
+		`"` -> `l` -> `e`~
 Hence |columnmove-w| command bring cursor to the first column of fourth,
 fifth, and, seventh lines from the first column of first line.
 
 However, actually, almost all the programming languages are semantic in
-line-wise. It means hardly to align characters vertically in semantic way, and
-these "strict" commands might not be useful always. If you find that, why
-don't you try "spoiled" commands with following configuration?
+line-wise, not column-wise. Thus these "strict" commands might not be useful
+always. Then why don't you try "spoiled" commands with following
+configuration?
 >
 	let g:columnmove_strict_wbege = 0
 <
@@ -134,7 +121,7 @@ empty or a character. Here, write again the first column of the example code.
 <
 "spoiled" commands would stop cursor on the fourth and seventh line since
 ""l" and "eee" are strings which are separated by empty line. It means that if
-there is a space, still stops cursor there.
+there is a space, even stops cursor there.
 
 these commands also ignore folded lines. it means that commands think that
 there is nothing for folded parts. if |g:columnmove_fold_treatment| is set as
@@ -180,9 +167,9 @@ line. Because these commands regard folded lines as a empty line.
 
 
 ==============================================================================
-KEYMAPPINGS					*columnmove-keymappings*
+KEYMAPPINGS				*columnmove-keymappings*
 
-This plugin serves following keymappings.
+This plugin defines following keymappings.
 
 functions		keymappings			default keymappings
 --------------------------------------------------------------------------
@@ -196,35 +183,36 @@ functions		keymappings			default keymappings
 |columnmove-w|		<Plug>(columnmove-w)		<M-w>
 |columnmove-b|		<Plug>(columnmove-b)		<M-b>
 |columnmove-e|		<Plug>(columnmove-e)		<M-e>
-|columnmove-ge|		<Plug>(columnmove-ge)		<M-g>e
+|columnmove-ge|		<Plug>(columnmove-ge)		g<M-e>
 							 and
 							<M-g><M-e>
 
 |columnmove-W|		<Plug>(columnmove-W)		<M-W>
 |columnmove-B|		<Plug>(columnmove-B)		<M-B>
 |columnmove-E|		<Plug>(columnmove-E)		<M-E>
-|columnmove-gE|		<Plug>(columnmove-gE)		<M-g>E
+|columnmove-gE|		<Plug>(columnmove-gE)		g<M-E>
 							 and
 							<M-g><M-E>
 --------------------------------------------------------------------------
 
-				     *g:columnmove_no_default_key_mappings*
+					*g:columnmove_no_default_key_mappings*
 If you do not need default keymappings, define a variable named
 |g:columnmove_no_default_key_mappings| in your vimrc.
 >
 	let g:columnmove_no_default_key_mappings = 1
 <
-Then default mappings are never applied. And map them again as you like.
+Then the default mappings are never applied, map them again by yourself as you
+like.
 
-These keymappings can accept {count} assignment. If {count} is assigned,
-cursor will go to the {count}th destination.
+These keymappings can accept [count] assignment. If [count] is assigned,
+cursor will go to the [count]th destination.
 
-These keymappings are available with |nmap|, |xmap|, |omap|, |imap|.
+These keymappings are available with |:nmap|, |:xmap|, |:omap|, |:imap|.
 
-The default keymappings work as |linewise| and also accept |o_v|, |o_V|,
-|o_CTRL-V|. If you want to remap with |omap|, I recommend to use the following
-trick to do well with |o_v|, |o_V|, |o_CTRL-V|. This description makes it as
-you expect.
+The default keymappings work as |linewise| and also work well with |o_v|,
+|o_V|, |o_CTRL-V|. If you want to remap with |:omap|, it is recommended to use
+the following trick to do well with |o_v|, |o_V|, |o_CTRL-V|. This description
+makes it as you expect.
 >
 	omap      <M-f>      <Plug>(columnmove-f)
 	omap     v<M-f>     v<Plug>(columnmove-f)
@@ -233,160 +221,129 @@ you expect.
 <
 Or using the supplementary function |columnmove#utility#map()| is easier way
 to do it.
-
-
+Note that these keymappings are defined as |meta| key modified key
+sequences (see |<M-|) and it would not be valid in cui environments. If you
+are using |gvim| it is no problem, but if not then you may need to remap other
+key sequences. The following example remaps key sequences prefixed by '\',
+like '\f', '\w'.
+>
+	for s:x in split('ftFT;,wbeWBE', '\zs') + ['ge', 'gE']
+	  call columnmove#utility#map('nxo', s:x, '\' . s:x, 'block')
+	endfor
+	unlet s:x
+<
 ------------------------------------------------------------------------------
 keymappings~
-<Plug>(columnmove-f)					*columnmove-f*
-	This keymapping serves the function imitating the |f| command in
-	vertical direction. You may use as follows. (It is the default
-	setting, do not need to write in your vimrc if the default mapping is
-	acceptable for you. Just for an example.)
->
+<Plug>(columnmove-f)			*columnmove-f*
+	This keymapping imitates the |f| command in vertical direction. Use it
+	like this: >
 	nmap <M-f> <Plug>(columnmove-f)
 <
 
-<Plug>(columnmove-t)					*columnmove-t*
-	This keymapping serves the function imitating the |t| command in
-	vertical direction. You may use as follows. (It is the default
-	setting, do not need to write in your vimrc if the default mapping is
-	acceptable for you. Just for an example.)
->
+<Plug>(columnmove-t)			*columnmove-t*
+	This keymapping imitates the |t| command in vertical direction. Use it
+	like this: >
 	nmap <M-t> <Plug>(columnmove-t)
 <
 
-<Plug>(columnmove-F)					*columnmove-F*
-	This keymapping serves the function imitating the |F| command in
-	vertical direction. You may use as follows. (It is the default
-	setting, do not need to write in your vimrc if the default mapping is
-	acceptable for you. Just for an example.)
->
+<Plug>(columnmove-F)			*columnmove-F*
+	This keymapping imitates the |F| command in vertical direction. Use it
+	like this: >
 	nmap <M-F> <Plug>(columnmove-F)
 <
 
-<Plug>(columnmove-T)					*columnmove-T*
-	This keymapping serves the function imitating the |T| command in
-	vertical direction. You may use as follows. (It is the default
-	setting, do not need to write in your vimrc if the default mapping is
-	acceptable for you. Just for an example.)
->
+<Plug>(columnmove-T)			*columnmove-T*
+	This keymapping imitates the |T| command in vertical direction. Use it
+	like this: >
 	nmap <M-T> <Plug>(columnmove-T)
 <
 
-<Plug>(columnmove-;)					*columnmove-;*
-	This keymapping serves the function imitating the |;| command in
-	vertical direction. You may use as follows. (It is the default
-	setting, do not need to write in your vimrc if the default mapping is
-	acceptable for you. Just for an example.)
->
+<Plug>(columnmove-;)			*columnmove-;*
+	This keymapping imitates the |;| command in vertical direction. Use it
+	like this: >
 	nmap <M-;> <Plug>(columnmove-;)
 <
 
-<Plug>(columnmove-,)					*columnmove-,*
-	This keymapping serves the function imitating the |,| command in
-	vertical direction. You may use as follows. (It is the default
-	setting, do not need to write in your vimrc if the default mapping is
-	acceptable for you. Just for an example.)
->
+<Plug>(columnmove-,)			*columnmove-,*
+	This keymapping imitates the |,| command in vertical direction. Use it
+	like this: >
 	nmap <M-,> <Plug>(columnmove-,)
 <
 
-<Plug>(columnmove-w)					*columnmove-w*
-	This keymapping serves the function imitating the |w| command in
-	vertical direction. You may use as follows. (It is the default
-	setting, do not need to write in your vimrc if the default mapping is
-	acceptable for you. Just for an example.)
->
+<Plug>(columnmove-w)			*columnmove-w*
+	This keymapping imitates the |w| command in vertical direction. Use it
+	like this: >
 	nmap <M-w> <Plug>(columnmove-w)
 <
 
-<Plug>(columnmove-b)					*columnmove-b*
-	This keymapping serves the function imitating the |b| command in
-	vertical direction. You may use as follows. (It is the default
-	setting, do not need to write in your vimrc if the default mapping is
-	acceptable for you. Just for an example.)
->
+<Plug>(columnmove-b)			*columnmove-b*
+	This keymapping imitates the |b| command in vertical direction. Use it
+	like this: >
 	nmap <M-b> <Plug>(columnmove-b)
 <
 
-<Plug>(columnmove-e)					*columnmove-e*
-	This keymapping serves the function imitating the |e| command in
-	vertical direction. You may use as follows. (It is the default
-	setting, do not need to write in your vimrc if the default mapping is
-	acceptable for you. Just for an example.)
->
+<Plug>(columnmove-e)			*columnmove-e*
+	This keymapping imitates the |e| command in vertical direction. Use it
+	like this: >
 	nmap <M-e> <Plug>(columnmove-e)
 <
 
-<Plug>(columnmove-ge)					*columnmove-ge*
-	This keymapping serves the function imitating the |ge| command in
-	vertical direction. You may use as follows. (It is the default
-	setting, do not need to write in your vimrc if the default mapping is
-	acceptable for you. Just for an example.)
->
+<Plug>(columnmove-ge)			*columnmove-ge*
+	This keymapping imitates the |ge| command in vertical direction. Use
+	it like this: >
 	nmap <M-g>e <Plug>(columnmove-ge)
 <
 
-<Plug>(columnmove-W)					*columnmove-W*
-	This keymapping serves the function imitating the |W| command in
-	vertical direction. You may use as follows. (It is the default
-	setting, do not need to write in your vimrc if the default mapping is
-	acceptable for you. Just for an example.)
->
+<Plug>(columnmove-W)			*columnmove-W*
+	This keymapping imitates the |W| command in vertical direction. Use it
+	like this: >
 	nmap <M-W> <Plug>(columnmove-W)
 <
 
-<Plug>(columnmove-B)					*columnmove-B*
-	This keymapping serves the function imitating the |B| command in
-	vertical direction. You may use as follows. (It is the default
-	setting, do not need to write in your vimrc if the default mapping is
-	acceptable for you. Just for an example.)
+<Plug>(columnmove-B)			*columnmove-B*
+	This keymapping imitates the |B| command in vertical direction. Use it
+	like this:
 >
 	nmap <M-B> <Plug>(columnmove-B)
 <
 
-<Plug>(columnmove-E)					*columnmove-E*
-	This keymapping serves the function imitating the |E| command in
-	vertical direction. You may use as follows. (It is the default
-	setting, do not need to write in your vimrc if the default mapping is
-	acceptable for you. Just for an example.)
->
+<Plug>(columnmove-E)			*columnmove-E*
+	This keymapping imitates the |E| command in vertical direction. Use it
+	like this: >
 	nmap <M-E> <Plug>(columnmove-E)
 <
 
-<Plug>(columnmove-gE)					*columnmove-gE*
-	This keymapping serves the function imitating the |gE| command in
-	vertical direction. You may use as follows. (It is the default
-	setting, do not need to write in your vimrc if the default mapping is
-	acceptable for you. Just for an example.)
->
+<Plug>(columnmove-gE)			*columnmove-gE*
+	This keymapping imitates the |gE| command in vertical direction. Use
+	it like this: >
 	nmap <M-g>E <Plug>(columnmove-gE)
 <
 
 
 ==============================================================================
-CONFIGURATION					*columnmove-configuration*
+CONFIGURATION				*columnmove-configuration*
 
 There are several variables to control the behavior of keymappings. You can
-use same variable name with different scopes, buffer local b:, window local
-w:, tab page local t:, global g:. If same variable name is defined in
-different scopes, b: is prior to w:, w: is prior to t:, t: is prior to g:.
+use same variable name with different scopes, buffer local 'b:' and global
+'g:'. If a same variable name is defined in different scopes, b: is prior to
+g:.
 
 Related to all the mappings~
-
 g:columnmove_open_fold			*g:columnmove_open_fold*
-	The number of levels to open the fold when cursor is moved. If a
-	positive value is assigned, opens folds which fold level is equal to
-	or below the value. If a negative value is assigned, the opening level
-	is determined relative to the level of the current cursor position.
-	For instance, when g:columnmove_open_fold is -2 and cursor is on the
-	line which fold level is 1, then commands would open folds up to the
-	level 3 (= 1-(-2)). If 0 is assigned, do not open any fold and just
-	skip them. Default value is 0.
+	The number of levels to open the fold when cursor is moved.
+	If a positive value is assigned, opens folds which fold level is equal
+	to or below the value.
+	If a negative value is assigned, the opening level is determined
+	relative to the level of the current cursor position.  For instance,
+	when g:columnmove_open_fold is -2 and cursor is on the line which fold
+	level is 1, then commands would open folds up to the level 3
+	(= 1-(-2)).
+	If 0 is assigned, do not open any fold and just skip them.
+	The default value is 0.
 
-	Or this option can accept a dictionary instead of a number like this:
+	This option can be assigned as a dictionary instead of a number.
 >
-	let g:columnmove_fold_open = {'x' : &foldnestmax, 'i' : -1}
+	let g:columnmove_open_fold = {'x' : &foldnestmax, 'i' : -1}
 <
 	This description allows to assign different rules to different
 	|vim-modes|. Following characters can be used to assign each modes as
@@ -398,152 +355,140 @@ g:columnmove_open_fold			*g:columnmove_open_fold*
 	'i' : insert mode
 
 Related to columnmove-f command and its variants~
-g:columnmove_ignore_case			*g:columnmove_ignore_case*
-	If the value is 1, ignore case in search the target character. If the
-	value is 0, do not ignore case. Default value is &ignorecase, same as
-	the setting of the option 'ignorecase'.
+g:columnmove_ignore_case		*g:columnmove_ignore_case*
+	If the value is 1, |columnmove-f| series commands move case-sensitive.
+	If the value is 0, these commands move case-insensitive.
+	The default value is 0.
 
 g:columnmove_highlight			*g:columnmove_highlight*
 	If the value is not 0, candidates highlighting is valid in
 	|columnmove-f| and its variants. If the value is 0, the highlighting
-	is tunred off. Default value is 1.
-
-g:columnmove_expand_range			*g:columnmove_expand_range*
-	The line number to add to the searching range of destination
-	candidates. For example, If ten is assigned, candidates would be
-	listed up from the range between the current line to the bottom (or
-	top) line of the window plus ten lines out of displayed range. If the
-	value is 0, candidates are listed up from the range displayed. If a
-	negative value is assigned, the range until the file head/end is
-	included to the searching range. Default value is 0.
+	is tunred off. The default value is 1.
 
 g:columnmove_update_history		*g:columnmove_update_history*
 	If the value is 0, do not update the history for |columnmove-;| and
-	|columnmove-,|.  Default value is 1.
-
-g:columnmove_auto_scroll			*g:columnmove_auto_scroll*
-	If the value is 1, automatically scroll to upper or lower side as far
-	as possible to extend the searching (displayed) range. Default value
-	is 0.
-	This option takes into account 'scrolloff' option.
+	|columnmove-,|.  The default value is 1.
 
 Related to columnmove-w command and its variants~
-g:columnmove_strict_wbege			*g:columnmove_strict_wbege*
-	If the value is not 0, apply the strict rule to move cursor. If the
-	value is 0, the spoiled rule is used. Default value is 1.
+g:columnmove_strict_wbege		*g:columnmove_strict_wbege*
+	If the value is not 0, applys the strict rule to move cursor. If the
+	value is 0, the spoiled rule is used. See |columnmove-introduction|.
+	The default value is 1.
 
-g:columnmove_fold_treatment			*g:columnmove_fold_treatment*
-	If the value is 0, commands ignore folded lines. If the value is 1,
-	commands regard folded lines as a empty line. Default value is 0.
+g:columnmove_fold_treatment		*g:columnmove_fold_treatment*
+	If the value is 0, these commands ignore folded lines.
+	If the value is 1, commands regard folded lines as a empty line.
+	The default value is 0.
 
 
 ==============================================================================
-FUNCTIONS					*columnmove-functions*
+FUNCTIONS				*columnmove-functions*
 
 columnmove-f and its variants~
-columnmove-f and its variants keymappings have correspondent functions. They
+columnmove-f and its variants keymappings have corresponding functions. They
 have similar interface as following:
-
-columnmove#xxx(mode, wise[, target[, count[, options_dictionary]]])
-
+>
+  columnmove#xxx(mode, mwise[, count[, options_dictionary[, target]]])
+<
 The part filled by "xxx" is a name of its original command. You can use "f",
 "t", "F", "T", "semicolon", "comma". When you use these functions, map with
 <expr> option.
 
-The first and the second arguments are always required, but others could be
-given arbitrary.
+The first and the second arguments are necessary, but others are optional.
 
-The first argument "mode" is a character to represent a kind of mapping modes.
-Since each commands can be mapped for |nmap|, |xmap|, |omap|, and, |imap|,
-thus you can assgin 'n', 'x', 'o', and, 'i' to notice it which mode you want
-to map.
+The first argument "mode" is a character that represents a mode mapped for.
+These commands can be mapped for |:nmap|, |:xmap|, |:omap|, and, |:imap|, thus
+assgin 'n', 'x', 'o', and, 'i' respectively.
 
-The second argument "wise" is a character to determine the behavior in
-operator pending mode. Thus, in modes other than the operator pending mode,
-please just give a empty string ''. In the operator pending mode, if you give
-a empty string '', then it will work as |exclusive| |characterwise| motion. If
-you give 'v', then it will work as |inclusive| |characterwise| motion. If you
-give 'V', then it will work as |linewise| motion. If you give "\<C-v>", then
-it will work as |blockwise| motion.
+The second argument "mwise" is a character to determine the behavior
+(motionwise) in operator pending mode. Thus, for the modes other than the
+operator pending mode, just give an empty string ''. For the operator pending
+mode, give '', 'v', 'V' or "\<C-v>" according to your preference.
 
-The third argument "target" is a character. If you have already determined
-the target character, you can assign here. If empty string '' is assigned,
-then functions would be ask when they are called as usual.
+	mwise		motionwise in operator-pending mode
+------------------------------------------------------------------------------
+	''		|exclusive| |characterwise|
+	'v'		|inclusive| |characterwise|
+	'V'		|linewise|
+	"\<C-v>"	blockwise (see |blockwise-examples| and |o_CTRL-V|)
+------------------------------------------------------------------------------
 
-The fourth argument "count" is a number. If a positive number is assigned,
-functions would always ignore {count} and use the assigned number. If zero or
-a negative number are assigned, functions refer {count} as usual.
+The third argument "count" is a number. If a positive number is assigned,
+functions would always ignore [count] and use the assigned number. If zero or
+a negative number is assigned, functions refer [count] as usual.
 
-The fifth argument "options_dict" is a dictionary which can force to use
-given values of configuration variables. For example, assume you want to use
-ignore case always independent with 'ignorecase' option, then use this
-argument like this:
+The fourth argument "options_dictionary" is a dictionary which can force to
+use given values of configuration variables. For example, assume you want to
+use ignore case always, then use this argument like this:
 >
 	nnoremap <silent><expr> <M-f> columnmove#f('n', '',
-		\				'', 0, {'ignore_case' : 1})
+		\				0, {'ignore_case' : 1})
 <
-If you want to use with |xmap|, use like this:
+If you want to use with |:xmap|, use like this:
 >
 	xnoremap <silent><expr> <M-f> columnmove#f('x', '',
-		\				'', 0, {'ignore_case' : 1})
+		\				0, {'ignore_case' : 1})
 <
-If you want to use with |imap|, use like this:
+If you want to use with |:imap|, use like this:
 >
 	inoremap <silent><expr> <M-f> columnmove#f('i', '',
-		\				'', 0, {'ignore_case' : 1})
+		\				0, {'ignore_case' : 1})
 <
-If you want to use with |omap|, I would suggest to check the notice at the end
-of |columnmove-keymappings| and recommend to map like this:
+If you want to use with |:omap|, I suggest to check the notice at
+|columnmove-keymappings| and map like this:
 >
 	onoremap <silent><expr>      <M-f> columnmove#f('o', 'V',
-		\				'', 0, {'ignore_case' : 1})
+		\				0, {'ignore_case' : 1})
 
 	onoremap <silent><expr>     v<M-f> columnmove#f('o', '',
-		\				'', 0, {'ignore_case' : 1})
+		\				0, {'ignore_case' : 1})
 
 	onoremap <silent><expr>     V<M-f> columnmove#f('o', 'V',
-		\				'', 0, {'ignore_case' : 1})
+		\				0, {'ignore_case' : 1})
 
 	onoremap <silent><expr> <C-v><M-f> columnmove#f('o', "\<C-v>",
-		\				'', 0, {'ignore_case' : 1})
+		\				0, {'ignore_case' : 1})
 <
-
 The key names are the name of configuration variables removing first
 "g:columnmove_". That is "open_fold", "ignore_case", "highlight",
-"expand_range", "update_history" "auto_scroll" can be used.
-Please refer |columnmove-configuration|.
+"update_history" can be used.
+Please see |columnmove-configuration|.
+
+The fifth argument "target" is a character. If you have already determined
+the target character, you can assign here. If empty string '' is assigned,
+then the functions would ask when they are called as usual.
 
 
 
-						*columnmove#f()*
-columnmove#f(mode, wise[, target[, count[, options_dictionary]]])
+					*columnmove#f()*
+columnmove#f(mode, wise[, count[, options_dictionary[, target]]])
 	The function corresponds to |columnmove-f|. This function should be
 	used with <expr> option of map commands.
 
-						*columnmove#t()*
-columnmove#t(mode, wise[, target[, count[, options_dictionary]]])
+					*columnmove#t()*
+columnmove#t(mode, wise[, count[, options_dictionary[, target]]])
 	The function corresponds to |columnmove-t|. This function should be
 	used with <expr> option of map commands.
 
-						*columnmove#F()*
-columnmove#F(mode, wise[, target[, count[, options_dictionary]]])
+					*columnmove#F()*
+columnmove#F(mode, wise[, count[, options_dictionary[, target]]])
 	The function corresponds to |columnmove-F|. This function should be
 	used with <expr> option of map commands.
 
-						*columnmove#T()*
-columnmove#T(mode, wise[, target[, count[, options_dictionary]]])
+					*columnmove#T()*
+columnmove#T(mode, wise[, count[, options_dictionary[, target]]])
 	The function corresponds to |columnmove-T|. This function should be
 	used with <expr> option of map commands.
 
 
-As for the following two commands, the third argument "target" is omitted.
+As for the following two commands, the fifth argument "target" is omitted.
 
-						*columnmove#semicolon()*
+					*columnmove#semicolon()*
 columnmove#semicolon(mode, wise[, count[, options_dictionary]])
 	The function corresponds to |columnmove-;|. This function should be
 	used with <expr> option of map commands.
 
-						*columnmove#comma()*
+					*columnmove#comma()*
 columnmove#comma(mode, wise[, count[, options_dictionary]])
 	The function corresponds to |columnmove-,|. This function should be
 	used with <expr> option of map commands.
@@ -551,103 +496,106 @@ columnmove#comma(mode, wise[, count[, options_dictionary]])
 
 ------------------------------------------------------------------------------
 columnmove-w and its variants~
-columnmove-w and its variants keymappings have correspondent functions. They
+columnmove-w and its variants keymappings have corresponding functions. They
 have similar interface as following:
-
-columnmove#xxx(mode, wise[, count[, options_dictionary]])
-
-The part filled by "xxx" is a character of its original command. That is, "w",
+>
+  columnmove#xxx(mode, mwise[, count[, options_dictionary]])
+<
+The part filled by "xxx" is a character of original commands. That is, "w",
 "b", "e", "ge", "W", "B", "E", "gE". Unlike the columnmove-f and its variants,
-<expr> option is not needed.
+<expr> option is not required.
 
-The first and the second arguments are always required, but others could be
-given arbitrary.
+The first and the second arguments are necessary, but others are optional.
 
-The first argument "mode" is always required, it is a character to represent a
-kind of mapping modes. Since each commands can be mapped for |nmap|, |xmap|,
-|omap|, and, |imap|, thus you can assgin 'n', 'x', 'o', and, 'i' to notice it
-which mode you want to map.
+The first argument "mode" is a character that represents a mode mapped for.
+These commands can be mapped for |:nmap|, |:xmap|, |:omap|, and, |:imap|, thus
+assgin 'n', 'x', 'o', and, 'i' respectively.
 
-The second argument "wise" is a character to determine the behavior in
-operator pending mode. Thus, in modes other than the operator pending mode,
-please just give a empty string ''. In the operator pending mode, if you give
-a empty string '', then it will work as |exclusive| |characterwise| motion. If
-you give 'v', then it will work as |inclusive| |characterwise| motion. If you
-give 'V', then it will work as |linewise| motion. If you give "\<C-v>", then
-it will work as |blockwise| motion.
+The second argument "mwise" is a character to determine the behavior
+(motionwise) in operator pending mode. Thus, for the modes other than the
+operator pending mode, just give an empty string ''. For the operator pending
+mode, give '', 'v', 'V' or "\<C-v>" according to your preference.
+
+	mwise		motionwise in operator-pending mode
+------------------------------------------------------------------------------
+	''		|exclusive| |characterwise|
+	'v'		|inclusive| |characterwise|
+	'V'		|linewise|
+	"\<C-v>"	blockwise (see |blockwise-examples| and |o_CTRL-V|)
+------------------------------------------------------------------------------
 
 The third argument "count" is a number. If a positive number is assigned,
-functions would always ignore {count} and use the assigned number. If zero or
-a negative number are assigned, functions refer {count} as usual.
+functions would always ignore [count] and use the assigned number. If zero or
+a negative number are assigned, functions refer [count] as usual.
 
-The fourth argument "options_dict" is a dictionary which can force to use given
-values of configuration variables. For example, assume you want to open folds
-always, then use this argument like this:
+The fourth argument "options_dictionary" is a dictionary which can force to
+use given values of configuration variables. For example, if you want to open
+folds always, then use this argument like this:
 >
 	nnoremap <silent> <M-w> :<C-u>call columnmove#w('n', '',
-		\				0, {'fold_open' : -1})<CR>
+		\				0, {'fold_open' : 20})<CR>
 <
-If you want to use with |xmap|, use like this:
+If you want to use with |:xmap|, use like this:
 >
 	xnoremap <silent> <M-w> :<C-u>call columnmove#w('x', ''
-		\				0, {'fold_open' : -1})<CR>
+		\				0, {'fold_open' : 20})<CR>
 <
-If you want to use with |imap|, use like this:
+If you want to use with |:imap|, use like this:
 >
 	inoremap <silent> <M-w> <C-r>=columnmove#w('i', ''
-		\				0, {'fold_open' : -1})<CR>
+		\				0, {'fold_open' : 20})<CR>
 <
-If you want to use with |omap|, I would suggest to check the notice at the end
-of |columnmove-keymappings| and recommend to map like this:
+If you want to use with |:omap|, I suggest to check the notice at
+|columnmove-keymappings| and map like this:
 >
 	onoremap <silent>      <M-w> :<C-u>call columnmove#w('o', 'V'
-		\				0, {'fold_open' : -1})<CR>
+		\				0, {'fold_open' : 20})<CR>
 
 	onoremap <silent>     v<M-w> :<C-u>call columnmove#w('o', ''
-		\				0, {'fold_open' : -1})<CR>
+		\				0, {'fold_open' : 20})<CR>
 
 	onoremap <silent>     V<M-w> :<C-u>call columnmove#w('o', 'V'
-		\				0, {'fold_open' : -1})<CR>
+		\				0, {'fold_open' : 20})<CR>
 
 	onoremap <silent> <C-v><M-w> :<C-u>call columnmove#w('o', "\<C-v>"
-		\				0, {'fold_open' : -1})<CR>
+		\				0, {'fold_open' : 20})<CR>
 <
 
 The key names are the name of configuration variables removing first
 "g:columnmove_". That is "open_fold", "strict_wbege", "fold_treatment" can be
-used.  Please refer |columnmove-configuration|.
+used. Please see |columnmove-configuration|.
 
 
 
-						*columnmove#w()*
+					*columnmove#w()*
 columnmove#w(mode, wise[, count[, options_dictionary]])
 	The function corresponds to |columnmove-w|.
 
-						*columnmove#b()*
+					*columnmove#b()*
 columnmove#b(mode, wise[, count[, options_dictionary]])
 	The function corresponds to |columnmove-b|.
 
-						*columnmove#e()*
+					*columnmove#e()*
 columnmove#e(mode, wise[, count[, options_dictionary]])
 	The function corresponds to |columnmove-e|.
 
-						*columnmove#ge()*
+					*columnmove#ge()*
 columnmove#ge(mode, wise[, count[, options_dictionary]])
 	The function corresponds to |columnmove-ge|.
 
-						*columnmove#W()*
+					*columnmove#W()*
 columnmove#W(mode, wise[, count[, options_dictionary]])
 	The function corresponds to |columnmove-W|.
 
-						*columnmove#B()*
+					*columnmove#B()*
 columnmove#B(mode, wise[, count[, options_dictionary]])
 	The function corresponds to |columnmove-B|.
 
-						*columnmove#E()*
+					*columnmove#E()*
 columnmove#E(mode, wise[, count[, options_dictionary]])
 	The function corresponds to |columnmove-E|.
 
-						*columnmove#gE()*
+					*columnmove#gE()*
 columnmove#gE(mode, wise[, count[, options_dictionary]])
 	The function corresponds to |columnmove-gE|.
 
@@ -660,14 +608,18 @@ description easily gets tremendous in exchange of the degree of freedom. To
 alleviate the situation there is a supplementary function to make keymappings
 for several modes automatically.
 
-						*columnmove#utility#map()*
-columnmove#utility#map(mode, kind, lhs[, motionwise])
+					*columnmove#utility#map()*
+>
+  columnmove#utility#map(mode, kind, lhs[, mwise])
 
-columnmove#utility#map(mode, '[ftFT,;]', lhs
-		\ [, motionwise[, target, [, count[, options_dictionary]]]])
+  " if kind is 'f', 't', 'F', 'T', ';' or ','
+  columnmove#utility#map(mode, kind, lhs
+		\ [, mwise[, count[, options_dictionary[, target]]]])
 
-columnmove#utility#map(mode, '[wbeWbe]' || 'g[eE]', lhs
-		\ [, motionwise[, count[, options_dictionary]]])
+  " if kind is 'w', 'b', 'e', 'ge', 'W', 'B', 'E' or 'gE'
+  columnmove#utility#map(mode, kind, lhs
+		\ [, mwise[, count[, options_dictionary]]])
+<
 
 	This function is used in order to simplify the description of
 	keymapping declarations.
@@ -682,34 +634,17 @@ columnmove#utility#map(mode, '[wbeWbe]' || 'g[eE]', lhs
 	" The above descriptions could be replaced by the line
 	call columnmove#utility#map('nxo', 'f', '\f')
 <
-	For example, Alt key is not valid to use in cui environment, use this
-	function with |g:columnmove_no_default_key_mappings|.
->
-	let g:columnmove_no_default_key_mappings = 1
-	call columnmove#utility#map('nxo', 'f', '\f')
-	call columnmove#utility#map('nxo', 'F', '\F')
-	call columnmove#utility#map('nxo', ';', '\;')
-	call columnmove#utility#map('nxo', ',', '\,')
-	call columnmove#utility#map('nxo', 'w', '\w')
-	call columnmove#utility#map('nxo', 'b', '\b')
-	call columnmove#utility#map('nxo', 'e', '\e')
-<
-	Some user might prefer to change "motionwise" to "block".
->
-	call columnmove#utility#map('nxo', 'f', '\f', 'block')
-
-	" press d\fh
-	" a#c        ac
-	" def   ->   df     #:cursor
-	" ghi        g#
-<
 	The first argument "mode" is a string contains 'n', 'x', 'o' and 'i'
-	depending user's needs. The second argument "kind" is the string to
-	specify the columnmove command. 'f', 'F', 't', 'T', ';', ',', 'w',
-	'b', 'e', "ge", 'W', 'B', 'E', "gE" can be used. The third argument
-	"lhs" is treated as {lhs} of |:map| command. The fourth argument
-	"motionwise" is optional, this argument assigns the default motionwise
-	in operator-pending mode.
+	which user needs.
+
+	The second argument "kind" is the string to specify the columnmove
+	command. 'f', 'F', 't', 'T', ';', ',', 'w', 'b', 'e', "ge", 'W', 'B',
+	'E', "gE" can be used.
+
+	The third argument "lhs" is treated as {lhs} of |:map| command.
+
+	The fourth argument "mwise" is optional, this argument assigns the
+	default motionwise in operator-pending mode.
 
 		|characterwise|: 'v' or "char" (inclusive) or '' (exclusive)
 		|linewise|     : 'V' or "line"
@@ -719,6 +654,56 @@ columnmove#utility#map(mode, '[wbeWbe]' || 'g[eE]', lhs
 	"count", "options_dictionary" are same as |columnmove#f()| and
 	|columnmove#w()|.
 
+	For example, Alt key is not valid to use in cui environment, use this
+	function with |g:columnmove_no_default_key_mappings|.
+>
+	let g:columnmove_no_default_key_mappings = 1
+	call columnmove#utility#map('nxo', 'f', '\f')
+	call columnmove#utility#map('nxo', 'F', '\F')
+	call columnmove#utility#map('nxo', 't', '\t')
+	call columnmove#utility#map('nxo', 'T', '\T')
+	call columnmove#utility#map('nxo', ';', '\;')
+	call columnmove#utility#map('nxo', ',', '\,')
+	call columnmove#utility#map('nxo', 'w', '\w')
+	call columnmove#utility#map('nxo', 'b', '\b')
+	call columnmove#utility#map('nxo', 'e', '\e')
+	call columnmove#utility#map('nxo', 'ge', '\ge')
+	call columnmove#utility#map('nxo', 'W', '\W')
+	call columnmove#utility#map('nxo', 'B', '\B')
+	call columnmove#utility#map('nxo', 'E', '\E')
+	call columnmove#utility#map('nxo', 'gE', '\gE')
+<
+	NOTE: The following description is smarter.  >
+	let g:columnmove_no_default_key_mappings = 1
+	for s:x in split('ftFT;,wbeWBE', '\zs') + ['ge', 'gE']
+	  call columnmove#utility#map('nxo', s:x, '\' . s:x)
+	endfor
+	unlet s:x
+<
+	Some user might prefer to change "motionwise" to "blockwise".
+>
+	call columnmove#utility#map('nxo', 'f', '\f', 'block')
+
+	" press d\fh
+	" a#c        ac
+	" def   ->   df     #:cursor
+	" ghi        g#
+<
+
+==============================================================================
+HIGHLIGHT GROUP				*columnmove-highlight-group*
+
+ColumnmoveCandidates			*hl-ColumnmoveCandidates*
+	The highlight group to declare the highlight of candidates in
+	|columnmove-f|, |columnmove-t|, |columnmove-F| and |columnmove-T|
+	commands.  It is linked to a default highlight group IncSearch
+	|hl-IncSearch| in default. User can change the coloring as following.
+>
+	highlight link ColumnmoveCandidates Visual
+< or >
+	highlight ColumnmoveCandidates ctermfg=White ctermbg=Red
+	                             \ guifg=White   guibg=Red
+<
 
 ==============================================================================
 vim:tw=78:ts=8:ft=help:norl:noet:

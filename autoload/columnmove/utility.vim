@@ -6,15 +6,14 @@ function! columnmove#utility#map(mode, kind, lhs, ...) abort
          \ : a:kind ==# ',' ? 'comma'
          \ : a:kind
 
+  let l:count = get(a:000, 1, 0)
+  let options_dict = s:convert_to_string(get(a:000, 2, {}))
   if a:kind =~# '[fFtT]'
-    let target  = get(a:000, 1, '')
-    let l:count = get(a:000, 2, 0)
-    let options_dict = s:convert_to_string(get(a:000, 3, {}))
-
+    let target  = get(a:000, 3, '')
     for c in ['i', 'n', 'x']
       if stridx(a:mode, c) >= 0
         execute printf('%snoremap <silent><expr> %s columnmove#%s("%s", "", ''%s'', %d, %s)'
-              \ , c, a:lhs, kind, c, target, l:count, options_dict)
+              \ , c, a:lhs, kind, c, l:count, options_dict, target)
       endif
     endfor
 
@@ -25,14 +24,11 @@ function! columnmove#utility#map(mode, kind, lhs, ...) abort
         let o_v = ['', 'v', 'V', '<C-v>']
         for i in range(4)
           execute printf('onoremap <silent><expr> %s%s columnmove#%s("o", "%s", ''%s'', %d, %s)',
-                \ o_v[i], a:lhs, kind, v[i], target, l:count, options_dict)
+                \ o_v[i], a:lhs, kind, v[i], l:count, options_dict, target)
         endfor
       endif
     endif
   elseif a:kind =~# '[;,]'
-    let l:count = get(a:000, 1, 0)
-    let options_dict = s:convert_to_string(get(a:000, 2, {}))
-
     for c in ['i', 'n', 'x']
       if stridx(a:mode, c) >= 0
         execute printf('%snoremap <silent><expr> %s columnmove#%s("%s", "", %d, %s)'
@@ -52,9 +48,6 @@ function! columnmove#utility#map(mode, kind, lhs, ...) abort
       endif
     endif
   elseif a:kind =~? '[wbe]' || a:kind =~# 'g[eE]'
-    let l:count = get(a:000, 1, 0)
-    let options_dict = s:convert_to_string(get(a:000, 2, {}))
-
     for [c, cmd] in [['i', '<C-r>='], ['n', ':<C-u>call '], ['x', ':<C-u>call ']]
       if stridx(a:mode, c) >= 0
         execute printf('%snoremap <silent> %s %scolumnmove#%s("%s", "", %d, %s)<CR>',

@@ -1,5 +1,5 @@
 " Vim global plugin for moving cursor in vertical direction
-" Last Change: 15-Apr-2015.
+" Last Change: 16-Mar-2016.
 " Maintainer : Masaaki Nakamura <mckn@outlook.jp>
 
 " License    : NYSL
@@ -15,6 +15,21 @@ let s:cpoptions = &cpoptions
 if stridx(&cpoptions, '<') != -1
   set cpoptions-=<
 endif
+
+
+
+""" highlight group
+function! s:default_highlight() abort
+  highlight default link ColumnmoveCandidates IncSearch
+endfunction
+call s:default_highlight()
+
+augroup columnmove-highlight
+  autocmd!
+  autocmd ColorScheme * call s:default_highlight()
+augroup END
+
+
 
 """ keymappings
 " vertical f
@@ -143,6 +158,11 @@ onoremap <silent>     v<Plug>(columnmove-gE) :<C-u>call columnmove#gE('o', '')<C
 onoremap <silent>     V<Plug>(columnmove-gE) :<C-u>call columnmove#gE('o', 'V')<CR>
 onoremap <silent> <C-v><Plug>(columnmove-gE) :<C-u>call columnmove#gE('o', "<Bslash><lt>C-v>")<CR>
 
+" intrinsic mappings
+inoremap <Plug>(columnmove-nop) <Nop>
+nnoremap <Plug>(columnmove-nop) <Nop>
+xnoremap <Plug>(columnmove-nop) <Nop>
+
 """ default keymappings
 " If g:columnmove_no_default_key_mappings has been defined, then quit
 " immediately.
@@ -153,7 +173,6 @@ endif
 
 " vertical f
 if !hasmapto('<Plug>(columnmove-f)')
-  silent! imap <unique>      <M-f>      <Plug>(columnmove-f)
   silent! nmap <unique>      <M-f>      <Plug>(columnmove-f)
   silent! xmap <unique>      <M-f>      <Plug>(columnmove-f)
   silent! omap <unique>      <M-f>      <Plug>(columnmove-f)
@@ -164,7 +183,6 @@ endif
 
 " vertical t
 if !hasmapto('<Plug>(columnmove-t)')
-  silent! imap <unique>      <M-t>      <Plug>(columnmove-t)
   silent! nmap <unique>      <M-t>      <Plug>(columnmove-t)
   silent! xmap <unique>      <M-t>      <Plug>(columnmove-t)
   silent! omap <unique>      <M-t>      <Plug>(columnmove-t)
@@ -175,7 +193,6 @@ endif
 
 " vertical F
 if !hasmapto('<Plug>(columnmove-F)')
-  silent! imap <unique>      <M-F>      <Plug>(columnmove-F)
   silent! nmap <unique>      <M-F>      <Plug>(columnmove-F)
   silent! xmap <unique>      <M-F>      <Plug>(columnmove-F)
   silent! omap <unique>      <M-F>      <Plug>(columnmove-F)
@@ -186,7 +203,6 @@ endif
 
 " vertical T
 if !hasmapto('<Plug>(columnmove-T)')
-  silent! imap <unique>      <M-T>      <Plug>(columnmove-T)
   silent! nmap <unique>      <M-T>      <Plug>(columnmove-T)
   silent! xmap <unique>      <M-T>      <Plug>(columnmove-T)
   silent! omap <unique>      <M-T>      <Plug>(columnmove-T)
@@ -197,7 +213,6 @@ endif
 
 " vertical semicolon
 if !hasmapto('<Plug>(columnmove-;)')
-  silent! imap <unique>      <M-;>      <Plug>(columnmove-;)
   silent! nmap <unique>      <M-;>      <Plug>(columnmove-;)
   silent! xmap <unique>      <M-;>      <Plug>(columnmove-;)
   silent! omap <unique>      <M-;>      <Plug>(columnmove-;)
@@ -208,7 +223,6 @@ endif
 
 " vertical comma
 if !hasmapto('<Plug>(columnmove-,)')
-  silent! imap <unique>      <M-,>      <Plug>(columnmove-,)
   silent! nmap <unique>      <M-,>      <Plug>(columnmove-,)
   silent! xmap <unique>      <M-,>      <Plug>(columnmove-,)
   silent! omap <unique>      <M-,>      <Plug>(columnmove-,)
@@ -219,7 +233,6 @@ endif
 
 " vertical w
 if !hasmapto('<Plug>(columnmove-w)')
-  silent! imap <unique>      <M-w>      <Plug>(columnmove-w)
   silent! nmap <unique>      <M-w>      <Plug>(columnmove-w)
   silent! xmap <unique>      <M-w>      <Plug>(columnmove-w)
   silent! omap <unique>      <M-w>      <Plug>(columnmove-w)
@@ -230,7 +243,6 @@ endif
 
 " vertical b
 if !hasmapto('<Plug>(columnmove-b)')
-  silent! imap <unique>      <M-b>      <Plug>(columnmove-b)
   silent! nmap <unique>      <M-b>      <Plug>(columnmove-b)
   silent! xmap <unique>      <M-b>      <Plug>(columnmove-b)
   silent! omap <unique>      <M-b>      <Plug>(columnmove-b)
@@ -241,7 +253,6 @@ endif
 
 " vertical e
 if !hasmapto('<Plug>(columnmove-e)')
-  silent! imap <unique>      <M-e>      <Plug>(columnmove-e)
   silent! nmap <unique>      <M-e>      <Plug>(columnmove-e)
   silent! xmap <unique>      <M-e>      <Plug>(columnmove-e)
   silent! omap <unique>      <M-e>      <Plug>(columnmove-e)
@@ -252,15 +263,13 @@ endif
 
 " vertical ge
 if !hasmapto('<Plug>(columnmove-ge)')
-  silent! imap <unique>      <M-g>e      <Plug>(columnmove-ge)
-  silent! nmap <unique>      <M-g>e      <Plug>(columnmove-ge)
-  silent! xmap <unique>      <M-g>e      <Plug>(columnmove-ge)
-  silent! omap <unique>      <M-g>e      <Plug>(columnmove-ge)
-  silent! omap <unique>     v<M-g>e     v<Plug>(columnmove-ge)
-  silent! omap <unique>     V<M-g>e     V<Plug>(columnmove-ge)
-  silent! omap <unique> <C-v><M-g>e <C-v><Plug>(columnmove-ge)
+  silent! nmap <unique>      g<M-e>      <Plug>(columnmove-ge)
+  silent! xmap <unique>      g<M-e>      <Plug>(columnmove-ge)
+  silent! omap <unique>      g<M-e>      <Plug>(columnmove-ge)
+  silent! omap <unique>     vg<M-e>     v<Plug>(columnmove-ge)
+  silent! omap <unique>     Vg<M-e>     V<Plug>(columnmove-ge)
+  silent! omap <unique> <C-v>g<M-e> <C-v><Plug>(columnmove-ge)
 
-  silent! imap <unique>      <M-g><M-e>      <Plug>(columnmove-ge)
   silent! nmap <unique>      <M-g><M-e>      <Plug>(columnmove-ge)
   silent! xmap <unique>      <M-g><M-e>      <Plug>(columnmove-ge)
   silent! omap <unique>      <M-g><M-e>      <Plug>(columnmove-ge)
@@ -271,7 +280,6 @@ endif
 
 " vertical W
 if !hasmapto('<Plug>(columnmove-W)')
-  silent! imap <unique>      <M-W>      <Plug>(columnmove-W)
   silent! nmap <unique>      <M-W>      <Plug>(columnmove-W)
   silent! xmap <unique>      <M-W>      <Plug>(columnmove-W)
   silent! omap <unique>      <M-W>      <Plug>(columnmove-W)
@@ -282,7 +290,6 @@ endif
 
 " vertical B
 if !hasmapto('<Plug>(columnmove-B)')
-  silent! imap <unique>      <M-B>      <Plug>(columnmove-B)
   silent! nmap <unique>      <M-B>      <Plug>(columnmove-B)
   silent! xmap <unique>      <M-B>      <Plug>(columnmove-B)
   silent! omap <unique>      <M-B>      <Plug>(columnmove-B)
@@ -293,7 +300,6 @@ endif
 
 " vertical E
 if !hasmapto('<Plug>(columnmove-E)')
-  silent! imap <unique>      <M-E>      <Plug>(columnmove-E)
   silent! nmap <unique>      <M-E>      <Plug>(columnmove-E)
   silent! xmap <unique>      <M-E>      <Plug>(columnmove-E)
   silent! omap <unique>      <M-E>      <Plug>(columnmove-E)
@@ -304,15 +310,13 @@ endif
 
 " vertical gE
 if !hasmapto('<Plug>(columnmove-gE)')
-  silent! imap <unique>      <M-g>E      <Plug>(columnmove-gE)
-  silent! nmap <unique>      <M-g>E      <Plug>(columnmove-gE)
-  silent! xmap <unique>      <M-g>E      <Plug>(columnmove-gE)
-  silent! omap <unique>      <M-g>E      <Plug>(columnmove-gE)
-  silent! omap <unique>     v<M-g>E     v<Plug>(columnmove-gE)
-  silent! omap <unique>     V<M-g>E     V<Plug>(columnmove-gE)
-  silent! omap <unique> <C-v><M-g>E <C-v><Plug>(columnmove-gE)
+  silent! nmap <unique>      g<M-E>      <Plug>(columnmove-gE)
+  silent! xmap <unique>      g<M-E>      <Plug>(columnmove-gE)
+  silent! omap <unique>      g<M-E>      <Plug>(columnmove-gE)
+  silent! omap <unique>     vg<M-E>     v<Plug>(columnmove-gE)
+  silent! omap <unique>     Vg<M-E>     V<Plug>(columnmove-gE)
+  silent! omap <unique> <C-v>g<M-E> <C-v><Plug>(columnmove-gE)
 
-  silent! imap <unique>      <M-g><M-E>      <Plug>(columnmove-gE)
   silent! nmap <unique>      <M-g><M-E>      <Plug>(columnmove-gE)
   silent! xmap <unique>      <M-g><M-E>      <Plug>(columnmove-gE)
   silent! omap <unique>      <M-g><M-E>      <Plug>(columnmove-gE)
