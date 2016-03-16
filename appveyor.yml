@@ -34,8 +34,7 @@ test_script:
 
     .\themis\bin\themis.bat
 
-    cd .\test\special-cases\
-    source.bat test_dot.vim
+    .\test\special-cases\source.bat
 
 
     $Env:THEMIS_VIM = $vim_old + '\vim73-kaoriya-win64\vim.exe'
