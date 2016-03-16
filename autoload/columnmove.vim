@@ -439,7 +439,7 @@ else
     let pos = a:pos[1:2]
     call cursor(pos)
     let view = winsaveview()
-    let dest = {'lnum': a:pos[1], 'col': a:pos[2], 'curswant': a:pos[4]-1}
+    let dest = {'lnum': a:pos[1], 'col': a:pos[2]-1, 'curswant': a:pos[4]-1}
     call winrestview(extend(dest, view, 'keep'))
   endfunction
 endif
@@ -1146,6 +1146,8 @@ else
     for item in a:order
       if len(item) == 1
         let id_list += [matchadd(a:group, printf('\%%%dl', item[0]), id)]
+      elseif len(item) == 2
+        let id_list += [matchadd(a:group, printf('\%%%dl\%%%dc.', item[0], item[1]), id)]
       else
         let id_list += [matchadd(a:group, printf('\%%%dl\%%>%dc.*\%%<%dc', item[0], item[1]-1, item[1]+item[2]), id)]
       endif
