@@ -1,0 +1,19 @@
+language: generic
+
+env:
+  - PPA=yes
+
+install:
+  - if [ x"$PPA" == "xyes" ] ; then sudo add-apt-repository ppa:pi-rho/dev -y; fi
+  - sudo apt-get update -q
+  - sudo apt-get install vim-nox
+  - git clone https://github.com/thinca/vim-themis
+
+before_script:
+  - vim --version
+  - chmod +x ./test/special-cases/source.sh
+
+script:
+  - ./vim-themis/bin/themis
+  - cd ./test/special-cases/
+  - ./source.sh test_dot.vim

@@ -1,0 +1,5 @@
+set encoding=utf-8
+set noswapfile
+set runtimepath+=%:p:h:h
+runtime! %:p:h:h/plugin/*.vim
+let g:assert = themis#helper('assert')
