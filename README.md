@@ -1,10 +1,13 @@
 vim-columnmove
 ================
+[![Build Status](https://travis-ci.org/machakann/vim-columnmove.svg?branch=master)](https://travis-ci.org/machakann/vim-columnmove)
+[![Build status](https://ci.appveyor.com/api/projects/status/5k6bnara2wsjomok?svg=true)](https://ci.appveyor.com/project/machakann/vim-columnmove)
 
-This plugin serves you several keymappings to move cursor in vertical direction.
+
+This plugin implements several keymappings to move cursor in vertical direction.
 
 # columnmove-f
-columnmove-f and its variants are the commands for bringing cursor to the position assigned by a character in the same column.
+columnmove-f and its variants are the motion commands to bring cursor to the position assigned by a character in the same column.
 
 This group has six keymappings, that is, `columnmove-f`, `columnmove-t`, `columnmove-F`, `columnmove-T`, `columnmove-;`, `columnmove-,`.  Each of them are the imitations of `f`, `t`, `F`, `T`, `;`, `,` commands, but work in vertical direction.
 
@@ -12,21 +15,10 @@ Those commands are mapped to `<M-f>`, `<M-t>`, `<M-F>`, `<M-T>`, `<M-;>`, `<M-,>
 
 ![columnmove-f](http://kura2.photozou.jp/pub/986/3080986/photo/199161494_org.v1394284952.gif)
 
-Please remember that these commands would search for the candidates of destination in the range of the lines displayed. Because I think that it is not easy to memorize the characters in the same column out of one's sight precisely. If you want to expand the range of searching, give the number of lines to `g:columnmove_expand_range`. For example, if you want to add ten lines to the range, please write following line to your vimrc.
-
-`
-	let g:columnmove_expand_range = 10
-`
-
-Or you just want to expand to a whole file, give the negative number to `g:columnmove_expand_range`.
-
-`
-	let g:columnmove_expand_range = -1
-`
 
 
 # columnmove-w
-columnmove-w and its variants are the commands for moving cursor in word-wise.  This group has eight keymappings, that is, `columnmove-w`, `columnmove-b`, `columnmove-e`, `columnmove-ge`, `columnmove-W`, `columnmove-B`, `columnmove-E`, `columnmove-gE`. Each of them are the imitations of `w`, `b`, `e`, `ge`, `W`, `B`, `E`, `gE` commands, but work in vertical direction. These commands regard the column which cursor is on as a line and search for the head or tail of word to move.  These commands regard a empty part of the column (like empty lines) as a space to skip it. For example, assume a vimscript code like this:
+columnmove-w and its variants are the commands for moving cursor in word-wise.  This group has eight keymappings, that is, `columnmove-w`, `columnmove-b`, `columnmove-e`, `columnmove-ge`, `columnmove-W`, `columnmove-B`, `columnmove-E`, `columnmove-gE`. Each of them are the imitations of `w`, `b`, `e`, `ge`, `W`, `B`, `E`, `gE` commands, but work in vertical direction. These commands regard the column which the cursor is on as a line and search for the head or tail of word to move.  These commands regard a empty part of the column (like empty lines) as a space to skip it. For example, assume a vimscript code like this:
 
 ```vim
 echo "first line"
