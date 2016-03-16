@@ -45,5 +45,4 @@ test_script:
 
     .\themis\bin\themis.bat
 
-    cd .\test\special-cases\
-    source.bat test_dot.vim
+    .\test\special-cases\source.bat

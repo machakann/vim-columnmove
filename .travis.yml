@@ -15,5 +15,4 @@ before_script:
 
 script:
   - ./vim-themis/bin/themis
-  - cd ./test/special-cases/
-  - ./source.sh test_dot.vim
+  - ./test/special-cases/source.sh
