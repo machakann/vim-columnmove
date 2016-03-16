@@ -71,7 +71,8 @@ function! s:c_move() dict abort "{{{
     else
       let startline = cursorline
     endif
-    let l:count = v:count1
+    let l:count = v:count == 0 ? self.count : v:count1
+    let self.count = l:count
     let self.destination = copy(s:null_pos)
     call self._search(cursorline, startline, curswant, l:count)
   endif
@@ -553,19 +554,20 @@ function! columnmove#f(mode, mwise, ...) abort
   " get object
   let f_object = s:f_object('f', a:mode, a:mwise, opt.update_history)
 
-  " alignment
-  let f_object.char = get(a:000, 2, '')
-  let f_object.opt  = opt
-  let f_object._open_fold = function('s:c__open_fold_forward')
-  let f_object._scan      = function('s:f__scan_forward')
-  let f_object._search    = function('s:f__search_forward')
-
   " instant info
   let cursorline = line('.')
   let curswant   = s:virtcurscol()
   let startline  = cursorline + 1
   let l:count    = get(a:000, 0, 0)
   let l:count    = l:count < 1 ? v:count1 : l:count
+
+  " alignment
+  let f_object.char  = get(a:000, 2, '')
+  let f_object.opt   = opt
+  let f_object.count = l:count
+  let f_object._open_fold = function('s:c__open_fold_forward')
+  let f_object._scan      = function('s:f__scan_forward')
+  let f_object._search    = function('s:f__search_forward')
 
   return f_object.start(cursorline, startline, curswant, l:count)
 endfunction
@@ -577,19 +579,20 @@ function! columnmove#F(mode, mwise, ...) abort
   " get object
   let f_object = s:f_object('F', a:mode, a:mwise, opt.update_history)
 
-  " alignment
-  let f_object.char = get(a:000, 2, '')
-  let f_object.opt  = opt
-  let f_object._open_fold = function('s:c__open_fold_backward')
-  let f_object._scan      = function('s:f__scan_backward')
-  let f_object._search    = function('s:f__search_backward')
-
   " instant info
   let cursorline = line('.')
   let curswant   = s:virtcurscol()
   let startline  = cursorline - 1
   let l:count    = get(a:000, 0, 0)
   let l:count    = l:count < 1 ? v:count1 : l:count
+
+  " alignment
+  let f_object.char  = get(a:000, 2, '')
+  let f_object.opt   = opt
+  let f_object.count = l:count
+  let f_object._open_fold = function('s:c__open_fold_backward')
+  let f_object._scan      = function('s:f__scan_backward')
+  let f_object._search    = function('s:f__search_backward')
 
   return f_object.start(cursorline, startline, curswant, l:count)
 endfunction
@@ -601,19 +604,20 @@ function! columnmove#t(mode, mwise, ...) abort
   " get object
   let f_object = s:f_object('t', a:mode, a:mwise, opt.update_history)
 
-  " alignment
-  let f_object.char = get(a:000, 2, '')
-  let f_object.opt  = opt
-  let f_object._open_fold = function('s:c__open_fold_forward')
-  let f_object._scan      = function('s:f__scan_forward')
-  let f_object._search    = function('s:f__search_forward')
-
   " instant info
   let cursorline = line('.')
   let curswant   = s:virtcurscol()
   let startline  = cursorline + 2
   let l:count    = get(a:000, 0, 0)
   let l:count    = l:count < 1 ? v:count1 : l:count
+
+  " alignment
+  let f_object.char  = get(a:000, 2, '')
+  let f_object.opt   = opt
+  let f_object.count = l:count
+  let f_object._open_fold = function('s:c__open_fold_forward')
+  let f_object._scan      = function('s:f__scan_forward')
+  let f_object._search    = function('s:f__search_forward')
 
   return f_object.start(cursorline, startline, curswant, l:count)
 endfunction
@@ -625,19 +629,20 @@ function! columnmove#T(mode, mwise, ...) abort
   " get object
   let f_object = s:f_object('T', a:mode, a:mwise, opt.update_history)
 
-  " alignment
-  let f_object.char = get(a:000, 2, '')
-  let f_object.opt  = opt
-  let f_object._open_fold = function('s:c__open_fold_backward')
-  let f_object._scan      = function('s:f__scan_backward')
-  let f_object._search    = function('s:f__search_backward')
-
   " instant info
   let cursorline = line('.')
   let curswant   = s:virtcurscol()
   let startline  = cursorline - 2
   let l:count    = get(a:000, 0, 0)
   let l:count    = l:count < 1 ? v:count1 : l:count
+
+  " alignment
+  let f_object.char  = get(a:000, 2, '')
+  let f_object.opt   = opt
+  let f_object.count = l:count
+  let f_object._open_fold = function('s:c__open_fold_backward')
+  let f_object._scan      = function('s:f__scan_backward')
+  let f_object._search    = function('s:f__search_backward')
 
   return f_object.start(cursorline, startline, curswant, l:count)
 endfunction
