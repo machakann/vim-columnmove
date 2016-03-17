@@ -1,5 +1,5 @@
 ﻿*columnmove.jax*	カーソルを、縦に、動かします。
-						Last change:13-Mar-2016.
+						Last change:17-Mar-2016.
 
 書いた人   : machakann <mckn@outlook.jp>
 ライセンス : NYSL license
@@ -357,8 +357,7 @@ columnmove-fとその仲間達に影響するもの~
 
 g:columnmove_ignore_case		*g:columnmove_ignore_case*
 	値が1の場合大文字小文字を無視します。値が0の場合大文字小文字を区別しま
-	す。デフォルト値は &ignorecase によって決定されます。すなわち
-	'ignorecase' オプションと同じになります。
+	す。デフォルト値は 0 です。
 
 g:columnmove_highlight			*g:columnmove_highlight*
 	値が0以外の場合、移動先候補のハイライトを行います。値が0の場合ハイライ
