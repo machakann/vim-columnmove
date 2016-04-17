@@ -14,5 +14,4 @@ before_script:
   - chmod +x ./test/special-cases/source.sh
 
 script:
-  - ./vim-themis/bin/themis
-  - ./test/special-cases/source.sh
+  - ./vim-themis/bin/themis && ./test/special-cases/source.sh
