@@ -1521,6 +1521,7 @@ function! s:w_get_opt(mode, force_opt) abort  "{{{
   let opt.fold_open      = s:user_mode_conf('fold_open', a:force_opt, 0, a:mode)
   let opt.strict_wbege   = s:user_conf('strict_wbege',   a:force_opt, 1)
   let opt.fold_treatment = s:user_conf('fold_treatment', a:force_opt, 0)
+  let opt.stop_at_space  = s:user_conf('stop_at_space',  a:force_opt, 1)
   return opt
 endfunction
 "}}}
@@ -1551,7 +1552,7 @@ function! s:w_search_forward(cursorline, curswant, count) dict abort "{{{
     let sectionhead = max([current.lnum, get(reference, 'lnum', filehead)])
     let sectiontail = min([sectionhead + stride - 1, fileend])
     call self._open_fold(a:cursorline, sectionhead, sectiontail)
-    let [current, reference] = self._search_section(current, reference, Check_c, sectionhead, sectiontail, a:curswant, a:count, self.opt.fold_treatment)
+    let [current, reference] = self._search_section(current, reference, Check_c, sectionhead, sectiontail, a:curswant, a:count, self.opt.fold_treatment, self.opt.stop_at_space)
     if current.dest
       if current.lnum != a:cursorline
         let self.destination = [0, current.lnum, current.col, 0, a:curswant]
@@ -1573,7 +1574,7 @@ function! s:w_search_backward(cursorline, curswant, count) dict abort "{{{
     let sectionhead = min([current.lnum, get(reference, 'lnum', fileend)])
     let sectiontail = max([filehead, sectionhead - stride + 1])
     call self._open_fold(a:cursorline, sectionhead, sectiontail)
-    let [current, reference] = self._search_section(current, reference, Check_c, sectionhead, sectiontail, a:curswant, a:count, self.opt.fold_treatment)
+    let [current, reference] = self._search_section(current, reference, Check_c, sectionhead, sectiontail, a:curswant, a:count, self.opt.fold_treatment, self.opt.stop_at_space)
     if current.dest
       if current.lnum != a:cursorline
         let self.destination = [0, current.lnum, current.col, 0, a:curswant]
@@ -1605,7 +1606,7 @@ function! s:w_interrupted() dict abort  "{{{
   augroup END
 endfunction
 "}}}
-function! s:search_beyond_border_in_section_forward(current, last, check_char, sectionhead, sectiontail, curswant, count, fold_treatment) abort  "{{{
+function! s:search_beyond_border_in_section_forward(current, last, check_char, sectionhead, sectiontail, curswant, count, fold_treatment, stop_at_space) abort  "{{{
   let lines   = getline(a:sectionhead, a:sectiontail)
   let current = a:current
   let last    = a:last != {} ? a:last : {'class': -1}
@@ -1618,7 +1619,7 @@ function! s:search_beyond_border_in_section_forward(current, last, check_char, s
       let [c, col] = s:pick_up_char(line, a:curswant)
       let current.class = a:check_char(c)
       let current.col   = col
-      let current.count += current.class != 0 && last.class > -1 && current.class != last.class ? 1 : 0
+      let current.count += s:is_over_a_border(current, last, a:stop_at_space)
       if current.count == a:count
         let current.dest = 1
         break
@@ -1637,7 +1638,7 @@ function! s:search_beyond_border_in_section_forward(current, last, check_char, s
   return [current, last]
 endfunction
 "}}}
-function! s:search_beyond_border_in_section_backward(current, last, check_char, sectionhead, sectiontail, curswant, count, fold_treatment) abort  "{{{
+function! s:search_beyond_border_in_section_backward(current, last, check_char, sectionhead, sectiontail, curswant, count, fold_treatment, stop_at_space) abort  "{{{
   let lines   = reverse(getline(a:sectiontail, a:sectionhead))
   let current = a:current
   let last    = a:last != {} ? a:last : {'class': -1}
@@ -1650,7 +1651,7 @@ function! s:search_beyond_border_in_section_backward(current, last, check_char, 
       let [c, col] = s:pick_up_char(line, a:curswant)
       let current.class = a:check_char(c)
       let current.col   = col
-      let current.count += current.class != 0 && last.class > -1 && current.class != last.class ? 1 : 0
+      let current.count += s:is_over_a_border(current, last, a:stop_at_space)
       if current.count == a:count
         let current.dest = 1
         break
@@ -1669,7 +1670,7 @@ function! s:search_beyond_border_in_section_backward(current, last, check_char, 
   return [current, last]
 endfunction
 "}}}
-function! s:search_short_of_border_in_section_forward(current, tip, check_char, sectionhead, sectiontail, curswant, count, fold_treatment) abort  "{{{
+function! s:search_short_of_border_in_section_forward(current, tip, check_char, sectionhead, sectiontail, curswant, count, fold_treatment, stop_at_space) abort  "{{{
   let sectiontail = a:sectiontail + 1
   let lines   = getline(a:sectionhead, sectiontail)
   let current = a:current
@@ -1683,7 +1684,7 @@ function! s:search_short_of_border_in_section_forward(current, tip, check_char, 
       let [c, col] = s:pick_up_char(line, a:curswant)
       let tip.class = a:check_char(c)
       let tip.col   = col
-      let tip.count += current.class > 0 && current.class != tip.class ? 1 : 0
+      let tip.count += s:is_in_front_of_a_border(current, tip, a:stop_at_space)
       if tip.count >= a:count
         let current.dest = 1
         break
@@ -1693,7 +1694,7 @@ function! s:search_short_of_border_in_section_forward(current, tip, check_char, 
       if a:fold_treatment
         let tip.class = 0
         let tip.col   = 0
-        let tip.count += current.class > 0 && tip.class != current.class ? 1 : 0
+        let tip.count += s:is_in_front_of_a_border(current, tip, a:stop_at_space)
         if tip.count >= a:count
           let current.dest = 1
           break
@@ -1707,7 +1708,7 @@ function! s:search_short_of_border_in_section_forward(current, tip, check_char, 
   return [current, tip]
 endfunction
 "}}}
-function! s:search_short_of_border_in_section_backward(current, tip, check_char, sectionhead, sectiontail, curswant, count, fold_treatment) abort  "{{{
+function! s:search_short_of_border_in_section_backward(current, tip, check_char, sectionhead, sectiontail, curswant, count, fold_treatment, stop_at_space) abort  "{{{
   let sectiontail = a:sectiontail - 1
   let lines   = reverse(getline(sectiontail, a:sectionhead))
   let current = a:current
@@ -1721,7 +1722,7 @@ function! s:search_short_of_border_in_section_backward(current, tip, check_char,
       let [c, col]  = s:pick_up_char(line, a:curswant)
       let tip.class = a:check_char(c)
       let tip.col   = col
-      let tip.count += current.class > 0 && tip.class != current.class ? 1 : 0
+      let tip.count += s:is_in_front_of_a_border(current, tip, a:stop_at_space)
       if tip.count >= a:count
         let current.dest = 1
         break
@@ -1731,7 +1732,7 @@ function! s:search_short_of_border_in_section_backward(current, tip, check_char,
       if a:fold_treatment
         let tip.class = 0
         let tip.col   = 0
-        let tip.count += current.class > 0 && tip.class != current.class ? 1 : 0
+        let tip.count += s:is_in_front_of_a_border(current, tip, a:stop_at_space)
         if tip.count >= a:count
           let current.dest = 1
           break
@@ -1747,26 +1748,39 @@ endfunction
 "}}}
 function! s:check_char_w(c) abort  "{{{
   " strict w, b, e, ge
-  " space, tab, nothing : 0
-  " keyword chars       : 1
-  " other chars         : 2
-  return a:c =~# '\m\s' || a:c ==# '' ? 0
-     \ : a:c =~# '\m\k' ? 1
-     \ : 2
+  " nothing       : 0
+  " space, tab    : 1
+  " keyword chars : 2
+  " other chars   : 3
+  return a:c ==# '' ? 0
+     \ : a:c =~# '\m\s' ? 1
+     \ : a:c =~# '\m\k' ? 2
+     \ : 3
 endfunction
 "}}}
 function! s:check_char_w_spoiled(c) abort  "{{{
   " spoiled w, b, e, ge
   " nothing :  0
-  " chars   :  1
-  return a:c ==# '' ? 0 : 1
+  " chars   :  2
+  return a:c ==# '' ? 0 : 2
 endfunction
 "}}}
 function! s:check_char_W(c) abort  "{{{
   " W, B, E, gE
-  " space, tab, nothing : 0
-  " other chars         : 1
-  return a:c =~# '\m\s' || a:c ==# '' ? 0 : 1
+  " nothing       : 0
+  " space, tab    : 1
+  " other chars   : 2
+  return a:c ==# '' ? 0
+     \ : a:c =~# '\m\s' ? 1
+     \ : 2
+endfunction
+"}}}
+function! s:is_over_a_border(current, last, stop_at_space) abort  "{{{
+  return a:last.class > -1 && ((a:current.class > 1 && a:current.class != a:last.class) || (a:stop_at_space && a:current.class == 1 && a:last.class == 0)) ? 1 : 0
+endfunction
+"}}}
+function! s:is_in_front_of_a_border(current, tip, stop_at_space) abort "{{{
+  return (a:current.class > 1 && a:current.class != a:tip.class) || (a:stop_at_space && a:current.class == 1 && a:tip.class == 0)? 1 : 0
 endfunction
 "}}}
 function! columnmove#interrupt() abort  "{{{
