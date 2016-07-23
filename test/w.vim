@@ -926,8 +926,8 @@ function! s:suite_w.strict_visual_mode() abort  "{{{
   call setpos("'>", [0, 0, 0, 0])
   normal 1G0V\w
   execute "normal! \<Esc>"
-  call g:assert.equals(getpos("'<"), [0, 1,   1, 0], 'failed at #2')
-  call g:assert.equals(getpos("'>"), [0, 3, 1/0, 0], 'failed at #2')
+  call g:assert.equals(getpos("'<"), [0, 1, 1, 0], 'failed at #2')
+  call g:assert.equals(getpos("'>"), [0, 3, g:intmax, 0], 'failed at #2')
   call g:assert.equals(visualmode(), 'V', 'failed at #2')
   call columnmove#interrupt()
   %delete
@@ -1907,8 +1907,8 @@ function! s:suite_w.spoiled_visual_mode() abort  "{{{
   call setpos("'>", [0, 0, 0, 0])
   normal 1G0V\w
   execute "normal! \<Esc>"
-  call g:assert.equals(getpos("'<"), [0, 1,   1, 0], 'failed at #2')
-  call g:assert.equals(getpos("'>"), [0, 4, 1/0, 0], 'failed at #2')
+  call g:assert.equals(getpos("'<"), [0, 1, 1, 0], 'failed at #2')
+  call g:assert.equals(getpos("'>"), [0, 4, g:intmax, 0], 'failed at #2')
   call g:assert.equals(visualmode(), 'V', 'failed at #2')
   call columnmove#interrupt()
   %delete
@@ -2898,8 +2898,8 @@ function! s:suite_W.strict_visual_mode() abort  "{{{
   call setpos("'>", [0, 0, 0, 0])
   normal 1G0V\W
   execute "normal! \<Esc>"
-  call g:assert.equals(getpos("'<"), [0, 1,   1, 0], 'failed at #2')
-  call g:assert.equals(getpos("'>"), [0, 4, 1/0, 0], 'failed at #2')
+  call g:assert.equals(getpos("'<"), [0, 1, 1, 0], 'failed at #2')
+  call g:assert.equals(getpos("'>"), [0, 4, g:intmax, 0], 'failed at #2')
   call g:assert.equals(visualmode(), 'V', 'failed at #2')
   call columnmove#interrupt()
   %delete

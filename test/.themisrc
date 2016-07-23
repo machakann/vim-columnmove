@@ -3,3 +3,14 @@ set noswapfile
 set runtimepath+=%:p:h:h
 runtime! %:p:h:h/plugin/*.vim
 let g:assert = themis#helper('assert')
+
+function! s:intmax() abort
+  let view = winsaveview()
+  normal! $
+  let intmax = winsaveview().curswant
+  call winrestview(view)
+  return intmax
+endfunction
+let g:intmax = s:intmax()
+delfunction s:intmax
+
