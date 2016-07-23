@@ -1,5 +1,5 @@
 *columnmove.txt*	Bring cursor along a column.
-						Last change:13-Mar-2016.
+						Last change:23-Jul-2016.
 
 Author  : machakann <mckn@outlook.jp>
 License : NYSL license
@@ -97,6 +97,11 @@ is placed on the first `l`, w command brings cursor like:
 		`"` -> `l` -> `e`~
 Hence |columnmove-w| command bring cursor to the first column of fourth,
 fifth, and, seventh lines from the first column of first line.
+
+In principle these commands equates empty lines and spaces and does not stop
+the cursor on a space. However there is an exception, if the space is
+adjuscent with an empty line the cursor would be stopped at there. If you do
+not want to stop the cursor on a space, set |g:columnmove_stop_on_space| as 0.
 
 However, actually, almost all the programming languages are semantic in
 line-wise, not column-wise. Thus these "strict" commands might not be useful
@@ -379,6 +384,11 @@ g:columnmove_fold_treatment		*g:columnmove_fold_treatment*
 	If the value is 0, these commands ignore folded lines.
 	If the value is 1, commands regard folded lines as a empty line.
 	The default value is 0.
+
+g:columnmove_stop_on_space		*g:columnmove_stop_on_space*
+	If the value is 0, these commands never stops the cursor on a space.
+	If the value is 1, the cursor is stopped at a space adjuscent with an
+	empty line. The default value is 1.
 
 
 ==============================================================================

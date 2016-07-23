@@ -313,21 +313,21 @@ function! s:suite_w.strict() abort  "{{{
   " #41
   call append(0, [' ', ' ', '', ' ', ' '])
   normal 1G0\w
-  call g:assert.equals(line('.'), 1, 'failed at #41')
+  call g:assert.equals(line('.'), 4, 'failed at #41')
   call columnmove#interrupt()
   %delete
 
   " #42
   call append(0, [' ', ' ', '', ' ', ' '])
   normal 2G0\w
-  call g:assert.equals(line('.'), 2, 'failed at #42')
+  call g:assert.equals(line('.'), 4, 'failed at #42')
   call columnmove#interrupt()
   %delete
 
   " #43
   call append(0, [' ', ' ', '', ' ', ' '])
   normal 3G0\w
-  call g:assert.equals(line('.'), 3, 'failed at #43')
+  call g:assert.equals(line('.'), 4, 'failed at #43')
   call columnmove#interrupt()
   %delete
 
@@ -418,14 +418,14 @@ function! s:suite_w.strict() abort  "{{{
   " #56
   call append(0, ['', '', ' ', '', ''])
   normal 1G0\w
-  call g:assert.equals(line('.'), 1, 'failed at #56')
+  call g:assert.equals(line('.'), 3, 'failed at #56')
   call columnmove#interrupt()
   %delete
 
   " #57
   call append(0, ['', '', ' ', '', ''])
   normal 2G0\w
-  call g:assert.equals(line('.'), 2, 'failed at #57')
+  call g:assert.equals(line('.'), 3, 'failed at #57')
   call columnmove#interrupt()
   %delete
 
@@ -2300,21 +2300,21 @@ function! s:suite_W.strict() abort  "{{{
   " #41
   call append(0, [' ', ' ', '', ' ', ' '])
   normal 1G0\W
-  call g:assert.equals(line('.'), 1, 'failed at #41')
+  call g:assert.equals(line('.'), 4, 'failed at #41')
   call columnmove#interrupt()
   %delete
 
   " #42
   call append(0, [' ', ' ', '', ' ', ' '])
   normal 2G0\W
-  call g:assert.equals(line('.'), 2, 'failed at #42')
+  call g:assert.equals(line('.'), 4, 'failed at #42')
   call columnmove#interrupt()
   %delete
 
   " #43
   call append(0, [' ', ' ', '', ' ', ' '])
   normal 3G0\W
-  call g:assert.equals(line('.'), 3, 'failed at #43')
+  call g:assert.equals(line('.'), 4, 'failed at #43')
   call columnmove#interrupt()
   %delete
 
@@ -2405,14 +2405,14 @@ function! s:suite_W.strict() abort  "{{{
   " #56
   call append(0, ['', '', ' ', '', ''])
   normal 1G0\W
-  call g:assert.equals(line('.'), 1, 'failed at #56')
+  call g:assert.equals(line('.'), 3, 'failed at #56')
   call columnmove#interrupt()
   %delete
 
   " #57
   call append(0, ['', '', ' ', '', ''])
   normal 2G0\W
-  call g:assert.equals(line('.'), 2, 'failed at #57')
+  call g:assert.equals(line('.'), 3, 'failed at #57')
   call columnmove#interrupt()
   %delete
 
