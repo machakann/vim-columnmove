@@ -1,5 +1,5 @@
 *columnmove.txt*	Bring cursor along a column.
-						Last change:23-Jul-2016.
+						Last change:27-Jul-2016.
 
 Author  : machakann <mckn@outlook.jp>
 License : NYSL license
@@ -100,8 +100,9 @@ fifth, and, seventh lines from the first column of first line.
 
 In principle these commands equates empty lines and spaces and does not stop
 the cursor on a space. However there is an exception, if the space is
-adjuscent with an empty line the cursor would be stopped at there. If you do
-not want to stop the cursor on a space, set |g:columnmove_stop_on_space| as 0.
+adjuscent with an empty line the cursor would be stopped at there, the white
+spaces as indentation are regarded as empty in this case. If you do not want
+to stop the cursor on a space, set |g:columnmove_stop_on_space| as 0.
 
 However, actually, almost all the programming languages are semantic in
 line-wise, not column-wise. Thus these "strict" commands might not be useful

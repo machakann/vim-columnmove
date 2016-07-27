@@ -16,6 +16,8 @@ function! s:suite_ge.before_each() abort  "{{{
   unlet! g:columnmove_fold_open
   unlet! g:columnmove_expand_range
   unlet! g:columnmove_fold_treatment
+  unlet! g:columnmove_strict_wbege
+  unlet! g:columnmove_stop_on_space
   call columnmove#interrupt()
   %delete
 endfunction
@@ -327,21 +329,21 @@ function! s:suite_ge.strict() abort  "{{{
   " #43
   call append(0, [' ', ' ', '', ' ', ' '])
   normal 3G0\ge
-  call g:assert.equals(line('.'), 2, 'failed at #43')
+  call g:assert.equals(line('.'), 3, 'failed at #43')
   call columnmove#interrupt()
   %delete
 
   " #44
   call append(0, [' ', ' ', '', ' ', ' '])
   normal 4G0\ge
-  call g:assert.equals(line('.'), 2, 'failed at #44')
+  call g:assert.equals(line('.'), 4, 'failed at #44')
   call columnmove#interrupt()
   %delete
 
   " #45
   call append(0, [' ', ' ', '', ' ', ' '])
   normal 5G0\ge
-  call g:assert.equals(line('.'), 2, 'failed at #45')
+  call g:assert.equals(line('.'), 5, 'failed at #45')
   call columnmove#interrupt()
   %delete
 
@@ -439,14 +441,14 @@ function! s:suite_ge.strict() abort  "{{{
   " #59
   call append(0, ['', '', ' ', '', ''])
   normal 4G0\ge
-  call g:assert.equals(line('.'), 3, 'failed at #59')
+  call g:assert.equals(line('.'), 4, 'failed at #59')
   call columnmove#interrupt()
   %delete
 
   " #60
   call append(0, ['', '', ' ', '', ''])
   normal 5G0\ge
-  call g:assert.equals(line('.'), 3, 'failed at #60')
+  call g:assert.equals(line('.'), 5, 'failed at #60')
   call columnmove#interrupt()
   %delete
 
@@ -688,6 +690,68 @@ function! s:suite_ge.strict_option_combinations() abort "{{{
   2,4fold
   normal 6G\ge
   call g:assert.equals(line('.'), 3, 'failed at #1')
+  call columnmove#interrupt()
+  %delete
+endfunction
+"}}}
+function! s:suite_ge.strict_option_stop_on_space() dict abort  "{{{
+  let g:columnmove_stop_on_space = 1
+
+  " #1
+  call append(0, ['', 'aa', '  ', '', 'bb'])
+  normal 5G0\ge
+  call g:assert.equals(line('.'), 2, 'failed at #1')
+  call columnmove#interrupt()
+  %delete
+
+  " #2
+  call append(0, ['', 'aa', '  ', '', 'bb'])
+  normal 5G0l\ge
+  call g:assert.equals(line('.'), 2, 'failed at #2')
+  call columnmove#interrupt()
+  %delete
+
+  " #3
+  call append(0, ['', 'a ', '  ', '', 'bb'])
+  normal 5G0\ge
+  call g:assert.equals(line('.'), 2, 'failed at #3')
+  call columnmove#interrupt()
+  %delete
+
+  " #4
+  call append(0, ['', 'a ', '  ', '', 'bb'])
+  normal 5G0l\ge
+  call g:assert.equals(line('.'), 2, 'failed at #4')
+  call columnmove#interrupt()
+  %delete
+
+  let g:columnmove_stop_on_space = 0
+
+  " #5
+  call append(0, ['', 'aa', '  ', '', 'bb'])
+  normal 5G0\ge
+  call g:assert.equals(line('.'), 2, 'failed at #5')
+  call columnmove#interrupt()
+  %delete
+
+  " #6
+  call append(0, ['', 'aa', '  ', '', 'bb'])
+  normal 5G0l\ge
+  call g:assert.equals(line('.'), 2, 'failed at #6')
+  call columnmove#interrupt()
+  %delete
+
+  " #7
+  call append(0, ['', 'a ', '  ', '', 'bb'])
+  normal 5G0\ge
+  call g:assert.equals(line('.'), 2, 'failed at #7')
+  call columnmove#interrupt()
+  %delete
+
+  " #8
+  call append(0, ['', 'a ', '  ', '', 'bb'])
+  normal 5G0l\ge
+  call g:assert.equals(line('.'), 5, 'failed at #8')
   call columnmove#interrupt()
   %delete
 endfunction
@@ -1672,6 +1736,69 @@ function! s:suite_ge.spoiled_option_combinations() abort "{{{
   %delete
 endfunction
 "}}}
+function! s:suite_ge.spoiled_option_stop_on_space() dict abort  "{{{
+  let g:columnmove_strict_wbege = 0
+  let g:columnmove_stop_on_space = 1
+
+  " #1
+  call append(0, ['', 'aa', '  ', '', 'bb'])
+  normal 5G0\ge
+  call g:assert.equals(line('.'), 3, 'failed at #1')
+  call columnmove#interrupt()
+  %delete
+
+  " #2
+  call append(0, ['', 'aa', '  ', '', 'bb'])
+  normal 5G0l\ge
+  call g:assert.equals(line('.'), 3, 'failed at #2')
+  call columnmove#interrupt()
+  %delete
+
+  " #3
+  call append(0, ['', 'a ', '  ', '', 'bb'])
+  normal 5G0\ge
+  call g:assert.equals(line('.'), 3, 'failed at #3')
+  call columnmove#interrupt()
+  %delete
+
+  " #4
+  call append(0, ['', 'a ', '  ', '', 'bb'])
+  normal 5G0l\ge
+  call g:assert.equals(line('.'), 3, 'failed at #4')
+  call columnmove#interrupt()
+  %delete
+
+  let g:columnmove_stop_on_space = 0
+
+  " #5
+  call append(0, ['', 'aa', '  ', '', 'bb'])
+  normal 5G0\ge
+  call g:assert.equals(line('.'), 3, 'failed at #5')
+  call columnmove#interrupt()
+  %delete
+
+  " #6
+  call append(0, ['', 'aa', '  ', '', 'bb'])
+  normal 5G0l\ge
+  call g:assert.equals(line('.'), 3, 'failed at #6')
+  call columnmove#interrupt()
+  %delete
+
+  " #7
+  call append(0, ['', 'a ', '  ', '', 'bb'])
+  normal 5G0\ge
+  call g:assert.equals(line('.'), 3, 'failed at #7')
+  call columnmove#interrupt()
+  %delete
+
+  " #8
+  call append(0, ['', 'a ', '  ', '', 'bb'])
+  normal 5G0l\ge
+  call g:assert.equals(line('.'), 3, 'failed at #8')
+  call columnmove#interrupt()
+  %delete
+endfunction
+"}}}
 function! s:suite_ge.spoiled_curswant() abort "{{{
   let g:columnmove_strict_wbege = 0
 
@@ -2312,21 +2439,21 @@ function! s:suite_gE.strict() abort  "{{{
   " #43
   call append(0, [' ', ' ', '', ' ', ' '])
   normal 3G0\gE
-  call g:assert.equals(line('.'), 2, 'failed at #43')
+  call g:assert.equals(line('.'), 3, 'failed at #43')
   call columnmove#interrupt()
   %delete
 
   " #44
   call append(0, [' ', ' ', '', ' ', ' '])
   normal 4G0\gE
-  call g:assert.equals(line('.'), 2, 'failed at #44')
+  call g:assert.equals(line('.'), 4, 'failed at #44')
   call columnmove#interrupt()
   %delete
 
   " #45
   call append(0, [' ', ' ', '', ' ', ' '])
   normal 5G0\gE
-  call g:assert.equals(line('.'), 2, 'failed at #45')
+  call g:assert.equals(line('.'), 5, 'failed at #45')
   call columnmove#interrupt()
   %delete
 
@@ -2424,14 +2551,14 @@ function! s:suite_gE.strict() abort  "{{{
   " #59
   call append(0, ['', '', ' ', '', ''])
   normal 4G0\gE
-  call g:assert.equals(line('.'), 3, 'failed at #59')
+  call g:assert.equals(line('.'), 4, 'failed at #59')
   call columnmove#interrupt()
   %delete
 
   " #60
   call append(0, ['', '', ' ', '', ''])
   normal 5G0\gE
-  call g:assert.equals(line('.'), 3, 'failed at #60')
+  call g:assert.equals(line('.'), 5, 'failed at #60')
   call columnmove#interrupt()
   %delete
 
@@ -2666,6 +2793,68 @@ function! s:suite_gE.strict_option_combinations() abort "{{{
   2,4fold
   normal 6G\gE
   call g:assert.equals(line('.'), 2, 'failed at #1')
+  call columnmove#interrupt()
+  %delete
+endfunction
+"}}}
+function! s:suite_gE.strict_option_stop_on_space() dict abort  "{{{
+  let g:columnmove_stop_on_space = 1
+
+  " #1
+  call append(0, ['', 'aa', '  ', '', 'bb'])
+  normal 5G0\gE
+  call g:assert.equals(line('.'), 2, 'failed at #1')
+  call columnmove#interrupt()
+  %delete
+
+  " #2
+  call append(0, ['', 'aa', '  ', '', 'bb'])
+  normal 5G0l\gE
+  call g:assert.equals(line('.'), 2, 'failed at #2')
+  call columnmove#interrupt()
+  %delete
+
+  " #3
+  call append(0, ['', 'a ', '  ', '', 'bb'])
+  normal 5G0\gE
+  call g:assert.equals(line('.'), 2, 'failed at #3')
+  call columnmove#interrupt()
+  %delete
+
+  " #4
+  call append(0, ['', 'a ', '  ', '', 'bb'])
+  normal 5G0l\gE
+  call g:assert.equals(line('.'), 2, 'failed at #4')
+  call columnmove#interrupt()
+  %delete
+
+  let g:columnmove_stop_on_space = 0
+
+  " #5
+  call append(0, ['', 'aa', '  ', '', 'bb'])
+  normal 5G0\gE
+  call g:assert.equals(line('.'), 2, 'failed at #5')
+  call columnmove#interrupt()
+  %delete
+
+  " #6
+  call append(0, ['', 'aa', '  ', '', 'bb'])
+  normal 5G0l\gE
+  call g:assert.equals(line('.'), 2, 'failed at #6')
+  call columnmove#interrupt()
+  %delete
+
+  " #7
+  call append(0, ['', 'a ', '  ', '', 'bb'])
+  normal 5G0\gE
+  call g:assert.equals(line('.'), 2, 'failed at #7')
+  call columnmove#interrupt()
+  %delete
+
+  " #8
+  call append(0, ['', 'a ', '  ', '', 'bb'])
+  normal 5G0l\gE
+  call g:assert.equals(line('.'), 5, 'failed at #8')
   call columnmove#interrupt()
   %delete
 endfunction

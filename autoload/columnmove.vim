@@ -294,7 +294,7 @@ function! s:fold_closer(line, opened_fold) abort  "{{{
   endfor
 endfunction
 "}}}
-function! s:pick_up_char(text, thr_col) abort  "{{{
+function! s:pick_up_char(text, thr_col, ...) abort  "{{{
   " This function returns the first character same with or beyond 'thr_col' which is the
   " column width on a display.
 
@@ -304,6 +304,11 @@ function! s:pick_up_char(text, thr_col) abort  "{{{
   endif
   if a:thr_col <= 0
     return [a:text[0], 1]
+  endif
+  let indent_to_empty = get(a:000, 0, 0)
+  if indent_to_empty && strdisplaywidth(matchstr(a:text, '^\s*')) >= a:thr_col
+    " indentations are regarded as non-character, same as empty line
+    return ['', a:thr_col]
   endif
 
   " NOTE: 'cutup' is the maximum byte-length of a string within a 'thr_col'
@@ -456,7 +461,6 @@ function! s:getcol(lnum, virtcol) abort  "{{{
   let width = strdisplaywidth(text) + 1   " the last 1 is for \n.
   if width >= a:virtcol
     let [_, col] = s:pick_up_char(text, a:virtcol)
-    let col = col
     let off = 0
   else
     let col = col([a:lnum, '$']) - 1
@@ -1427,6 +1431,7 @@ function! columnmove#W(mode, mwise, ...) abort
 
   " alignment
   let w_object.opt = s:w_get_opt(a:mode, get(a:000, 1, {}))
+  let w_object.opt.strict_wbege = 1
   let w_object.search = function('s:w_search_forward')
   let w_object._search_section = function('s:search_beyond_border_in_section_forward')
   let w_object._check_char = function('s:check_char_W')
@@ -1447,6 +1452,7 @@ function! columnmove#B(mode, mwise, ...) abort
 
   " alignment
   let w_object.opt = s:w_get_opt(a:mode, get(a:000, 1, {}))
+  let w_object.opt.strict_wbege = 1
   let w_object.search = function('s:w_search_backward')
   let w_object._search_section = function('s:search_short_of_border_in_section_backward')
   let w_object._check_char = function('s:check_char_W')
@@ -1467,6 +1473,7 @@ function! columnmove#E(mode, mwise, ...) abort
 
   " alignment
   let w_object.opt = s:w_get_opt(a:mode, get(a:000, 1, {}))
+  let w_object.opt.strict_wbege = 1
   let w_object.search = function('s:w_search_forward')
   let w_object._search_section = function('s:search_short_of_border_in_section_forward')
   let w_object._check_char = function('s:check_char_W')
@@ -1487,6 +1494,7 @@ function! columnmove#gE(mode, mwise, ...) abort
 
   " alignment
   let w_object.opt = s:w_get_opt(a:mode, get(a:000, 1, {}))
+  let w_object.opt.strict_wbege = 1
   let w_object.search = function('s:w_search_backward')
   let w_object._search_section = function('s:search_beyond_border_in_section_backward')
   let w_object._check_char = function('s:check_char_W')
@@ -1552,7 +1560,7 @@ function! s:w_search_forward(cursorline, curswant, count) dict abort "{{{
     let sectionhead = max([current.lnum, get(reference, 'lnum', filehead)])
     let sectiontail = min([sectionhead + stride - 1, fileend])
     call self._open_fold(a:cursorline, sectionhead, sectiontail)
-    let [current, reference] = self._search_section(current, reference, Check_c, sectionhead, sectiontail, a:curswant, a:count, self.opt.fold_treatment, self.opt.stop_on_space)
+    let [current, reference] = self._search_section(current, reference, Check_c, sectionhead, sectiontail, a:curswant, a:count, self.opt)
     if current.dest
       if current.lnum != a:cursorline
         let self.destination = [0, current.lnum, current.col, 0, a:curswant]
@@ -1574,7 +1582,7 @@ function! s:w_search_backward(cursorline, curswant, count) dict abort "{{{
     let sectionhead = min([current.lnum, get(reference, 'lnum', fileend)])
     let sectiontail = max([filehead, sectionhead - stride + 1])
     call self._open_fold(a:cursorline, sectionhead, sectiontail)
-    let [current, reference] = self._search_section(current, reference, Check_c, sectionhead, sectiontail, a:curswant, a:count, self.opt.fold_treatment, self.opt.stop_on_space)
+    let [current, reference] = self._search_section(current, reference, Check_c, sectionhead, sectiontail, a:curswant, a:count, self.opt)
     if current.dest
       if current.lnum != a:cursorline
         let self.destination = [0, current.lnum, current.col, 0, a:curswant]
@@ -1606,27 +1614,28 @@ function! s:w_interrupted() dict abort  "{{{
   augroup END
 endfunction
 "}}}
-function! s:search_beyond_border_in_section_forward(current, last, check_char, sectionhead, sectiontail, curswant, count, fold_treatment, stop_on_space) abort  "{{{
+function! s:search_beyond_border_in_section_forward(current, last, check_char, sectionhead, sectiontail, curswant, count, opt) abort  "{{{
   let lines   = getline(a:sectionhead, a:sectiontail)
   let current = a:current
   let last    = a:last != {} ? a:last : {'class': -1}
+  let indent_to_empty = a:opt.strict_wbege && a:opt.stop_on_space
 
   while current.lnum <= a:sectiontail
     let foldend = foldclosedend(current.lnum)
     if foldend < 1
       let idx  = current.lnum - a:sectionhead
       let line = lines[idx]
-      let [c, col] = s:pick_up_char(line, a:curswant)
+      let [c, col] = s:pick_up_char(line, a:curswant, indent_to_empty)
       let current.class = a:check_char(c)
       let current.col   = col
-      let current.count += s:is_over_a_border(current, last, a:stop_on_space)
+      let current.count += s:is_over_a_border(current, last, a:opt.stop_on_space)
       if current.count == a:count
         let current.dest = 1
         break
       endif
       let last = copy(current)
     else
-      if a:fold_treatment || last.class == -1
+      if a:opt.fold_treatment || last.class == -1
         let current.class = 0
         let current.col   = 0
         let last = copy(current)
@@ -1638,27 +1647,28 @@ function! s:search_beyond_border_in_section_forward(current, last, check_char, s
   return [current, last]
 endfunction
 "}}}
-function! s:search_beyond_border_in_section_backward(current, last, check_char, sectionhead, sectiontail, curswant, count, fold_treatment, stop_on_space) abort  "{{{
+function! s:search_beyond_border_in_section_backward(current, last, check_char, sectionhead, sectiontail, curswant, count, opt) abort  "{{{
   let lines   = reverse(getline(a:sectiontail, a:sectionhead))
   let current = a:current
   let last    = a:last != {} ? a:last : {'class': -1}
+  let indent_to_empty = a:opt.strict_wbege && a:opt.stop_on_space
 
   while current.lnum >= a:sectiontail
     let foldstart = foldclosed(current.lnum)
     if foldstart < 1
       let idx  = a:sectionhead - current.lnum
       let line = lines[idx]
-      let [c, col] = s:pick_up_char(line, a:curswant)
+      let [c, col] = s:pick_up_char(line, a:curswant, indent_to_empty)
       let current.class = a:check_char(c)
       let current.col   = col
-      let current.count += s:is_over_a_border(current, last, a:stop_on_space)
+      let current.count += s:is_over_a_border(current, last, a:opt.stop_on_space)
       if current.count == a:count
         let current.dest = 1
         break
       endif
       let last = copy(current)
     else
-      if a:fold_treatment || last.class == -1
+      if a:opt.fold_treatment || last.class == -1
         let current.class = 0
         let current.col   = 0
         let last = copy(current)
@@ -1670,31 +1680,32 @@ function! s:search_beyond_border_in_section_backward(current, last, check_char, 
   return [current, last]
 endfunction
 "}}}
-function! s:search_short_of_border_in_section_forward(current, tip, check_char, sectionhead, sectiontail, curswant, count, fold_treatment, stop_on_space) abort  "{{{
+function! s:search_short_of_border_in_section_forward(current, tip, check_char, sectionhead, sectiontail, curswant, count, opt) abort  "{{{
   let sectiontail = a:sectiontail + 1
   let lines   = getline(a:sectionhead, sectiontail)
   let current = a:current
   let tip     = a:tip != {} ? a:tip : {'lnum': current.lnum+1, 'col': 0, 'class': -1, 'count': 0, 'dest': 0}
+  let indent_to_empty = a:opt.strict_wbege && a:opt.stop_on_space
 
   while tip.lnum <= sectiontail
     let foldend = foldclosedend(tip.lnum)
     if foldend < 1
       let idx  = tip.lnum - a:sectionhead
       let line = get(lines, idx, '')
-      let [c, col] = s:pick_up_char(line, a:curswant)
+      let [c, col] = s:pick_up_char(line, a:curswant, indent_to_empty)
       let tip.class = a:check_char(c)
       let tip.col   = col
-      let tip.count += s:is_in_front_of_a_border(current, tip, a:stop_on_space)
+      let tip.count += s:is_in_front_of_a_border(current, tip, a:opt.stop_on_space)
       if tip.count >= a:count
         let current.dest = 1
         break
       endif
       let current = copy(tip)
     else
-      if a:fold_treatment
+      if a:opt.fold_treatment
         let tip.class = 0
         let tip.col   = 0
-        let tip.count += s:is_in_front_of_a_border(current, tip, a:stop_on_space)
+        let tip.count += s:is_in_front_of_a_border(current, tip, a:opt.stop_on_space)
         if tip.count >= a:count
           let current.dest = 1
           break
@@ -1708,31 +1719,32 @@ function! s:search_short_of_border_in_section_forward(current, tip, check_char, 
   return [current, tip]
 endfunction
 "}}}
-function! s:search_short_of_border_in_section_backward(current, tip, check_char, sectionhead, sectiontail, curswant, count, fold_treatment, stop_on_space) abort  "{{{
+function! s:search_short_of_border_in_section_backward(current, tip, check_char, sectionhead, sectiontail, curswant, count, opt) abort  "{{{
   let sectiontail = a:sectiontail - 1
   let lines   = reverse(getline(sectiontail, a:sectionhead))
   let current = a:current
   let tip     = a:tip != {} ? a:tip : {'lnum': current.lnum-1, 'col': 0, 'class': -1, 'count': 0, 'dest': 0}
+  let indent_to_empty = a:opt.strict_wbege && a:opt.stop_on_space
 
   while tip.lnum >= sectiontail
     let foldstart = foldclosed(tip.lnum)
     if foldstart < 1
       let idx  = a:sectionhead - tip.lnum
       let line = get(lines, idx, '')
-      let [c, col]  = s:pick_up_char(line, a:curswant)
+      let [c, col]  = s:pick_up_char(line, a:curswant, indent_to_empty)
       let tip.class = a:check_char(c)
       let tip.col   = col
-      let tip.count += s:is_in_front_of_a_border(current, tip, a:stop_on_space)
+      let tip.count += s:is_in_front_of_a_border(current, tip, a:opt.stop_on_space)
       if tip.count >= a:count
         let current.dest = 1
         break
       endif
       let current = copy(tip)
     else
-      if a:fold_treatment
+      if a:opt.fold_treatment
         let tip.class = 0
         let tip.col   = 0
-        let tip.count += s:is_in_front_of_a_border(current, tip, a:stop_on_space)
+        let tip.count += s:is_in_front_of_a_border(current, tip, a:opt.stop_on_space)
         if tip.count >= a:count
           let current.dest = 1
           break

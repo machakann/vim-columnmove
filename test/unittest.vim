@@ -657,327 +657,327 @@ endfunction
 "}}}
 function! s:suite.pick_up_char() abort  "{{{
   " #1
-  let [c, col] = s:columnmove.pick_up_char('', 0)
+  let [c, col] = s:columnmove.pick_up_char('', 0, 0)
   call g:assert.equals(c,   '', 'failed at #1')
   call g:assert.equals(col,  0, 'failed at #1')
 
   " #2
-  let [c, col] = s:columnmove.pick_up_char('', 1)
+  let [c, col] = s:columnmove.pick_up_char('', 1, 0)
   call g:assert.equals(c,   '', 'failed at #2')
   call g:assert.equals(col,  0, 'failed at #2')
 
   " #3
-  let [c, col] = s:columnmove.pick_up_char('a', 1)
+  let [c, col] = s:columnmove.pick_up_char('a', 1, 0)
   call g:assert.equals(c,   'a', 'failed at #3')
   call g:assert.equals(col,  1,  'failed at #3')
 
   " #4
-  let [c, col] = s:columnmove.pick_up_char('a', 2)
+  let [c, col] = s:columnmove.pick_up_char('a', 2, 0)
   call g:assert.equals(c,   '', 'failed at #4')
   call g:assert.equals(col,  0, 'failed at #4')
 
   " #5
-  let [c, col] = s:columnmove.pick_up_char('ab', 1)
+  let [c, col] = s:columnmove.pick_up_char('ab', 1, 0)
   call g:assert.equals(c,   'a', 'failed at #5')
   call g:assert.equals(col,  1,  'failed at #5')
 
   " #6
-  let [c, col] = s:columnmove.pick_up_char('ab', 2)
+  let [c, col] = s:columnmove.pick_up_char('ab', 2, 0)
   call g:assert.equals(c,   'b', 'failed at #6')
   call g:assert.equals(col,  2,  'failed at #6')
 
   " #7
-  let [c, col] = s:columnmove.pick_up_char('ab', 3)
+  let [c, col] = s:columnmove.pick_up_char('ab', 3, 0)
   call g:assert.equals(c,   '', 'failed at #7')
   call g:assert.equals(col,  0, 'failed at #7')
 
   " #8
-  let [c, col] = s:columnmove.pick_up_char('abc', 1)
+  let [c, col] = s:columnmove.pick_up_char('abc', 1, 0)
   call g:assert.equals(c,   'a', 'failed at #8')
   call g:assert.equals(col,  1,  'failed at #8')
 
   " #9
-  let [c, col] = s:columnmove.pick_up_char('abc', 2)
+  let [c, col] = s:columnmove.pick_up_char('abc', 2, 0)
   call g:assert.equals(c,   'b', 'failed at #9')
   call g:assert.equals(col,  2,  'failed at #9')
 
   " #10
-  let [c, col] = s:columnmove.pick_up_char('abc', 3)
+  let [c, col] = s:columnmove.pick_up_char('abc', 3, 0)
   call g:assert.equals(c,   'c', 'failed at #10')
   call g:assert.equals(col,  3,  'failed at #10')
 
   " #11
-  let [c, col] = s:columnmove.pick_up_char('abc', 4)
+  let [c, col] = s:columnmove.pick_up_char('abc', 4, 0)
   call g:assert.equals(c,   '', 'failed at #11')
   call g:assert.equals(col,  0, 'failed at #11')
 
   " #12
-  let [c, col] = s:columnmove.pick_up_char('abcd', 1)
+  let [c, col] = s:columnmove.pick_up_char('abcd', 1, 0)
   call g:assert.equals(c,   'a', 'failed at #12')
   call g:assert.equals(col,  1,  'failed at #12')
 
   " #13
-  let [c, col] = s:columnmove.pick_up_char('abcd', 2)
+  let [c, col] = s:columnmove.pick_up_char('abcd', 2, 0)
   call g:assert.equals(c,   'b', 'failed at #13')
   call g:assert.equals(col,  2,  'failed at #13')
 
   " #14
-  let [c, col] = s:columnmove.pick_up_char('abcd', 3)
+  let [c, col] = s:columnmove.pick_up_char('abcd', 3, 0)
   call g:assert.equals(c,   'c', 'failed at #14')
   call g:assert.equals(col,  3,  'failed at #14')
 
   " #15
-  let [c, col] = s:columnmove.pick_up_char('abcd', 4)
+  let [c, col] = s:columnmove.pick_up_char('abcd', 4, 0)
   call g:assert.equals(c,   'd', 'failed at #15')
   call g:assert.equals(col,  4,  'failed at #15')
 
   " #16
-  let [c, col] = s:columnmove.pick_up_char('abcd', 5)
+  let [c, col] = s:columnmove.pick_up_char('abcd', 5, 0)
   call g:assert.equals(c,   '', 'failed at #16')
   call g:assert.equals(col,  0, 'failed at #16')
 
   " #17
-  let [c, col] = s:columnmove.pick_up_char('abcde', 1)
+  let [c, col] = s:columnmove.pick_up_char('abcde', 1, 0)
   call g:assert.equals(c,   'a', 'failed at #17')
   call g:assert.equals(col,  1,  'failed at #17')
 
   " #18
-  let [c, col] = s:columnmove.pick_up_char('abcde', 2)
+  let [c, col] = s:columnmove.pick_up_char('abcde', 2, 0)
   call g:assert.equals(c,   'b', 'failed at #18')
   call g:assert.equals(col,  2,  'failed at #18')
 
   " #19
-  let [c, col] = s:columnmove.pick_up_char('abcde', 3)
+  let [c, col] = s:columnmove.pick_up_char('abcde', 3, 0)
   call g:assert.equals(c,   'c', 'failed at #19')
   call g:assert.equals(col,  3,  'failed at #19')
 
   " #20
-  let [c, col] = s:columnmove.pick_up_char('abcde', 4)
+  let [c, col] = s:columnmove.pick_up_char('abcde', 4, 0)
   call g:assert.equals(c,   'd', 'failed at #20')
   call g:assert.equals(col,  4,  'failed at #20')
 
   " #21
-  let [c, col] = s:columnmove.pick_up_char('abcde', 5)
+  let [c, col] = s:columnmove.pick_up_char('abcde', 5, 0)
   call g:assert.equals(c,   'e', 'failed at #21')
   call g:assert.equals(col,  5,  'failed at #21')
 
   " #22
-  let [c, col] = s:columnmove.pick_up_char('abcde', 6)
+  let [c, col] = s:columnmove.pick_up_char('abcde', 6, 0)
   call g:assert.equals(c,   '', 'failed at #22')
   call g:assert.equals(col,  0, 'failed at #22')
 
   " #23
-  let [c, col] = s:columnmove.pick_up_char('abcdef', 1)
+  let [c, col] = s:columnmove.pick_up_char('abcdef', 1, 0)
   call g:assert.equals(c,   'a', 'failed at #23')
   call g:assert.equals(col,  1,  'failed at #23')
 
   " #24
-  let [c, col] = s:columnmove.pick_up_char('abcdef', 2)
+  let [c, col] = s:columnmove.pick_up_char('abcdef', 2, 0)
   call g:assert.equals(c,   'b', 'failed at #24')
   call g:assert.equals(col,  2,  'failed at #24')
 
   " #25
-  let [c, col] = s:columnmove.pick_up_char('abcdef', 3)
+  let [c, col] = s:columnmove.pick_up_char('abcdef', 3, 0)
   call g:assert.equals(c,   'c', 'failed at #25')
   call g:assert.equals(col,  3,  'failed at #25')
 
   " #26
-  let [c, col] = s:columnmove.pick_up_char('abcdef', 4)
+  let [c, col] = s:columnmove.pick_up_char('abcdef', 4, 0)
   call g:assert.equals(c,   'd', 'failed at #26')
   call g:assert.equals(col,  4,  'failed at #26')
 
   " #27
-  let [c, col] = s:columnmove.pick_up_char('abcdef', 5)
+  let [c, col] = s:columnmove.pick_up_char('abcdef', 5, 0)
   call g:assert.equals(c,   'e', 'failed at #27')
   call g:assert.equals(col,  5,  'failed at #27')
 
   " #28
-  let [c, col] = s:columnmove.pick_up_char('abcdef', 6)
+  let [c, col] = s:columnmove.pick_up_char('abcdef', 6, 0)
   call g:assert.equals(c,   'f', 'failed at #28')
   call g:assert.equals(col,  6,  'failed at #28')
 
   " #29
-  let [c, col] = s:columnmove.pick_up_char('abcdef', 7)
+  let [c, col] = s:columnmove.pick_up_char('abcdef', 7, 0)
   call g:assert.equals(c,   '', 'failed at #29')
   call g:assert.equals(col,  0, 'failed at #29')
 
   " #30
   set tabstop=4
-  let [c, col] = s:columnmove.pick_up_char('		a', 1)
+  let [c, col] = s:columnmove.pick_up_char('		a', 1, 0)
   call g:assert.equals(c,   '	', 'failed at #30')
   call g:assert.equals(col,   1, 'failed at #30')
 
   " #31
   set tabstop=4
-  let [c, col] = s:columnmove.pick_up_char('		a', 2)
+  let [c, col] = s:columnmove.pick_up_char('		a', 2, 0)
   call g:assert.equals(c,   '	', 'failed at #31')
   call g:assert.equals(col,   1, 'failed at #31')
 
   " #32
   set tabstop=4
-  let [c, col] = s:columnmove.pick_up_char('		a', 3)
+  let [c, col] = s:columnmove.pick_up_char('		a', 3, 0)
   call g:assert.equals(c,   '	', 'failed at #32')
   call g:assert.equals(col,   1, 'failed at #32')
 
   " #33
   set tabstop=4
-  let [c, col] = s:columnmove.pick_up_char('		a', 4)
+  let [c, col] = s:columnmove.pick_up_char('		a', 4, 0)
   call g:assert.equals(c,   '	', 'failed at #33')
   call g:assert.equals(col,   1, 'failed at #33')
 
   " #34
   set tabstop=4
-  let [c, col] = s:columnmove.pick_up_char('		a', 5)
+  let [c, col] = s:columnmove.pick_up_char('		a', 5, 0)
   call g:assert.equals(c,   '	', 'failed at #34')
   call g:assert.equals(col,   2, 'failed at #34')
 
   " #35
   set tabstop=4
-  let [c, col] = s:columnmove.pick_up_char('		a', 6)
+  let [c, col] = s:columnmove.pick_up_char('		a', 6, 0)
   call g:assert.equals(c,   '	', 'failed at #35')
   call g:assert.equals(col,   2, 'failed at #35')
 
   " #36
   set tabstop=4
-  let [c, col] = s:columnmove.pick_up_char('		a', 7)
+  let [c, col] = s:columnmove.pick_up_char('		a', 7, 0)
   call g:assert.equals(c,   '	', 'failed at #36')
   call g:assert.equals(col,   2, 'failed at #36')
 
   " #37
   set tabstop=4
-  let [c, col] = s:columnmove.pick_up_char('		a', 8)
+  let [c, col] = s:columnmove.pick_up_char('		a', 8, 0)
   call g:assert.equals(c,   '	', 'failed at #37')
   call g:assert.equals(col,   2, 'failed at #37')
 
   " #38
   set tabstop=4
-  let [c, col] = s:columnmove.pick_up_char('		a', 9)
+  let [c, col] = s:columnmove.pick_up_char('		a', 9, 0)
   call g:assert.equals(c,   'a', 'failed at #38')
   call g:assert.equals(col,   3, 'failed at #38')
 
   " #39
   set tabstop=4
-  let [c, col] = s:columnmove.pick_up_char('		a', 10)
+  let [c, col] = s:columnmove.pick_up_char('		a', 10, 0)
   call g:assert.equals(c,   '', 'failed at #39')
   call g:assert.equals(col,  0, 'failed at #39')
 
   " #40
   set tabstop=4
-  let [c, col] = s:columnmove.pick_up_char('	a	', 1)
+  let [c, col] = s:columnmove.pick_up_char('	a	', 1, 0)
   call g:assert.equals(c,   '	', 'failed at #40')
   call g:assert.equals(col,   1, 'failed at #40')
 
   " #41
   set tabstop=4
-  let [c, col] = s:columnmove.pick_up_char('	a	', 2)
+  let [c, col] = s:columnmove.pick_up_char('	a	', 2, 0)
   call g:assert.equals(c,   '	', 'failed at #41')
   call g:assert.equals(col,   1, 'failed at #41')
 
   " #42
   set tabstop=4
-  let [c, col] = s:columnmove.pick_up_char('	a	', 3)
+  let [c, col] = s:columnmove.pick_up_char('	a	', 3, 0)
   call g:assert.equals(c,   '	', 'failed at #42')
   call g:assert.equals(col,   1, 'failed at #42')
 
   " #43
   set tabstop=4
-  let [c, col] = s:columnmove.pick_up_char('	a	', 4)
+  let [c, col] = s:columnmove.pick_up_char('	a	', 4, 0)
   call g:assert.equals(c,   '	', 'failed at #43')
   call g:assert.equals(col,   1, 'failed at #43')
 
   " #44
   set tabstop=4
-  let [c, col] = s:columnmove.pick_up_char('	a	', 5)
+  let [c, col] = s:columnmove.pick_up_char('	a	', 5, 0)
   call g:assert.equals(c,   'a', 'failed at #44')
   call g:assert.equals(col,   2, 'failed at #44')
 
   " #45
   set tabstop=4
-  let [c, col] = s:columnmove.pick_up_char('	a	', 6)
+  let [c, col] = s:columnmove.pick_up_char('	a	', 6, 0)
   call g:assert.equals(c,   '	', 'failed at #45')
   call g:assert.equals(col,   3, 'failed at #45')
 
   " #46
   set tabstop=4
-  let [c, col] = s:columnmove.pick_up_char('	a	', 7)
+  let [c, col] = s:columnmove.pick_up_char('	a	', 7, 0)
   call g:assert.equals(c,   '	', 'failed at #46')
   call g:assert.equals(col,   3, 'failed at #46')
 
   " #47
   set tabstop=4
-  let [c, col] = s:columnmove.pick_up_char('	a	', 8)
+  let [c, col] = s:columnmove.pick_up_char('	a	', 8, 0)
   call g:assert.equals(c,   '	', 'failed at #47')
   call g:assert.equals(col,   3, 'failed at #47')
 
   " #48
   set tabstop=4
-  let [c, col] = s:columnmove.pick_up_char('	a	', 9)
+  let [c, col] = s:columnmove.pick_up_char('	a	', 9, 0)
   call g:assert.equals(c,   '', 'failed at #48')
   call g:assert.equals(col,  0, 'failed at #48')
 
   " #49
   set ambiwidth=single
-  let [c, col] = s:columnmove.pick_up_char('αβγ', 1)
+  let [c, col] = s:columnmove.pick_up_char('αβγ', 1, 0)
   call g:assert.equals(c,   'α', 'failed at #49')
   call g:assert.equals(col,   1, 'failed at #49')
 
   " #50
   set ambiwidth=single
-  let [c, col] = s:columnmove.pick_up_char('αβγ', 2)
+  let [c, col] = s:columnmove.pick_up_char('αβγ', 2, 0)
   call g:assert.equals(c, 'β', 'failed at #50')
   call g:assert.equals(col, strlen('α')+1, 'failed at #50')
 
   " #51
   set ambiwidth=single
-  let [c, col] = s:columnmove.pick_up_char('αβγ', 3)
+  let [c, col] = s:columnmove.pick_up_char('αβγ', 3, 0)
   call g:assert.equals(c, 'γ', 'failed at #51')
   call g:assert.equals(col, strlen('αβ')+1, 'failed at #51')
 
   " #52
   set ambiwidth=single
-  let [c, col] = s:columnmove.pick_up_char('αβγ', 4)
+  let [c, col] = s:columnmove.pick_up_char('αβγ', 4, 0)
   call g:assert.equals(c,  '', 'failed at #52')
   call g:assert.equals(col, 0, 'failed at #52')
 
   " #53
   set ambiwidth=double
-  let [c, col] = s:columnmove.pick_up_char('αβγ', 1)
+  let [c, col] = s:columnmove.pick_up_char('αβγ', 1, 0)
   call g:assert.equals(c,   'α', 'failed at #53')
   call g:assert.equals(col,   1, 'failed at #53')
 
   " #54
   set ambiwidth=double
-  let [c, col] = s:columnmove.pick_up_char('αβγ', 2)
+  let [c, col] = s:columnmove.pick_up_char('αβγ', 2, 0)
   call g:assert.equals(c,   'α', 'failed at #54')
   call g:assert.equals(col,   1, 'failed at #54')
 
   " #55
   set ambiwidth=double
-  let [c, col] = s:columnmove.pick_up_char('αβγ', 3)
+  let [c, col] = s:columnmove.pick_up_char('αβγ', 3, 0)
   call g:assert.equals(c, 'β', 'failed at #55')
   call g:assert.equals(col, strlen('α')+1, 'failed at #55')
 
   " #56
   set ambiwidth=double
-  let [c, col] = s:columnmove.pick_up_char('αβγ', 4)
+  let [c, col] = s:columnmove.pick_up_char('αβγ', 4, 0)
   call g:assert.equals(c, 'β', 'failed at #56')
   call g:assert.equals(col, strlen('α')+1, 'failed at #56')
 
   " #57
   set ambiwidth=double
-  let [c, col] = s:columnmove.pick_up_char('αβγ', 5)
+  let [c, col] = s:columnmove.pick_up_char('αβγ', 5, 0)
   call g:assert.equals(c, 'γ', 'failed at #57')
   call g:assert.equals(col, strlen('αβ')+1, 'failed at #57')
 
   " #58
   set ambiwidth=double
-  let [c, col] = s:columnmove.pick_up_char('αβγ', 6)
+  let [c, col] = s:columnmove.pick_up_char('αβγ', 6, 0)
   call g:assert.equals(c, 'γ', 'failed at #58')
   call g:assert.equals(col, strlen('αβ')+1, 'failed at #58')
 
   " #59
   set ambiwidth=double
-  let [c, col] = s:columnmove.pick_up_char('αβγ', 7)
+  let [c, col] = s:columnmove.pick_up_char('αβγ', 7, 0)
   call g:assert.equals(c,  '', 'failed at #59')
   call g:assert.equals(col, 0, 'failed at #59')
 endfunction
@@ -2265,6 +2265,8 @@ endfunction
 " endfunction
 " "}}}
 function! s:suite.search_beyond_border_in_section_forward() abort "{{{
+  let opt = {'strict_wbege': 1}
+
   " #1
   call append(0, ['a'])
   $delete
@@ -2275,9 +2277,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.dest, 0, 'failed at #1 (current.dest)')
   %delete
 
@@ -2291,9 +2293,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #2 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #2 (current.dest)')
   call g:assert.equals(last.lnum,    2, 'failed at #2 (last.lnum)')
@@ -2309,9 +2311,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #3 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #3 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #3 (current.dest)')
@@ -2328,9 +2330,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #4 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #4 (current.dest)')
   call g:assert.equals(last.lnum,    2, 'failed at #4 (last.lnum)')
@@ -2346,9 +2348,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #5 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #5 (current.dest)')
   call g:assert.equals(last.lnum,    2, 'failed at #5 (last.lnum)')
@@ -2364,9 +2366,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #6 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #6 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #6 (current.dest)')
@@ -2383,9 +2385,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #7 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #7 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #7 (current.dest)')
@@ -2402,9 +2404,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #8 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #8 (current.dest)')
   call g:assert.equals(last.lnum,    2, 'failed at #8 (last.lnum)')
@@ -2420,9 +2422,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #9 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #9 (current.dest)')
   call g:assert.equals(last.lnum,    2, 'failed at #9 (last.lnum)')
@@ -2438,9 +2440,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 2
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 4, 'failed at #10 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #10 (current.dest)')
   call g:assert.equals(last.lnum,    3, 'failed at #10 (last.lnum)')
@@ -2456,9 +2458,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 3
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 4, 'failed at #11 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #11 (current.dest)')
   call g:assert.equals(last.lnum,    3, 'failed at #11 (last.lnum)')
@@ -2474,9 +2476,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 2
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #12 (current.lnum)')
   call g:assert.equals(current.col,  2, 'failed at #12 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #12 (current.dest)')
@@ -2493,9 +2495,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 3
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #13 (current.lnum)')
   call g:assert.equals(current.col,  3, 'failed at #13 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #13 (current.dest)')
@@ -2512,9 +2514,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 2
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #14 (current.lnum)')
   call g:assert.equals(current.col,  2, 'failed at #14 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #14 (current.dest)')
@@ -2531,9 +2533,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 3
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #15 (current.lnum)')
   call g:assert.equals(current.col,  3, 'failed at #15 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #15 (current.dest)')
@@ -2550,9 +2552,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 2
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #16 (current.lnum)')
   call g:assert.equals(current.col,  2, 'failed at #16 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #16 (current.dest)')
@@ -2569,9 +2571,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 3
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #17 (current.lnum)')
   call g:assert.equals(current.col,  3, 'failed at #17 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #17 (current.dest)')
@@ -2588,9 +2590,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 2
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #18 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #18 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #18 (current.dest)')
@@ -2607,9 +2609,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 2
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #19 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #19 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #19 (current.dest)')
@@ -2626,9 +2628,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 2
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #20 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #20 (current.dest)')
   call g:assert.equals(last.lnum,    2, 'failed at #20 (last.lnum)')
@@ -2644,9 +2646,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 2
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 5, 'failed at #21 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #21 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #21 (current.dest)')
@@ -2663,9 +2665,9 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 3
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 5, 'failed at #22 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #22 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #22 (current.dest)')
@@ -2682,10 +2684,10 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
   2,4fold
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 6, 'failed at #23 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #23 (current.dest)')
   call g:assert.equals(last.lnum,    5, 'failed at #23 (last.lnum)')
@@ -2701,10 +2703,10 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 1
-  let stop_on_space  = 1
+  let opt.fold_treatment = 1
+  let opt.stop_on_space  = 1
   2,4fold
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 5, 'failed at #24 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #24 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #24 (current.dest)')
@@ -2721,10 +2723,10 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 1
-  let stop_on_space  = 1
+  let opt.fold_treatment = 1
+  let opt.stop_on_space  = 1
   2,5fold
-  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let [current, last] = s:columnmove.search_beyond_border_in_section_forward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 6, 'failed at #25 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #25 (current.dest)')
   call g:assert.equals(last.lnum,    2, 'failed at #25 (last.lnum)')
@@ -2732,6 +2734,8 @@ function! s:suite.search_beyond_border_in_section_forward() abort "{{{
 endfunction
 "}}}
 function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
+  let opt = {'strict_wbege': 1}
+
   " #1
   call append(0, ['a'])
   $delete
@@ -2742,9 +2746,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.dest, 0, 'failed at #1 (current.dest)')
   %delete
 
@@ -2758,9 +2762,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 0, 'failed at #2 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #2 (current.dest)')
   call g:assert.equals(last.lnum,    1, 'failed at #2 (last.lnum)')
@@ -2776,9 +2780,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #3 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #3 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #3 (current.dest)')
@@ -2795,9 +2799,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #4 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #4 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #4 (current.dest)')
@@ -2814,9 +2818,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #5 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #5 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #5 (current.dest)')
@@ -2833,9 +2837,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 0, 'failed at #6 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #6 (current.dest)')
   call g:assert.equals(last.lnum,    1, 'failed at #6 (last.lnum)')
@@ -2851,9 +2855,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 0, 'failed at #7 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #7 (current.dest)')
   call g:assert.equals(last.lnum,    1, 'failed at #7 (last.lnum)')
@@ -2869,9 +2873,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 0, 'failed at #8 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #8 (current.dest)')
   call g:assert.equals(last.lnum,    1, 'failed at #8 (last.lnum)')
@@ -2887,12 +2891,12 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
-  call g:assert.equals(current.lnum, 1, 'failed at #9 (current.lnum)')
-  call g:assert.equals(current.dest, 1, 'failed at #9 (current.dest)')
-  call g:assert.equals(last.lnum,    2, 'failed at #9 (last.lnum)')
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
+  call g:assert.equals(current.lnum, 0, 'failed at #9 (current.lnum)')
+  call g:assert.equals(current.dest, 0, 'failed at #9 (current.dest)')
+  call g:assert.equals(last.lnum,    1, 'failed at #9 (last.lnum)')
   %delete
 
   " #10
@@ -2905,9 +2909,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 2
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 0, 'failed at #10 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #10 (current.dest)')
   call g:assert.equals(last.lnum,    1, 'failed at #10 (last.lnum)')
@@ -2923,9 +2927,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 3
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 0, 'failed at #11 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #11 (current.dest)')
   call g:assert.equals(last.lnum,    1, 'failed at #11 (last.lnum)')
@@ -2941,9 +2945,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 2
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #12 (current.lnum)')
   call g:assert.equals(current.col,  2, 'failed at #12 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #12 (current.dest)')
@@ -2960,9 +2964,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 3
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #13 (current.lnum)')
   call g:assert.equals(current.col,  3, 'failed at #13 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #13 (current.dest)')
@@ -2979,9 +2983,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 2
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #14 (current.lnum)')
   call g:assert.equals(current.col,  2, 'failed at #14 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #14 (current.dest)')
@@ -2998,9 +3002,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 3
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #15 (current.lnum)')
   call g:assert.equals(current.col,  3, 'failed at #15 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #15 (current.dest)')
@@ -3017,9 +3021,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 2
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #16 (current.lnum)')
   call g:assert.equals(current.col,  2, 'failed at #16 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #16 (current.dest)')
@@ -3036,9 +3040,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 3
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #17 (current.lnum)')
   call g:assert.equals(current.col,  3, 'failed at #17 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #17 (current.dest)')
@@ -3055,9 +3059,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 2
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #18 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #18 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #18 (current.dest)')
@@ -3074,9 +3078,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 2
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #19 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #19 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #19 (current.dest)')
@@ -3093,9 +3097,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 2
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #20 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #20 (current.dest)')
   call g:assert.equals(last.lnum,    3, 'failed at #20 (last.lnum)')
@@ -3111,9 +3115,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 2
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #21 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #21 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #21 (current.dest)')
@@ -3130,9 +3134,9 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 3
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #22 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #22 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #22 (current.dest)')
@@ -3149,10 +3153,10 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
   2,4fold
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 0, 'failed at #23 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #23 (current.dest)')
   call g:assert.equals(last.lnum,    1, 'failed at #23 (last.lnum)')
@@ -3168,10 +3172,10 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 1
-  let stop_on_space  = 1
+  let opt.fold_treatment = 1
+  let opt.stop_on_space  = 1
   2,4fold
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #24 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #24 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #24 (current.dest)')
@@ -3188,10 +3192,10 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 1
-  let stop_on_space  = 1
+  let opt.fold_treatment = 1
+  let opt.stop_on_space  = 1
   1,4fold
-  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let [current, last] = s:columnmove.search_beyond_border_in_section_backward(current, last, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 0, 'failed at #25 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #25 (current.dest)')
   call g:assert.equals(last.lnum,    4, 'failed at #25 (last.lnum)')
@@ -3199,6 +3203,8 @@ function! s:suite.search_beyond_border_in_section_backward() abort  "{{{
 endfunction
 "}}}
 function! s:suite.search_short_of_border_in_section_forward() abort "{{{
+  let opt = {'strict_wbege': 1}
+
   " #1
   call append(0, ['a'])
   $delete
@@ -3209,9 +3215,9 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.dest, 0, 'failed at #1 (current.dest)')
   %delete
 
@@ -3225,9 +3231,9 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #2 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #2 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #2 (current.dest)')
@@ -3244,9 +3250,9 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #3 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #3 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #3 (current.dest)')
@@ -3263,12 +3269,12 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
-  call g:assert.equals(current.lnum, 2, 'failed at #4 (current.lnum)')
-  call g:assert.equals(current.dest, 1, 'failed at #4 (current.dest)')
-  call g:assert.equals(tip.lnum,     3, 'failed at #4 (tip.lnum)')
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
+  call g:assert.equals(current.lnum, 3, 'failed at #4 (current.lnum)')
+  call g:assert.equals(current.dest, 0, 'failed at #4 (current.dest)')
+  call g:assert.equals(tip.lnum,     4, 'failed at #4 (tip.lnum)')
   %delete
 
   " #5
@@ -3281,9 +3287,9 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #5 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #5 (current.dest)')
   call g:assert.equals(tip.lnum,     4, 'failed at #5 (tip.lnum)')
@@ -3299,9 +3305,9 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #6 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #6 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #6 (current.dest)')
@@ -3318,9 +3324,9 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #7 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #7 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #7 (current.dest)')
@@ -3337,12 +3343,12 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
-  call g:assert.equals(current.lnum, 2, 'failed at #8 (current.lnum)')
-  call g:assert.equals(current.dest, 1, 'failed at #8 (current.dest)')
-  call g:assert.equals(tip.lnum,     3, 'failed at #8 (tip.lnum)')
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
+  call g:assert.equals(current.lnum, 3, 'failed at #8 (current.lnum)')
+  call g:assert.equals(current.dest, 0, 'failed at #8 (current.dest)')
+  call g:assert.equals(tip.lnum,     4, 'failed at #8 (tip.lnum)')
   %delete
 
   " #9
@@ -3355,9 +3361,9 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #9 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #9 (current.dest)')
   call g:assert.equals(tip.lnum,     4, 'failed at #9 (tip.lnum)')
@@ -3373,9 +3379,9 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 2
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #10 (current.lnum)')
   call g:assert.equals(current.col,  2, 'failed at #10 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #10 (current.dest)')
@@ -3392,9 +3398,9 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 3
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #11 (current.lnum)')
   call g:assert.equals(current.col,  3, 'failed at #11 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #11 (current.dest)')
@@ -3411,9 +3417,9 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 2
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #12 (current.lnum)')
   call g:assert.equals(current.col,  2, 'failed at #12 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #12 (current.dest)')
@@ -3430,9 +3436,9 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 3
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #13 (current.lnum)')
   call g:assert.equals(current.col,  3, 'failed at #13 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #13 (current.dest)')
@@ -3449,9 +3455,9 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 2
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #14 (current.lnum)')
   call g:assert.equals(current.col,  2, 'failed at #14 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #14 (current.dest)')
@@ -3468,9 +3474,9 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 3
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #15 (current.lnum)')
   call g:assert.equals(current.col,  3, 'failed at #15 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #15 (current.dest)')
@@ -3487,9 +3493,9 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 2
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #16 (current.lnum)')
   call g:assert.equals(current.col,  2, 'failed at #16 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #16 (current.dest)')
@@ -3506,9 +3512,9 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 3
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #17 (current.lnum)')
   call g:assert.equals(current.col,  3, 'failed at #17 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #17 (current.dest)')
@@ -3525,9 +3531,9 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 2
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #18 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #18 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #18 (current.dest)')
@@ -3544,9 +3550,9 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 2
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #19 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #19 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #19 (current.dest)')
@@ -3563,9 +3569,9 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 2
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 3, 'failed at #20 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #20 (current.dest)')
   call g:assert.equals(tip.lnum,     4, 'failed at #20 (tip.lnum)')
@@ -3581,9 +3587,9 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 2
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 5, 'failed at #21 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #21 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #21 (current.dest)')
@@ -3600,9 +3606,9 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 3
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 5, 'failed at #22 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #22 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #22 (current.dest)')
@@ -3619,10 +3625,10 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
   2,4fold
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 5, 'failed at #23 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #23 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #23 (current.dest)')
@@ -3639,10 +3645,10 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 1
-  let stop_on_space  = 1
+  let opt.fold_treatment = 1
+  let opt.stop_on_space  = 1
   2,4fold
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 5, 'failed at #24 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #24 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #24 (current.dest)')
@@ -3659,10 +3665,10 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 1
-  let stop_on_space  = 1
+  let opt.fold_treatment = 1
+  let opt.stop_on_space  = 1
   2,5fold
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_forward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 6, 'failed at #25 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #25 (current.dest)')
   call g:assert.equals(tip.lnum,     7, 'failed at #25 (tip.lnum)')
@@ -3670,6 +3676,8 @@ function! s:suite.search_short_of_border_in_section_forward() abort "{{{
 endfunction
 "}}}
 function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
+  let opt = {'strict_wbege': 1}
+
   " #1
   call append(0, ['a'])
   $delete
@@ -3680,9 +3688,9 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.dest, 0, 'failed at #1 (current.dest)')
   %delete
 
@@ -3696,9 +3704,9 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #2 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #2 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #2 (current.dest)')
@@ -3715,9 +3723,9 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #3 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #3 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #3 (current.dest)')
@@ -3734,9 +3742,9 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #4 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #4 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #4 (current.dest)')
@@ -3753,9 +3761,9 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #5 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #5 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #5 (current.dest)')
@@ -3772,12 +3780,12 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
-  call g:assert.equals(current.lnum, 1, 'failed at #6 (current.lnum)')
-  call g:assert.equals(current.dest, 1, 'failed at #6 (current.dest)')
-  call g:assert.equals(tip.lnum,     0, 'failed at #6 (tip.lnum)')
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
+  call g:assert.equals(current.lnum, 0, 'failed at #6 (current.lnum)')
+  call g:assert.equals(current.dest, 0, 'failed at #6 (current.dest)')
+  call g:assert.equals(tip.lnum,    -1, 'failed at #6 (tip.lnum)')
   %delete
 
   " #7
@@ -3790,12 +3798,12 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
-  call g:assert.equals(current.lnum, 1, 'failed at #7 (current.lnum)')
-  call g:assert.equals(current.dest, 1, 'failed at #7 (current.dest)')
-  call g:assert.equals(tip.lnum,     0, 'failed at #7 (tip.lnum)')
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
+  call g:assert.equals(current.lnum, 0, 'failed at #7 (current.lnum)')
+  call g:assert.equals(current.dest, 0, 'failed at #7 (current.dest)')
+  call g:assert.equals(tip.lnum,    -1, 'failed at #7 (tip.lnum)')
   %delete
 
   " #8
@@ -3808,12 +3816,12 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
-  call g:assert.equals(current.lnum, 1, 'failed at #8 (current.lnum)')
-  call g:assert.equals(current.dest, 1, 'failed at #8 (current.dest)')
-  call g:assert.equals(tip.lnum,     0, 'failed at #8 (tip.lnum)')
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
+  call g:assert.equals(current.lnum, 0, 'failed at #8 (current.lnum)')
+  call g:assert.equals(current.dest, 0, 'failed at #8 (current.dest)')
+  call g:assert.equals(tip.lnum,    -1, 'failed at #8 (tip.lnum)')
   %delete
 
   " #9
@@ -3826,12 +3834,12 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
-  call g:assert.equals(current.lnum, 1, 'failed at #9 (current.lnum)')
-  call g:assert.equals(current.dest, 1, 'failed at #9 (current.dest)')
-  call g:assert.equals(tip.lnum,     0, 'failed at #9 (tip.lnum)')
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
+  call g:assert.equals(current.lnum, 0, 'failed at #9 (current.lnum)')
+  call g:assert.equals(current.dest, 0, 'failed at #9 (current.dest)')
+  call g:assert.equals(tip.lnum,    -1, 'failed at #9 (tip.lnum)')
   %delete
 
   " #10
@@ -3844,9 +3852,9 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 2
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #10 (current.lnum)')
   call g:assert.equals(current.col,  2, 'failed at #10 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #10 (current.dest)')
@@ -3863,9 +3871,9 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 3
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #11 (current.lnum)')
   call g:assert.equals(current.col,  3, 'failed at #11 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #11 (current.dest)')
@@ -3882,9 +3890,9 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 2
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #12 (current.lnum)')
   call g:assert.equals(current.col,  2, 'failed at #12 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #12 (current.dest)')
@@ -3901,9 +3909,9 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 3
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #13 (current.lnum)')
   call g:assert.equals(current.col,  3, 'failed at #13 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #13 (current.dest)')
@@ -3920,9 +3928,9 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 2
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #14 (current.lnum)')
   call g:assert.equals(current.col,  2, 'failed at #14 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #14 (current.dest)')
@@ -3939,9 +3947,9 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 3
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #15 (current.lnum)')
   call g:assert.equals(current.col,  3, 'failed at #15 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #15 (current.dest)')
@@ -3958,9 +3966,9 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 2
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #16 (current.lnum)')
   call g:assert.equals(current.col,  2, 'failed at #16 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #16 (current.dest)')
@@ -3977,9 +3985,9 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 3
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #17 (current.lnum)')
   call g:assert.equals(current.col,  3, 'failed at #17 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #17 (current.dest)')
@@ -3996,9 +4004,9 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 2
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #18 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #18 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #18 (current.dest)')
@@ -4015,9 +4023,9 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 2
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #19 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #19 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #19 (current.dest)')
@@ -4034,9 +4042,9 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 2
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #20 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #20 (current.dest)')
   call g:assert.equals(tip.lnum,     1, 'failed at #20 (tip.lnum)')
@@ -4052,9 +4060,9 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 2
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 2, 'failed at #21 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #21 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #21 (current.dest)')
@@ -4071,9 +4079,9 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 3
-  let fold_treatment = 0
-  let stop_on_space  = 1
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #22 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #22 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #22 (current.dest)')
@@ -4090,10 +4098,10 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 0
-  let stop_on_space  = 1
+  let opt.fold_treatment = 0
+  let opt.stop_on_space  = 1
   2,4fold
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #23 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #23 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #23 (current.dest)')
@@ -4110,10 +4118,10 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 1
-  let stop_on_space  = 1
+  let opt.fold_treatment = 1
+  let opt.stop_on_space  = 1
   2,4fold
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 1, 'failed at #24 (current.lnum)')
   call g:assert.equals(current.col,  1, 'failed at #24 (current.col)')
   call g:assert.equals(current.dest, 1, 'failed at #24 (current.dest)')
@@ -4130,10 +4138,10 @@ function! s:suite.search_short_of_border_in_section_backward() abort  "{{{
   let Check_char  = s:columnmove.check_char_w
   let curswant    = 1
   let l:count     = 1
-  let fold_treatment = 1
-  let stop_on_space  = 1
+  let opt.fold_treatment = 1
+  let opt.stop_on_space  = 1
   1,4fold
-  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, fold_treatment, stop_on_space)
+  let [current, tip] = s:columnmove.search_short_of_border_in_section_backward(current, tip, Check_char, sectionhead, sectiontail, curswant, l:count, opt)
   call g:assert.equals(current.lnum, 0, 'failed at #25 (current.lnum)')
   call g:assert.equals(current.dest, 0, 'failed at #25 (current.dest)')
   call g:assert.equals(tip.lnum,    -1, 'failed at #25 (tip.lnum)')
