@@ -100,7 +100,7 @@ fifth, and, seventh lines from the first column of first line.
 
 In principle these commands equates empty lines and spaces and does not stop
 the cursor on a space. However there is an exception, if the space is
-adjuscent with an empty line the cursor would be stopped at there, the white
+adjacent with an empty line the cursor would be stopped at there, the white
 spaces as indentation are regarded as empty in this case. If you do not want
 to stop the cursor on a space, set |g:columnmove_stop_on_space| as 0.
 
@@ -388,7 +388,7 @@ g:columnmove_fold_treatment		*g:columnmove_fold_treatment*
 
 g:columnmove_stop_on_space		*g:columnmove_stop_on_space*
 	If the value is 0, these commands never stops the cursor on a space.
-	If the value is 1, the cursor is stopped at a space adjuscent with an
+	If the value is 1, the cursor is stopped at a space adjacent with an
 	empty line. The default value is 1.
 
 
